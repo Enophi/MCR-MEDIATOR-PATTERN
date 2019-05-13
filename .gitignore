@@ -8,7 +8,7 @@
 *.war
 *.ear
 
-
+out/
 build/
 system/
 logs/
