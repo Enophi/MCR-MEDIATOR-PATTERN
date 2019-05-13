@@ -1,25 +1,25 @@
 package ch.heig;
 
-import ch.heig.component.PlaneComponent;
+import ch.heig.component.PlaneAction;
+import ch.heig.factory.TowerControlFactory;
 import ch.heig.ui.ControlTowerUIController;
-import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.input.Input;
+import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.ui.UI;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.almasb.fxgl.app.DSLKt.run;
-import static com.almasb.fxgl.app.DSLKt.texture;
 
 public class ControlTowerGame extends GameApplication {
-
-    private ControlTowerUIController uiController;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -35,7 +35,7 @@ public class ControlTowerGame extends GameApplication {
     @Override
     protected void initUI() {
 
-        uiController = new ControlTowerUIController();
+        ControlTowerUIController uiController = new ControlTowerUIController();
         getStateMachine().getPlayState().addStateListener(uiController);
 
         UI ui = getAssetLoader().loadUI("tower_control_ui.fxml", uiController);
@@ -48,19 +48,42 @@ public class ControlTowerGame extends GameApplication {
     }
 
     @Override
-    protected void initGame() {
-        run(() -> spawnPlane(), Duration.seconds(2));
+    protected void initInput() {
+
+        Input input = getInput();
+
+        // Add the plane to waiting zone when press W
+        input.addAction(new UserAction("Ask to wait") {
+            @Override
+            protected void onActionBegin() {
+
+                double size = 30;
+                // Get all entities in a virtual square around the cursor
+                double zoneX = input.getMousePositionWorld().getX() - (size / 2);
+                double zoneY = input.getMousePositionWorld().getY() - (size / 2);
+
+                Rectangle2D zone = new Rectangle2D(zoneX, zoneY, size, size);
+                List<Entity> entities = getGameWorld().getEntitiesInRange(zone);
+                entities.forEach(e -> e.getComponent(PlaneAction.class).enterWaitingZone());
+
+            }
+        }, KeyCode.W);
+
     }
 
-    private Entity spawnPlane() {
-        return Entities
-                .builder()
-                .type(TowerControlType.PLANE)
-                .at(FXGLMath.random(800), 0)
-                .viewFromNodeWithBBox(texture("plane.png", 60, 60))
-                .with(new CollidableComponent(true))
-                .with(new PlaneComponent(FXGLMath.random(100)))
-                .buildAndAttach();
+    @Override
+    protected void initGame() {
+        // Add the plane factory to the game world
+        getGameWorld().addEntityFactory(new TowerControlFactory());
+
+        // Spawn plane every 1.5 seconds
+        run(() -> {
+            if (FXGLMath.randomBoolean())
+                getGameWorld().spawn("slow-plane", FXGLMath.random(760) + 20, 0);
+            else
+                getGameWorld().spawn("chopper", FXGLMath.random(760) + 20, 0);
+
+        }, Duration.seconds(1.5));
     }
 
     public static void main(String[] args) {

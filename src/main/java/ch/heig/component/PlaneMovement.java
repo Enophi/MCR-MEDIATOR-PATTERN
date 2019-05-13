@@ -5,11 +5,11 @@ import com.almasb.fxgl.entity.component.Required;
 import com.almasb.fxgl.entity.components.PositionComponent;
 
 @Required(PositionComponent.class)
-public class PlaneComponent extends Component {
+public class PlaneMovement extends Component {
 
     private int speed;
 
-    public PlaneComponent(int speed) {
+    public PlaneMovement(int speed) {
         this.speed = speed;
     }
 
