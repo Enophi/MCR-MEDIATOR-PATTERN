@@ -1,11 +1,15 @@
 package ch.heig.factory;
 
+import ch.heig.component.MissileMovement;
 import ch.heig.component.PlaneAction;
 import ch.heig.component.PlaneMovement;
+import ch.heig.component.PlayerAction;
 import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.*;
 import com.almasb.fxgl.entity.components.CollidableComponent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.app.DSLKt.play;
@@ -58,4 +62,29 @@ public class TowerControlFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("invader")
+    public Entity newInvader(SpawnData data) {
+        return Entities
+                .builder()
+                .from(data)
+                .type(TowerControlType.INVADER)
+                .viewFromNodeWithBBox(texture("invader.png", 50, 50))
+                .with(new CollidableComponent(true))
+                .with(new PlayerAction())
+                .build();
+
+    }
+
+    @Spawns("missile")
+    public Entity newMissile(SpawnData data) {
+        return Entities
+                .builder()
+                .at(data.getX() - 1, data.getY() - 25)
+                .viewFromNodeWithBBox(new Rectangle(2, 25, Color.BLACK))
+                .type(TowerControlType.MISSILE)
+                .with(new MissileMovement(100))
+                .with(new CollidableComponent(true))
+                .build();
+
+    }
 }

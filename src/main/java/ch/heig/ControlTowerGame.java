@@ -1,13 +1,18 @@
 package ch.heig;
 
 import ch.heig.component.PlaneAction;
+import ch.heig.component.PlayerAction;
 import ch.heig.factory.TowerControlFactory;
 import ch.heig.ui.ControlTowerUIController;
+import ch.heig.ui.TowerControlType;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.ui.UI;
 import javafx.geometry.Rectangle2D;
@@ -18,8 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.almasb.fxgl.app.DSLKt.run;
+import static com.almasb.fxgl.app.DSLKt.spawn;
 
 public class ControlTowerGame extends GameApplication {
+    private Entity player;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -69,12 +76,37 @@ public class ControlTowerGame extends GameApplication {
             }
         }, KeyCode.W);
 
+        input.addAction(new UserAction("Move Right") {
+            @Override
+            protected void onAction() {
+                player.getPositionComponent().translateX(5);
+            }
+        }, KeyCode.D);
+
+        input.addAction(new UserAction("Move Left") {
+            @Override
+            protected void onAction() {
+                player.getPositionComponent().translateX(-5);
+            }
+        }, KeyCode.A);
+
+        input.addAction(new UserAction("Fire") {
+            @Override
+            protected void onAction() {
+                if (player.isActive()) {
+                    player.getComponent(PlayerAction.class).shoot();
+                }
+            }
+        }, KeyCode.SPACE);
+
     }
 
     @Override
     protected void initGame() {
         // Add the plane factory to the game world
         getGameWorld().addEntityFactory(new TowerControlFactory());
+
+        player = getGameWorld().spawn("invader", FXGLMath.random(760) + 20, getHeight() - 50);
 
         // Spawn plane every 1.5 seconds
         run(() -> {
@@ -84,6 +116,28 @@ public class ControlTowerGame extends GameApplication {
                 getGameWorld().spawn("chopper", FXGLMath.random(760) + 20, 0);
 
         }, Duration.seconds(1.5));
+    }
+
+    @Override
+    protected void initPhysics() {
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(TowerControlType.PLANE, TowerControlType.MISSILE) {
+            @Override
+            protected void onCollisionBegin(Entity plane, Entity missile) {
+                plane.getComponent(PlaneAction.class).crash();
+
+                missile.removeFromWorld();
+            }
+        });
+
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(TowerControlType.PLANE, TowerControlType.INVADER) {
+            @Override
+            protected void onCollisionBegin(Entity plane, Entity player) {
+                player.removeFromWorld();
+                spawn("explosion", player.getCenter());
+
+                plane.getComponent(PlaneAction.class).crash();
+            }
+        });
     }
 
     public static void main(String[] args) {

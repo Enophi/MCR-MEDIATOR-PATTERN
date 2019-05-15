@@ -1,16 +1,15 @@
 package ch.heig.component;
 
-import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.entity.component.Required;
 import com.almasb.fxgl.entity.components.PositionComponent;
 
 @Required(PositionComponent.class)
-public class PlaneMovement extends Component {
+public class MissileMovement extends Component {
 
     private int speed;
 
-    public PlaneMovement(int speed) {
+    public MissileMovement(int speed) {
         this.speed = speed;
     }
 
@@ -20,10 +19,6 @@ public class PlaneMovement extends Component {
 
     @Override
     public void onUpdate(double tpf) {
-        entity.translateY(tpf * speed);
-        double newX = tpf * speed * 5;
-        if (FXGLMath.randomBoolean())
-            newX *= -1;
-        entity.translateX(newX);
+        entity.translateY(tpf * speed * (-1));
     }
 }
