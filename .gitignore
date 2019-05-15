@@ -14,3 +14,4 @@ system/
 logs/
 .idea/
 .gradle/
+.DS_Store
