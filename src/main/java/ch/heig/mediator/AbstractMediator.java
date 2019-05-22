@@ -22,6 +22,5 @@ public abstract class AbstractMediator {
 
     abstract String getBackgroundColor();
 
-    abstract void land();
-
+    abstract void askToLand(FlyingObject object, int piste);
 }
