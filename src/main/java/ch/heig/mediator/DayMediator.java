@@ -8,20 +8,15 @@ package ch.heig.mediator;
 
 import ch.heig.models.flyingobjects.FlyingObject;
 import ch.heig.models.runways.AbstractRunway;
+import javafx.scene.paint.Color;
 
 import java.util.List;
 
 public class DayMediator extends AbstractMediator {
 
     public DayMediator(List<FlyingObject> fo, List<AbstractRunway> ar) {
-        super(fo, ar);
+        super(fo, ar, Color.AZURE);
     }
-
-    @Override
-    String getBackgroundColor() {
-        return "#fffb87";
-    }
-
 
     void land() {
 
