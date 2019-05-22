@@ -10,8 +10,8 @@ import ch.heig.models.animals.Animal;
 
 import java.util.List;
 
-public class AbstractRunway {
+public abstract class AbstractRunway {
     private List<Animal> animals;
 
-
+    public abstract void clean();
 }

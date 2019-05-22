@@ -10,4 +10,8 @@ public class PlaneRunway extends AbstractRunway {
     public PlaneRunway() {
     }
 
+    @Override
+    public void clean() {
+
+    }
 }

@@ -27,6 +27,5 @@ public abstract class AbstractMediator {
         return bgColor;
     }
 
-    abstract void land();
-
+    abstract void askToLand(FlyingObject object, int piste);
 }

@@ -8,4 +8,8 @@ package ch.heig.models.runways;
 
 public class ChopperRunway extends AbstractRunway {
 
+    @Override
+    public void clean() {
+
+    }
 }
