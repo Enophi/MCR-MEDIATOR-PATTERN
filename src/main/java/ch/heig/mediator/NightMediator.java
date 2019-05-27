@@ -18,7 +18,9 @@ public class NightMediator extends AbstractMediator {
         super(fo, ar, Color.DARKBLUE);
     }
 
-    void land() {
 
+    @Override
+    void askToLand(FlyingObject object, int piste) {
+        
     }
 }

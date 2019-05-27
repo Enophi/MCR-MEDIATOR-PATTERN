@@ -18,7 +18,8 @@ public class DayMediator extends AbstractMediator {
         super(fo, ar, Color.AZURE);
     }
 
-    void land() {
+    @Override
+    void askToLand(FlyingObject object, int piste) {
 
     }
 }
