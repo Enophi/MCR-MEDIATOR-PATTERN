@@ -2,10 +2,26 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="labelWaiting" layoutX="600.0" layoutY="14.0" prefHeight="17.0" prefWidth="109.0" text="#N" />
-      <Label fx:id="labelCrashed" layoutX="600.0" layoutY="31.0" prefHeight="17.0" prefWidth="109.0" text="#N" />
+      <Label fx:id="labelWaiting" layoutX="600.0" layoutY="14.0" prefHeight="17.0" prefWidth="187.0" text="#N" />
+      <Label fx:id="labelCrashed" layoutX="600.0" layoutY="31.0" prefHeight="17.0" prefWidth="187.0" text="#N" />
+      <Label fx:id="nbInAirstripOne" layoutX="14.0" layoutY="539.0" prefHeight="47.0" prefWidth="242.0" style="-fx-background-color: #95a5a6;" text="#N" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="nbInAirstripTwo" layoutX="265.0" layoutY="539.0" prefHeight="47.0" prefWidth="270.0" style="-fx-background-color: #95a5a6;" text="#N" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="nbInAirstripThree" layoutX="544.0" layoutY="539.0" prefHeight="47.0" prefWidth="242.0" style="-fx-background-color: #95a5a6;" text="#N" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

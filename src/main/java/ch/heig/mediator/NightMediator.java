@@ -6,21 +6,29 @@
 
 package ch.heig.mediator;
 
-import ch.heig.models.flyingobjects.FlyingObject;
-import ch.heig.models.runways.AbstractRunway;
+import com.almasb.fxgl.app.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
-
-import java.util.List;
 
 public class NightMediator extends AbstractMediator {
 
-    public NightMediator(List<FlyingObject> fo, List<AbstractRunway> ar) {
-        super(fo, ar, Color.DARKBLUE);
+    public NightMediator(AbstractMediator other) {
+        super(other);
     }
 
+    @Override
+    public Color getBackgroundColor() {
+        return Color.DARKBLUE;
+    }
 
     @Override
-    void askToLand(FlyingObject object, int piste) {
-        
+    public void askToLand(Entity e, int piste) {
+        if (piste == 3) {
+            FXGL.getGameState().increment("nbInThree", 1);
+            e.removeFromWorld();
+        } else {
+            FXGL.getNotificationService().setBackgroundColor(Color.RED);
+            FXGL.getNotificationService().pushNotification(String.format("%d close!", piste));
+        }
     }
 }

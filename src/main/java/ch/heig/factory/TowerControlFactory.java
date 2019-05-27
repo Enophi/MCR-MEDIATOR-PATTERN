@@ -1,8 +1,11 @@
 package ch.heig.factory;
 
+import ch.heig.ControlTowerGame;
+import ch.heig.component.MediatorComponent;
 import ch.heig.component.PlaneAction;
 import ch.heig.component.PlaneMovement;
 import ch.heig.ui.TowerControlType;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.*;
 import com.almasb.fxgl.entity.components.CollidableComponent;
@@ -26,9 +29,9 @@ public class TowerControlFactory implements EntityFactory {
                 .viewFromNodeWithBBox(texture("plane.png", 60, 60))
                 .with(new PlaneMovement(FXGLMath.random(SLOW_PLANE_MIN, SLOW_PLANE_MAX)))
                 .with(new PlaneAction())
+                .with(new MediatorComponent(((ControlTowerGame) FXGL.getApp()).getmediator()))
                 .with(new CollidableComponent(true))
                 .build();
-
     }
 
     @Spawns("chopper")
@@ -39,10 +42,11 @@ public class TowerControlFactory implements EntityFactory {
         return Entities
                 .builder()
                 .from(data)
-                .type(TowerControlType.PLANE)
+                .type(TowerControlType.CHOPPER)
                 .viewFromNodeWithBBox(texture("chopper.png", 40, 40))
                 .with(new PlaneMovement(FXGLMath.random(CHOPPER_MIN, CHOPPER_MAX)))
                 .with(new PlaneAction())
+                .with(new MediatorComponent(((ControlTowerGame) FXGL.getApp()).getmediator()))
                 .with(new CollidableComponent(true))
                 .build();
     }
