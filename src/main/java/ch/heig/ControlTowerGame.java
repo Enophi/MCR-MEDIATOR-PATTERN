@@ -1,10 +1,10 @@
 package ch.heig;
 
-import ch.heig.component.MediatorComponent;
 import ch.heig.factory.TowerControlFactory;
 import ch.heig.mediator.AbstractMediator;
 import ch.heig.mediator.DayMediator;
 import ch.heig.mediator.NightMediator;
+import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
 import com.almasb.fxgl.app.GameApplication;
@@ -79,9 +79,9 @@ public class ControlTowerGame extends GameApplication {
         Input input = getInput();
 
         // Define the different user inputs
-        input.addAction(new MouseOverAction("Land to 1", input, e -> e.getComponent(MediatorComponent.class).askToLand(1)), KeyCode.DIGIT1);
-        input.addAction(new MouseOverAction("Land to 2", input, e -> e.getComponent(MediatorComponent.class).askToLand(2)), KeyCode.DIGIT2);
-        input.addAction(new MouseOverAction("Land to 3", input, e -> e.getComponent(MediatorComponent.class).askToLand(3)), KeyCode.DIGIT3);
+        input.addAction(new MouseOverAction("Land to 1", input, e -> e.getComponent(FlyingObject.class).askToLand(1)), KeyCode.DIGIT1);
+        input.addAction(new MouseOverAction("Land to 2", input, e -> e.getComponent(FlyingObject.class).askToLand(2)), KeyCode.DIGIT2);
+        input.addAction(new MouseOverAction("Land to 3", input, e -> e.getComponent(FlyingObject.class).askToLand(3)), KeyCode.DIGIT3);
     }
 
     @Override
@@ -93,16 +93,16 @@ public class ControlTowerGame extends GameApplication {
         run(() -> {
             if (FXGLMath.randomBoolean()) {
                 Entity e = getGameWorld().spawn("slow-plane", FXGLMath.random(760) + 20, 0);
-                e.getComponent(MediatorComponent.class).selfAnnounce();
+                e.getComponent(FlyingObject.class).selfAnnounce();
             } else {
                 Entity e = getGameWorld().spawn("chopper", FXGLMath.random(760) + 20, 0);
-                e.getComponent(MediatorComponent.class).selfAnnounce();
+                e.getComponent(FlyingObject.class).selfAnnounce();
             }
 
         }, Duration.seconds(1.5));
 
         run(() -> {
-            if (mediator instanceof DayMediator) {
+            if (getGameState().getBoolean("day")) {
                 mediator = new NightMediator(mediator);
                 getGameState().setValue("day", false);
             } else {
@@ -114,7 +114,7 @@ public class ControlTowerGame extends GameApplication {
             mediator.updateAllCollegues();
 
             getGameScene().setBackgroundColor(mediator.getBackgroundColor());
-        }, Duration.seconds(5));
+        }, Duration.seconds(8));
     }
 
     @Override

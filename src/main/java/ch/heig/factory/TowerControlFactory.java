@@ -1,9 +1,11 @@
 package ch.heig.factory;
 
 import ch.heig.ControlTowerGame;
-import ch.heig.component.MediatorComponent;
-import ch.heig.component.PlaneAction;
-import ch.heig.component.PlaneMovement;
+import ch.heig.models.flyingobjects.Chopper;
+import ch.heig.models.flyingobjects.Plane;
+import ch.heig.models.flyingobjects.shared.FlyingObject;
+import ch.heig.models.flyingobjects.shared.FlyingObjectAction;
+import ch.heig.models.flyingobjects.shared.FlyingObjectMovement;
 import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.core.math.FXGLMath;
@@ -18,7 +20,6 @@ public class TowerControlFactory implements EntityFactory {
 
     @Spawns("slow-plane")
     public Entity newSlowPlane(SpawnData data) {
-
         final int SLOW_PLANE_MIN = 50;
         final int SLOW_PLANE_MAX = 150;
 
@@ -27,9 +28,10 @@ public class TowerControlFactory implements EntityFactory {
                 .from(data)
                 .type(TowerControlType.PLANE)
                 .viewFromNodeWithBBox(texture("plane.png", 60, 60))
-                .with(new PlaneMovement(FXGLMath.random(SLOW_PLANE_MIN, SLOW_PLANE_MAX)))
-                .with(new PlaneAction())
-                .with(new MediatorComponent(((ControlTowerGame) FXGL.getApp()).getmediator()))
+                .with(new FlyingObject(((ControlTowerGame) FXGL.getApp()).getmediator()))
+                .with(new Plane())
+                .with(new FlyingObjectMovement(FXGLMath.random(SLOW_PLANE_MIN, SLOW_PLANE_MAX)))
+                .with(new FlyingObjectAction())
                 .with(new CollidableComponent(true))
                 .build();
     }
@@ -44,9 +46,10 @@ public class TowerControlFactory implements EntityFactory {
                 .from(data)
                 .type(TowerControlType.CHOPPER)
                 .viewFromNodeWithBBox(texture("chopper.png", 40, 40))
-                .with(new PlaneMovement(FXGLMath.random(CHOPPER_MIN, CHOPPER_MAX)))
-                .with(new PlaneAction())
-                .with(new MediatorComponent(((ControlTowerGame) FXGL.getApp()).getmediator()))
+                .with(new FlyingObject(((ControlTowerGame) FXGL.getApp()).getmediator()))
+                .with(new Chopper())
+                .with(new FlyingObjectMovement(FXGLMath.random(CHOPPER_MIN, CHOPPER_MAX)))
+                .with(new FlyingObjectAction())
                 .with(new CollidableComponent(true))
                 .build();
     }

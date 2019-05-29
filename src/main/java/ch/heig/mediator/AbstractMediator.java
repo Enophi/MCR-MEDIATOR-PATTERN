@@ -1,12 +1,6 @@
-/**
- * created by Aleksandar Milenkovic
- * 08.05.2019
- * 15:46
- */
-
 package ch.heig.mediator;
 
-import ch.heig.component.MediatorComponent;
+import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.AbstractRunway;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
@@ -14,6 +8,11 @@ import javafx.scene.paint.Color;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * created by Aleksandar Milenkovic
+ * 08.05.2019
+ * 15:46
+ */
 public abstract class AbstractMediator {
 
     private List<Entity> flyingObjects;
@@ -51,7 +50,7 @@ public abstract class AbstractMediator {
      * Update all colleagues of the mediator change
      */
     public void updateAllCollegues() {
-        this.flyingObjects.forEach(e -> e.getComponent(MediatorComponent.class).setMediator(this));
+        this.flyingObjects.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
     }
 
     public abstract Color getBackgroundColor();
