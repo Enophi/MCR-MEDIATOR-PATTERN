@@ -1,25 +1,22 @@
+package ch.heig.models.flyingobjects;
+
+import com.almasb.fxgl.entity.component.Component;
+
+
 /**
  * created by Aleksandar Milenkovic
  * 08.05.2019
  * 16:06
+ * Définit les actions spécifiques liées à un hélicoptère.
+ * A gérer dans la méthode onUpdate laquelle est appelé automatiquement par le Framework
  */
-
-package ch.heig.models.flyingobjects;
-
-import ch.heig.mediator.AbstractMediator;
-
-public class Chopper extends FlyingObject {
-
-    public Chopper(AbstractMediator mediator) {
-        super(mediator);
-    }
+public class Chopper extends Component {
 
     @Override
-    public void askToLand(int runwayNo) {
-        mediator.askToLand(this, runwayNo);
+    public void onUpdate(double tpf) {
+        super.onUpdate(tpf);
     }
 
-    @Override
     public String identifier() {
         return "Chopper 456546";
     }

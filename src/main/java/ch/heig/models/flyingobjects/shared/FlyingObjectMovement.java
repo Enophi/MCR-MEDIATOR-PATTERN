@@ -1,15 +1,19 @@
-package ch.heig.component;
+package ch.heig.models.flyingobjects.shared;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.entity.component.Required;
 import com.almasb.fxgl.entity.components.PositionComponent;
 
+/**
+ * Définit les mouvements liées à un objet volant, à gérer dans la méthode onUpdate
+ * laquelle est appelé automatiquement par le Framework
+ */
 @Required(PositionComponent.class)
-public class PlaneMovement extends Component {
+public class FlyingObjectMovement extends Component {
 
     private int speed;
 
-    public PlaneMovement(int speed) {
+    public FlyingObjectMovement(int speed) {
         this.speed = speed;
     }
 
