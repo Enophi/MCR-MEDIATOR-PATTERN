@@ -45,7 +45,7 @@ public class TowerControlFactory implements EntityFactory {
                 .builder()
                 .from(data)
                 .type(TowerControlType.CHOPPER)
-                .viewFromNodeWithBBox(texture("chopper.png", 40, 40))
+                .viewFromNodeWithBBox(texture("chopper.png", 80, 40))
                 .with(new FlyingObject(((ControlTowerGame) FXGL.getApp()).getmediator()))
                 .with(new Chopper())
                 .with(new FlyingObjectMovement(FXGLMath.random(CHOPPER_MIN, CHOPPER_MAX)))

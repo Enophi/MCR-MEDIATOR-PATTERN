@@ -15,7 +15,7 @@ public class FlyingObjectAction extends Component {
 
     @Override
     public void onUpdate(double tpf) {
-        if (getEntity().getPosition().getY() > 550)
+        if (getEntity().getPosition().getY() + getEntity().getHeight() > 500)
             crash();
     }
 

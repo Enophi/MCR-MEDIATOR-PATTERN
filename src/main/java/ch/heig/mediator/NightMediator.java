@@ -17,17 +17,23 @@ public class NightMediator extends AbstractMediator {
 
     @Override
     public Color getBackgroundColor() {
-        return Color.DARKBLUE;
+        return Color.rgb(7, 26, 76);
     }
 
     @Override
     public void askToLand(Entity e, int piste) {
-        if (piste == 3) {
-            FXGL.getGameState().increment("nbInThree", 1);
-            e.removeFromWorld();
-        } else {
-            FXGL.getNotificationService().setBackgroundColor(Color.RED);
-            FXGL.getNotificationService().pushNotification(String.format("%d close!", piste));
+        switch (piste) {
+            case 3:
+                FXGL.getGameState().increment("nbInThree", 1);
+                e.removeFromWorld();
+                break;
+            case 5:
+                FXGL.getGameState().increment("nbInFive", 1);
+                e.removeFromWorld();
+                break;
+            default:
+                FXGL.getGameState().setValue("playerNotif", String.format("%d close!", piste));
+                break;
         }
     }
 }
