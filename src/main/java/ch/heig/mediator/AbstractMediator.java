@@ -101,6 +101,7 @@ public abstract class AbstractMediator {
 
         if (runway.isOpen()) {
             String property = "runway_" + runway.getID();
+            int t = FXGL.getGameState().getInt(property);
             if (FXGL.getGameState().getInt(property) < runway.getSpaces()) {
                 FXGL.getGameState().increment(property, 1);
                 e.removeFromWorld();
