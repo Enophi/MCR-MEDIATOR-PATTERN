@@ -1,11 +1,14 @@
 /**
- * created by Aleksandar Milenkovic
- * 08.05.2019
- * 16:07
+ * Something that lives and moves
+ *
+ * @author Thibaud ALT
+ * @version 1.0
  */
 
 package ch.heig.models.animals;
 
-public abstract class Animal {
+import com.almasb.fxgl.entity.component.Component;
+
+public abstract class Animal extends Component {
 
 }
