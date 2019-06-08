@@ -1,8 +1,11 @@
 package ch.heig.mediator;
 
+import ch.heig.models.runways.Runway;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
+
+import java.util.Random;
 
 /**
  * created by Aleksandar Milenkovic
@@ -21,19 +24,9 @@ public class NightMediator extends AbstractMediator {
     }
 
     @Override
-    public void askToLand(Entity e, int piste) {
-        switch (piste) {
-            case 3:
-                FXGL.getGameState().increment("nbInThree", 1);
-                e.removeFromWorld();
-                break;
-            case 5:
-                FXGL.getGameState().increment("nbInFive", 1);
-                e.removeFromWorld();
-                break;
-            default:
-                FXGL.getGameState().setValue("playerNotif", String.format("%d close!", piste));
-                break;
-        }
+    public void setOpenedRunways() {
+        for (Runway runway : runways)
+            runway.setOpen(getRandomBoolean());
     }
+
 }

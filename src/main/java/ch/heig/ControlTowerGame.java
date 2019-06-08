@@ -5,6 +5,9 @@ import ch.heig.mediator.AbstractMediator;
 import ch.heig.mediator.DayMediator;
 import ch.heig.mediator.NightMediator;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
+import ch.heig.models.runways.ChopperRunway;
+import ch.heig.models.runways.PlaneRunway;
+import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
 import com.almasb.fxgl.app.GameApplication;
@@ -19,6 +22,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.almasb.fxgl.app.DSLKt.*;
@@ -26,10 +31,17 @@ import static com.almasb.fxgl.app.DSLKt.*;
 public class ControlTowerGame extends GameApplication {
 
     private AbstractMediator mediator;
+    private List<Runway> runways = new ArrayList<>();
 
     public ControlTowerGame() {
         // Init the game with the DayMediator
         mediator = new DayMediator();
+
+        for (int i = 0; i < 3; i++)
+            runways.add(new PlaneRunway(0, true, mediator));
+
+        for (int i = 0; i < 2; i++)
+            runways.add(new ChopperRunway(0, true, mediator));
     }
 
     public AbstractMediator getmediator() {
@@ -52,11 +64,8 @@ public class ControlTowerGame extends GameApplication {
         vars.put("waiting", 0);
         vars.put("crashed", 0);
 
-        vars.put("nbInOne", 0);
-        vars.put("nbInTwo", 0);
-        vars.put("nbInThree", 0);
-        vars.put("nbInFour", 0);
-        vars.put("nbInFive", 0);
+        for (Runway runway : runways)
+            vars.put("runway_" + runway.getID(), runway.getSpaces());
 
         vars.put("playerNotif", "Alert:");
 
@@ -75,11 +84,8 @@ public class ControlTowerGame extends GameApplication {
         uiController.getLabelWaiting().textProperty().bind(getip("waiting").asString("Score: [%d]"));
         uiController.getLabelCrashed().textProperty().bind(getip("crashed").asString("Crashed: [%d]"));
 
-        uiController.getNbInAirstripOne().textProperty().bind(getip("nbInOne").asString("Strip One: [%d]"));
-        uiController.getNbInAirstripTwo().textProperty().bind(getip("nbInTwo").asString("Strip Two: [%d]"));
-        uiController.getNbInAirstripThree().textProperty().bind(getip("nbInThree").asString("Strip Three: [%d]"));
-        uiController.getNbInAirstripFour().textProperty().bind(getip("nbInFour").asString("Strip Four: [%d]"));
-        uiController.getNbInAirstripFive().textProperty().bind(getip("nbInFive").asString("Strip Five: [%d]"));
+        for (Runway runway : runways)
+            uiController.getNbInAirstripOne().textProperty().bind(getip("runway_" + runway.getID()).asString("Strip #" + runway.getID() + ": [%d]"));
 
         uiController.getPlayerNotif().textProperty().bind(getsp("playerNotif"));
 
@@ -96,6 +102,7 @@ public class ControlTowerGame extends GameApplication {
 
         getGameScene().addUI(ui);
         getGameScene().setBackgroundColor(mediator.getBackgroundColor());
+        mediator.setOpenedRunways();
 
         // Compteur durée de la partie
         Text timerText = getUIFactory().newText("", Color.WHITE, 28);
@@ -123,11 +130,11 @@ public class ControlTowerGame extends GameApplication {
         Input input = getInput();
 
         // Define the different user inputs
-        input.addAction(new MouseOverAction("Land to 1", input, e -> e.getComponent(FlyingObject.class).askToLand(1)), KeyCode.DIGIT1);
-        input.addAction(new MouseOverAction("Land to 2", input, e -> e.getComponent(FlyingObject.class).askToLand(2)), KeyCode.DIGIT2);
-        input.addAction(new MouseOverAction("Land to 3", input, e -> e.getComponent(FlyingObject.class).askToLand(3)), KeyCode.DIGIT3);
-        input.addAction(new MouseOverAction("Land to 4", input, e -> e.getComponent(FlyingObject.class).askToLand(4)), KeyCode.DIGIT4);
-        input.addAction(new MouseOverAction("Land to 5", input, e -> e.getComponent(FlyingObject.class).askToLand(5)), KeyCode.DIGIT5);
+        input.addAction(new MouseOverAction("Land to 1", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(0))), KeyCode.DIGIT1);
+        input.addAction(new MouseOverAction("Land to 2", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(1))), KeyCode.DIGIT2);
+        input.addAction(new MouseOverAction("Land to 3", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(2))), KeyCode.DIGIT3);
+        input.addAction(new MouseOverAction("Land to 4", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(3))), KeyCode.DIGIT4);
+        input.addAction(new MouseOverAction("Land to 5", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(4))), KeyCode.DIGIT5);
     }
 
     @Override
@@ -160,7 +167,7 @@ public class ControlTowerGame extends GameApplication {
             mediator.updateAllCollegues();
 
             getGameScene().setBackgroundColor(mediator.getBackgroundColor());
-        }, Duration.seconds(8));
+        }, Duration.seconds(20));
 
         // Timer jeu
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));

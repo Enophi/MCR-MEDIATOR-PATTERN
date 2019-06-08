@@ -1,15 +1,17 @@
 /**
- * created by Aleksandar Milenkovic
- * 08.05.2019
- * 17:00
+ * A runway dedicated to choppers
+ *
+ * @author Thibaud ALT
+ * @version 1.0
  */
 
 package ch.heig.models.runways;
 
-public class ChopperRunway extends AbstractRunway {
+import ch.heig.mediator.AbstractMediator;
 
-    @Override
-    public void clean() {
+public class ChopperRunway extends Runway {
 
+    public ChopperRunway(int spaces, boolean isOpen, AbstractMediator mediator) {
+        super(spaces, isOpen, mediator);
     }
 }

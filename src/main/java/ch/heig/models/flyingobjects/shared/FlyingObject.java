@@ -1,6 +1,7 @@
 package ch.heig.models.flyingobjects.shared;
 
 import ch.heig.mediator.AbstractMediator;
+import ch.heig.models.runways.Runway;
 import com.almasb.fxgl.entity.component.Component;
 
 /**
@@ -27,7 +28,7 @@ public class FlyingObject extends Component implements FlyingObjectMediator {
      * @param runway la piste d'atterrissage
      */
     @Override
-    public void askToLand(int runway) {
+    public void askToLand(Runway runway) {
         _mediator.askToLand(getEntity(), runway);
     }
 
