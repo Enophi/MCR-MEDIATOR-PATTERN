@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * created by Aleksandar Milenkovic
@@ -21,10 +20,8 @@ public abstract class AbstractMediator {
     private List<Entity> flyingObjects;
     protected List<Runway> runways;
     protected List<Animal> animals;
-    private Random random;
 
     public AbstractMediator() {
-        random = new Random();
         flyingObjects = new LinkedList<>();
         runways = new LinkedList<>();
         animals = new LinkedList<>();
@@ -36,9 +33,6 @@ public abstract class AbstractMediator {
         this.animals = new LinkedList<>(other.animals);
     }
 
-    public boolean getRandomBoolean() {
-        return random.nextBoolean();
-    }
 
     /**
      * Announce to the mediator
@@ -111,10 +105,10 @@ public abstract class AbstractMediator {
                 FXGL.getGameState().increment(property, 1);
                 e.removeFromWorld();
             } else {
-                FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d is full !", runway));
+                FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d is full !", runway.getID()));
             }
         } else {
-            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d closed", runway));
+            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d closed", runway.getID()));
         }
 
     }

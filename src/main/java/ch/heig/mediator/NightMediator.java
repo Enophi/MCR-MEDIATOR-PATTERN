@@ -1,11 +1,9 @@
 package ch.heig.mediator;
 
-import ch.heig.models.runways.Runway;
-import com.almasb.fxgl.app.FXGL;
-import com.almasb.fxgl.entity.Entity;
-import javafx.scene.paint.Color;
+import static ch.heig.utils.Rand.getRandomBool;
 
-import java.util.Random;
+import ch.heig.models.runways.Runway;
+import javafx.scene.paint.Color;
 
 /**
  * created by Aleksandar Milenkovic
@@ -26,7 +24,7 @@ public class NightMediator extends AbstractMediator {
     @Override
     public void setOpenedRunways() {
         for (Runway runway : runways)
-            runway.setOpen(getRandomBoolean());
+            runway.setOpen(getRandomBool());
     }
 
 }

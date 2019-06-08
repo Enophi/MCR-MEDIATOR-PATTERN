@@ -26,9 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static ch.heig.utils.Rand.getRandomInt;
 import static com.almasb.fxgl.app.DSLKt.*;
 
 public class ControlTowerGame extends GameApplication {
+
+    private static final int MIN = 1;
+    private static final int MAX = 8;
 
     private AbstractMediator mediator;
     private List<Runway> runways = new ArrayList<>();
@@ -38,10 +42,10 @@ public class ControlTowerGame extends GameApplication {
         mediator = new DayMediator();
 
         for (int i = 0; i < 3; i++)
-            runways.add(new PlaneRunway(0, true, mediator));
+            runways.add(new PlaneRunway(getRandomInt(MIN, MAX), true, mediator));
 
         for (int i = 0; i < 2; i++)
-            runways.add(new ChopperRunway(0, true, mediator));
+            runways.add(new ChopperRunway(getRandomInt(MIN, MAX), true, mediator));
     }
 
     public AbstractMediator getmediator() {
