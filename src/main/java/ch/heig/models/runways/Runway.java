@@ -12,23 +12,17 @@ import com.almasb.fxgl.entity.component.Component;
 
 public abstract class Runway extends Component {
 
-    private static int nextID = 1;
-
-    private AbstractMediator mediator;
-    private final int ID;
+    private final String identifier;
     private int spaces;
     private boolean isOpen;
+    private AbstractMediator mediator;
 
-    public Runway(int spaces, boolean isOpen, AbstractMediator mediator) {
-        this.ID = nextID++;
+    public Runway(String identifier, int spaces, boolean isOpen, AbstractMediator mediator) {
+        this.identifier = identifier;
         this.spaces = spaces;
         this.isOpen = isOpen;
         this.mediator = mediator;
         mediator.selfAnnounce(this);
-    }
-
-    public int getID() {
-        return ID;
     }
 
     public int getSpaces() {
@@ -43,8 +37,9 @@ public abstract class Runway extends Component {
         return isOpen;
     }
 
-    public void setOpen(boolean open) {
-        isOpen = open;
+    public boolean setOpen(boolean open) {
+        this.isOpen = open;
+        return isOpen;
     }
 
     public AbstractMediator getMediator() {
@@ -53,5 +48,10 @@ public abstract class Runway extends Component {
 
     public void setMediator(AbstractMediator mediator) {
         this.mediator = mediator;
+    }
+
+    @Override
+    public String toString() {
+        return identifier;
     }
 }

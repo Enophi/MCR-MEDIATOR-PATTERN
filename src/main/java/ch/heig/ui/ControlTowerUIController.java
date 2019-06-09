@@ -83,9 +83,7 @@ public class ControlTowerUIController implements UIController, StateListener {
         return labelWaiting;
     }
 
-    public Label getNbInAirstripOne() {
-        return nbInAirstripOne;
-    }
+    public Label getNbInAirstripOne() { return nbInAirstripOne; }
 
     public Label getNbInAirstripTwo() {
         return nbInAirstripTwo;
@@ -99,16 +97,8 @@ public class ControlTowerUIController implements UIController, StateListener {
         return nbInAirstripFour;
     }
 
-    public Polygon getChopper1() {
-        return chopper1;
-    }
-
     public Label getNbInAirstripFive() {
         return nbInAirstripFive;
-    }
-
-    public Polygon getChopper2() {
-        return chopper2;
     }
 
     public Label getPlayerNotif() {

@@ -36,17 +36,17 @@ public class ControlTowerGame extends GameApplication {
     private static final int MAX = 8;
 
     private AbstractMediator mediator;
-    private List<Runway> runways = new ArrayList<>();
+    private List<Runway> runways = new ArrayList<>(5);
 
     public ControlTowerGame() {
         // Init the game with the DayMediator
         mediator = new DayMediator();
 
-        for (int i = 0; i < 3; i++)
-            runways.add(new PlaneRunway(getRandomInt(MIN, MAX), getRandomBool(), mediator));
-
-        for (int i = 0; i < 2; i++)
-            runways.add(new ChopperRunway(getRandomInt(MIN, MAX), getRandomBool(), mediator));
+        runways.add(0, new PlaneRunway("runway_0", getRandomInt(MIN, MAX), false, mediator));
+        runways.add(1, new PlaneRunway("runway_1", getRandomInt(MIN, MAX), false, mediator));
+        runways.add(2, new PlaneRunway("runway_2", getRandomInt(MIN, MAX), false, mediator));
+        runways.add(3, new ChopperRunway("runway_3", getRandomInt(MIN, MAX), false, mediator));
+        runways.add(4, new ChopperRunway("runway_4", getRandomInt(MIN, MAX), false, mediator));
 
     }
 
@@ -71,8 +71,8 @@ public class ControlTowerGame extends GameApplication {
         vars.put("crashed", 0);
 
         for (Runway runway : runways) {
-            vars.put("runway_" + runway.getID(), runway.getSpaces());
-            vars.put("runway_" + runway.getID() + "_open", runway.isOpen());
+            vars.put(runway.toString(), runway.getSpaces());
+            vars.put(runway.toString() + "_open", runway.isOpen());
         }
 
         vars.put("playerNotif", "Alert:");
@@ -92,20 +92,20 @@ public class ControlTowerGame extends GameApplication {
         uiController.getLabelWaiting().textProperty().bind(getip("waiting").asString("Score: [%d]"));
         uiController.getLabelCrashed().textProperty().bind(getip("crashed").asString("Crashed: [%d]"));
 
-        uiController.getNbInAirstripOne().textProperty().bind(getip("runway_1").asString("Strip #1 : [%d]"));
-        uiController.getNbInAirstripTwo().textProperty().bind(getip("runway_2").asString("Strip #2 : [%d]"));
-        uiController.getNbInAirstripThree().textProperty().bind(getip("runway_3").asString("Strip #3 : [%d]"));
-        uiController.getNbInAirstripFour().textProperty().bind(getip("runway_4").asString("Strip #4 : [%d]"));
-        uiController.getNbInAirstripFive().textProperty().bind(getip("runway_5").asString("Strip #5 : [%d]"));
+        uiController.getNbInAirstripOne().textProperty().bind(getip("runway_0").asString("Strip #1 : [%d]"));
+        uiController.getNbInAirstripTwo().textProperty().bind(getip("runway_1").asString("Strip #2 : [%d]"));
+        uiController.getNbInAirstripThree().textProperty().bind(getip("runway_2").asString("Strip #3 : [%d]"));
+        uiController.getNbInAirstripFour().textProperty().bind(getip("runway_3").asString("Strip #4 : [%d]"));
+        uiController.getNbInAirstripFive().textProperty().bind(getip("runway_4").asString("Strip #5 : [%d]"));
 
         uiController.getPlayerNotif().textProperty().bind(getsp("playerNotif"));
 
         // Bind visible property day
-        uiController.getNbInAirstripOne().visibleProperty().bind(getGameState().booleanProperty("runway_1_open"));
-        uiController.getNbInAirstripTwo().visibleProperty().bind(getGameState().booleanProperty("runway_2_open"));
-        uiController.getNbInAirstripThree().visibleProperty().bind(getGameState().booleanProperty("runway_3_open"));
-        uiController.getChopper2().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));
-        uiController.getChopper1().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));
+        uiController.getNbInAirstripOne().visibleProperty().bind(getGameState().booleanProperty("runway_0_open"));
+        uiController.getNbInAirstripTwo().visibleProperty().bind(getGameState().booleanProperty("runway_1_open"));
+        uiController.getNbInAirstripThree().visibleProperty().bind(getGameState().booleanProperty("runway_2_open"));
+        uiController.getNbInAirstripFour().visibleProperty().bind(getGameState().booleanProperty("runway_3_open"));
+        uiController.getNbInAirstripFive().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));
 
         getGameScene().addUI(ui);
         getGameScene().setBackgroundColor(mediator.getBackgroundColor());
@@ -177,10 +177,10 @@ public class ControlTowerGame extends GameApplication {
             getGameScene().setBackgroundColor(mediator.getBackgroundColor());
         }, Duration.seconds(20));
 
-        run(() -> {
-            for (int i = 0; i < 2; i++)
-                getGameState().setValue("runway_" + (i + 1) + "_open", getRandomBool());
-        }, Duration.seconds(10));
+        // run(() -> {
+        //     for (int i = 0; i <= runways.size(); i++)
+        //         getGameState().setValue("runway_" + i + "_open", runways.get(i).setOpen(getRandomBool()));
+        // }, Duration.seconds(30));
 
 
         // Timer jeu

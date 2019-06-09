@@ -100,16 +100,14 @@ public abstract class AbstractMediator {
     public void askToLand(Entity e, Runway runway) {
 
         if (runway.isOpen()) {
-            String property = "runway_" + runway.getID();
-            int t = FXGL.getGameState().getInt(property);
-            if (FXGL.getGameState().getInt(property) < runway.getSpaces()) {
-                FXGL.getGameState().increment(property, 1);
+            if (FXGL.getGameState().getInt(runway.toString()) < runway.getSpaces()) {
+                FXGL.getGameState().increment(runway.toString(), 1);
                 e.removeFromWorld();
             } else {
-                FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d is full !", runway.getID()));
+                FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s is full !", runway.toString().split("_")[1]));
             }
         } else {
-            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d closed", runway.getID()));
+            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s closed", runway.toString().split("_")[1]));
         }
 
     }

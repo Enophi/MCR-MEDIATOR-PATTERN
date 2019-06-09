@@ -11,7 +11,7 @@ import ch.heig.mediator.AbstractMediator;
 
 public class ChopperRunway extends Runway {
 
-    public ChopperRunway(int spaces, boolean isOpen, AbstractMediator mediator) {
-        super(spaces, isOpen, mediator);
+    public ChopperRunway(String identifier, int spaces, boolean isOpen, AbstractMediator mediator) {
+        super(identifier, spaces, isOpen, mediator);
     }
 }
