@@ -101,6 +101,14 @@ public class ControlTowerUIController implements UIController, StateListener {
         return nbInAirstripFive;
     }
 
+    public Polygon getChopper1() {
+        return chopper1;
+    }
+
+    public Polygon getChopper2() {
+        return chopper2;
+    }
+
     public Label getPlayerNotif() {
         return playerNotif;
     }
