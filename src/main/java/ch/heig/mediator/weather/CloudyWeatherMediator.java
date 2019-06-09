@@ -15,7 +15,6 @@ public class CloudyWeatherMediator extends AbstractWeatherMediator {
     private final Image normalIcon = new Image("assets/icons/cloud.png");
     private final Image normalBackground = new Image("assets/textures/cloudy.png");
 
-
     public CloudyWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
     }

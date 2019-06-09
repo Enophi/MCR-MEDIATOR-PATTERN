@@ -7,15 +7,15 @@ import javafx.scene.image.Image;
 /**
  * created by Alain Gobet
  * 09.06.2019
- * 16:35
+ * 19:42
  */
 
-public class NormalWeatherMediator extends AbstractWeatherMediator {
+public class HurricaneWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image normalIcon = new Image("assets/icons/normal.png");
-    private final Image normalBackground = new Image("assets/textures/blank.png");
+    private final Image normalIcon = new Image("assets/icons/hurricane.png");
+    private final Image normalBackground = new Image("assets/textures/hurricane.gif");
 
-    public NormalWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
+    public HurricaneWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
     }
 

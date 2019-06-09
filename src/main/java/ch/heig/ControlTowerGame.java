@@ -4,10 +4,7 @@ import ch.heig.factory.TowerControlFactory;
 import ch.heig.mediator.time.AbstractTimeMediator;
 import ch.heig.mediator.time.DayTimeMediator;
 import ch.heig.mediator.time.NightTimeMediator;
-import ch.heig.mediator.weather.AbstractWeatherMediator;
-import ch.heig.mediator.weather.CloudyWeatherMediator;
-import ch.heig.mediator.weather.FogWeatherMediator;
-import ch.heig.mediator.weather.NormalWeatherMediator;
+import ch.heig.mediator.weather.*;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
@@ -219,9 +216,17 @@ public class ControlTowerGame extends GameApplication {
 
         run(() -> {
             WeightedCollection<AbstractWeatherMediator> weatherCollection  = new WeightedCollection<>();
-            //weatherCollection.add(5, new NormalWeatherMediator(this, uiController));
-            weatherCollection.add(2, new FogWeatherMediator(this, uiController));
-            //weatherCollection.add(2, new CloudyWeatherMediator(this, uiController));
+            weatherCollection.add(5, new NormalWeatherMediator(this, uiController));
+            weatherCollection.add(5, new FogWeatherMediator(this, uiController));
+            weatherCollection.add(5, new RainWeatherMediator(this, uiController));
+            weatherCollection.add(4, new CloudyWeatherMediator(this, uiController));
+            weatherCollection.add(4, new BrightWeatherMediator(this, uiController));
+            weatherCollection.add(3, new SnowWeatherMediator(this, uiController));
+            weatherCollection.add(3, new LightningWeatherMediator(this, uiController));
+            weatherCollection.add(3, new RainbowWeatherMediator(this, uiController));
+            weatherCollection.add(2, new HeavyRainWeatherMediator(this, uiController));
+            weatherCollection.add(2, new BigFogWeatherMediator(this, uiController));
+            weatherCollection.add(1, new HurricaneWeatherMediator(this, uiController));
 
             weatherMediator = weatherCollection.next();
             weatherMediator.setWeatherIcon();
