@@ -94,7 +94,7 @@ public abstract class AbstractMediator {
     public void updateAllCollegues() {
         this.flyingObjects.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
         this.runways.forEach((Runway r) -> r.setMediator(this));
-        //this.animals.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
+        // this.runways.forEach((Animal a) -> a.setMediator(this));
     }
 
     public void askToLand(Entity e, Runway runway) {

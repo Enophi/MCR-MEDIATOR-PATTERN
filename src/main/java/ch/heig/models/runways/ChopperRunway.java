@@ -12,7 +12,7 @@ import ch.heig.ui.TowerControlType;
 
 public class ChopperRunway extends Runway {
 
-    public ChopperRunway(String identifier, int spaces, TowerControlType type, AbstractMediator mediator) {
-        super(identifier, spaces, type, mediator);
+    public ChopperRunway(String identifier, int spaces, AbstractMediator mediator) {
+        super(identifier, spaces, TowerControlType.CHOPPER, mediator);
     }
 }
