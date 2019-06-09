@@ -3,6 +3,7 @@ package ch.heig.mediator.weather;
 import ch.heig.ControlTowerGame;
 import ch.heig.ui.ControlTowerUIController;
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Alain Gobet
@@ -12,8 +13,9 @@ import javafx.scene.image.Image;
 
 public class RainbowWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image normalIcon = new Image("assets/icons/rainbow.png");
-    private final Image normalBackground = new Image("assets/textures/rainbow.png");
+    private final Image rainbowIcon = new Image("assets/icons/rainbow.png");
+    private final Image rainbowBackground = new Image("assets/textures/rainbow.png");
+    private final ImagePattern rainbowImagePattern = new ImagePattern(rainbowBackground);
 
     public RainbowWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -21,12 +23,12 @@ public class RainbowWeatherMediator extends AbstractWeatherMediator {
 
     @Override
     protected Image getWeatherIconImage() {
-        return normalIcon;
+        return rainbowIcon;
     }
 
     @Override
     protected Image getWeatherBackgroundImage() {
-        return normalBackground;
+        return rainbowBackground;
     }
 
     @Override
@@ -38,7 +40,5 @@ public class RainbowWeatherMediator extends AbstractWeatherMediator {
     protected int getMaxDuration() {
         return 10;
     }
-
-
 }
 

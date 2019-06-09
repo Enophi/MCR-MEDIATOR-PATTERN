@@ -3,6 +3,7 @@ package ch.heig.mediator.weather;
 import ch.heig.ControlTowerGame;
 import ch.heig.ui.ControlTowerUIController;
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Alain Gobet
@@ -12,8 +13,9 @@ import javafx.scene.image.Image;
 
 public class FogWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image normalIcon = new Image("assets/icons/fog.png");
-    private final Image normalBackground = new Image("assets/textures/fog.png");
+    private final Image fogIcon = new Image("assets/icons/fog.png");
+    private final Image fogBackground = new Image("assets/textures/fog.png");
+    private final ImagePattern fogImagePattern = new ImagePattern(fogBackground);
 
     public FogWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -21,12 +23,12 @@ public class FogWeatherMediator extends AbstractWeatherMediator {
 
     @Override
     protected Image getWeatherIconImage() {
-        return normalIcon;
+        return fogIcon;
     }
 
     @Override
     protected Image getWeatherBackgroundImage() {
-        return normalBackground;
+        return fogBackground;
     }
 
     @Override
@@ -38,7 +40,5 @@ public class FogWeatherMediator extends AbstractWeatherMediator {
     protected int getMaxDuration() {
         return 10;
     }
-
-
 }
 

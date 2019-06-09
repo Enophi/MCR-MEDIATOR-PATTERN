@@ -3,6 +3,7 @@ package ch.heig.mediator.weather;
 import ch.heig.ControlTowerGame;
 import ch.heig.ui.ControlTowerUIController;
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Alain Gobet
@@ -12,8 +13,9 @@ import javafx.scene.image.Image;
 
 public class HurricaneWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image normalIcon = new Image("assets/icons/hurricane.png");
-    private final Image normalBackground = new Image("assets/textures/hurricane.gif");
+    private final Image hurricaneIcon = new Image("assets/icons/hurricane.png");
+    private final Image hurricaneBackground = new Image("assets/textures/hurricane.gif");
+    private final ImagePattern hurricaneImagePattern = new ImagePattern(hurricaneBackground);
 
     public HurricaneWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -21,12 +23,12 @@ public class HurricaneWeatherMediator extends AbstractWeatherMediator {
 
     @Override
     protected Image getWeatherIconImage() {
-        return normalIcon;
+        return hurricaneIcon;
     }
 
     @Override
     protected Image getWeatherBackgroundImage() {
-        return normalBackground;
+        return hurricaneBackground;
     }
 
     @Override
@@ -38,7 +40,5 @@ public class HurricaneWeatherMediator extends AbstractWeatherMediator {
     protected int getMaxDuration() {
         return 10;
     }
-
-
 }
 

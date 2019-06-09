@@ -3,6 +3,7 @@ package ch.heig.mediator.weather;
 import ch.heig.ControlTowerGame;
 import ch.heig.ui.ControlTowerUIController;
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Alain Gobet
@@ -14,6 +15,7 @@ public class NormalWeatherMediator extends AbstractWeatherMediator {
 
     private final Image normalIcon = new Image("assets/icons/normal.png");
     private final Image normalBackground = new Image("assets/textures/blank.png");
+    private final ImagePattern normalImagePattern = new ImagePattern(normalBackground);
 
     public NormalWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -38,7 +40,5 @@ public class NormalWeatherMediator extends AbstractWeatherMediator {
     protected int getMaxDuration() {
         return 10;
     }
-
-
 }
 
