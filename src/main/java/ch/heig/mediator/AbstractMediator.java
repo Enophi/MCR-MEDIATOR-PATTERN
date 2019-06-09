@@ -100,8 +100,8 @@ public abstract class AbstractMediator {
     public void askToLand(Entity e, Runway runway) {
 
         if (runway.isOpen()) {
-            if (FXGL.getGameState().getInt(runway.toString()) < runway.getSpaces()) {
-                FXGL.getGameState().increment(runway.toString(), 1);
+            if (FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
+                FXGL.getGameState().increment(runway.toString() + "_places", 1);
                 e.removeFromWorld();
             } else {
                 FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s is full !", runway.toString().split("_")[1]));
@@ -113,5 +113,4 @@ public abstract class AbstractMediator {
     }
 
     public abstract Color getBackgroundColor();
-    public abstract void setOpenedRunways();
 }

@@ -32,8 +32,8 @@ import static com.almasb.fxgl.app.DSLKt.*;
 
 public class ControlTowerGame extends GameApplication {
 
-    private static final int MIN = 1;
-    private static final int MAX = 8;
+    private static final int MIN = 3;
+    private static final int MAX = 10;
 
     private AbstractMediator mediator;
     private List<Runway> runways = new ArrayList<>(5);
@@ -73,6 +73,7 @@ public class ControlTowerGame extends GameApplication {
         for (Runway runway : runways) {
             vars.put(runway.toString(), runway.getSpaces());
             vars.put(runway.toString() + "_open", runway.isOpen());
+            vars.put(runway.toString() + "_places", 0);
         }
 
         vars.put("playerNotif", "Alert:");
@@ -92,11 +93,11 @@ public class ControlTowerGame extends GameApplication {
         uiController.getLabelWaiting().textProperty().bind(getip("waiting").asString("Score: [%d]"));
         uiController.getLabelCrashed().textProperty().bind(getip("crashed").asString("Crashed: [%d]"));
 
-        uiController.getNbInAirstripOne().textProperty().bind(getip("runway_1").asString("Strip #1 : [%d]"));
-        uiController.getNbInAirstripTwo().textProperty().bind(getip("runway_2").asString("Strip #2 : [%d]"));
-        uiController.getNbInAirstripThree().textProperty().bind(getip("runway_3").asString("Strip #3 : [%d]"));
-        uiController.getNbInAirstripFour().textProperty().bind(getip("runway_4").asString("Strip #4 : [%d]"));
-        uiController.getNbInAirstripFive().textProperty().bind(getip("runway_5").asString("Strip #5 : [%d]"));
+        uiController.getNbInAirstripOne().textProperty().bind(getip("runway_1_places").asString("Strip #1 : [%d]"));
+        uiController.getNbInAirstripTwo().textProperty().bind(getip("runway_2_places").asString("Strip #2 : [%d]"));
+        uiController.getNbInAirstripThree().textProperty().bind(getip("runway_3_places").asString("Strip #3 : [%d]"));
+        uiController.getNbInAirstripFour().textProperty().bind(getip("runway_4_places").asString("Strip #4 : [%d]"));
+        uiController.getNbInAirstripFive().textProperty().bind(getip("runway_5_places").asString("Strip #5 : [%d]"));
 
         uiController.getPlayerNotif().textProperty().bind(getsp("playerNotif"));
 
@@ -115,7 +116,6 @@ public class ControlTowerGame extends GameApplication {
 
         getGameScene().addUI(ui);
         getGameScene().setBackgroundColor(mediator.getBackgroundColor());
-        mediator.setOpenedRunways();
 
         // Compteur durée de la partie
         Text timerText = getUIFactory().newText("", Color.WHITE, 28);

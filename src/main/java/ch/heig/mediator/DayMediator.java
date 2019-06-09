@@ -23,10 +23,4 @@ public class DayMediator extends AbstractMediator {
         return Color.rgb(38, 195, 219);
     }
 
-    @Override
-    public void setOpenedRunways() {
-        for (Runway runway : runways)
-            runway.setOpen(true);
-    }
-
 }

@@ -21,10 +21,4 @@ public class NightMediator extends AbstractMediator {
         return Color.rgb(7, 26, 76);
     }
 
-    @Override
-    public void setOpenedRunways() {
-        for (Runway runway : runways)
-            runway.setOpen(getRandomBool());
-    }
-
 }
