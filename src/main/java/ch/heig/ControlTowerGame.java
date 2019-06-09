@@ -10,7 +10,6 @@ import ch.heig.models.runways.PlaneRunway;
 import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
-import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.core.math.FXGLMath;
@@ -44,11 +43,11 @@ public class ControlTowerGame extends GameApplication {
         // Init the game with the DayMediator
         mediator = new DayMediator();
 
-        runways.add(0, new PlaneRunway("runway_1", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
-        runways.add(1, new PlaneRunway("runway_2", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
-        runways.add(2, new PlaneRunway("runway_3", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
-        runways.add(3, new ChopperRunway("runway_4", getRandomInt(MIN, MAX), TowerControlType.CHOPPER, getRandomBool(), mediator));
-        runways.add(4, new ChopperRunway("runway_5", getRandomInt(MIN, MAX), TowerControlType.CHOPPER, getRandomBool(), mediator));
+        runways.add(0, new PlaneRunway("runway_1", getRandomInt(MIN, MAX), mediator));
+        runways.add(1, new PlaneRunway("runway_2", getRandomInt(MIN, MAX), mediator));
+        runways.add(2, new PlaneRunway("runway_3", getRandomInt(MIN, MAX), mediator));
+        runways.add(3, new ChopperRunway("runway_4", getRandomInt(MIN, MAX), mediator));
+        runways.add(4, new ChopperRunway("runway_5", getRandomInt(MIN, MAX), mediator));
 
     }
 
@@ -56,7 +55,7 @@ public class ControlTowerGame extends GameApplication {
         launch(args);
     }
 
-    public AbstractMediator getmediator() {
+    public AbstractMediator getMediator() {
         return mediator;
     }
 
@@ -182,7 +181,6 @@ public class ControlTowerGame extends GameApplication {
                 getGameState().setValue("day", true);
             }
 
-
             // Notify all colleagues of the mediator change
             mediator.updateAllCollegues();
 
@@ -201,6 +199,11 @@ public class ControlTowerGame extends GameApplication {
                 if (FXGL.getGameState().getInt("runway_" + (i + 1) + "_places") > 0)
                     FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -getRandomInt(0, 1));
         }, Duration.seconds(getRandomInt(1, 10)));
+
+        // Add animals on runways
+        run(() -> getGameWorld().spawn("bird", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(getRandomInt(1, 15)));
+        run(() -> getGameWorld().spawn("duck", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(getRandomInt(1, 15)));
+        run(() -> getGameWorld().spawn("pier", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(30));
 
         // Timer jeu
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));

@@ -6,9 +6,13 @@ import ch.heig.models.runways.Runway;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static ch.heig.utils.Rand.getRandomInt;
+import static com.almasb.fxgl.app.DSLKt.run;
 
 /**
  * created by Aleksandar Milenkovic
@@ -32,7 +36,6 @@ public abstract class AbstractMediator {
         this.runways = new LinkedList<>(other.runways);
         this.animals = new LinkedList<>(other.animals);
     }
-
 
     /**
      * Announce to the mediator
@@ -94,7 +97,7 @@ public abstract class AbstractMediator {
     public void updateAllCollegues() {
         this.flyingObjects.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
         this.runways.forEach((Runway r) -> r.setMediator(this));
-        //this.animals.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
+        this.animals.forEach((Animal a) -> a.setMediator(this));
     }
 
     public void askToLand(Entity e, Runway runway) {
@@ -109,8 +112,9 @@ public abstract class AbstractMediator {
             return;
         }
 
-        if (FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
+        if (!runway.isBlocked() && FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
             FXGL.getGameState().increment(runway.toString() + "_places", 1);
+            FXGL.getGameState().setValue("playerNotif", "");
             e.removeFromWorld();
         } else {
             FXGL.getGameState().setValue("playerNotif", String.format("Wait! Landing Strip #%s is full", runway.toString().split("_")[1]));

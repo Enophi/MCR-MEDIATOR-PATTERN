@@ -8,6 +8,7 @@
 package ch.heig.models.runways;
 
 import ch.heig.mediator.AbstractMediator;
+import ch.heig.models.animals.Animal;
 import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.entity.component.Component;
 
@@ -19,6 +20,7 @@ public abstract class Runway extends Component {
     private final int spaces;
     private final TowerControlType type;
     private AbstractMediator mediator;
+    private boolean isBlocked = false;
 
     public Runway(String identifier, int spaces, TowerControlType type, AbstractMediator mediator) {
         this.identifier = identifier;
@@ -52,6 +54,10 @@ public abstract class Runway extends Component {
 
     public void setMediator(AbstractMediator mediator) {
         this.mediator = mediator;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
     }
 
     @Override

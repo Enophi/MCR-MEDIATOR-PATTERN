@@ -7,10 +7,12 @@
 
 package ch.heig.models.animals;
 
+import ch.heig.mediator.AbstractMediator;
+
 public class Pier extends Animal {
 
-    public String identifier() {
-        return "Pier";
+    public Pier(AbstractMediator mediator) {
+        super("Pier", mediator);
     }
 
 }
