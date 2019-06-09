@@ -1,6 +1,5 @@
 package ch.heig.mediator;
 
-import ch.heig.models.runways.Runway;
 import javafx.scene.paint.Color;
 
 /**

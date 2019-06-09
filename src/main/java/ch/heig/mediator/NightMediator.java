@@ -1,8 +1,5 @@
 package ch.heig.mediator;
 
-import static ch.heig.utils.Rand.getRandomBool;
-
-import ch.heig.models.runways.Runway;
 import javafx.scene.paint.Color;
 
 /**

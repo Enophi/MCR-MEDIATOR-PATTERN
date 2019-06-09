@@ -50,6 +50,10 @@ public class ControlTowerGame extends GameApplication {
 
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     public AbstractMediator getmediator() {
         return mediator;
     }
@@ -203,9 +207,5 @@ public class ControlTowerGame extends GameApplication {
         if (geti("time") == 0) {
             getDisplay().showMessageBox("Demo Over. You crashed total: " + getGameState().getInt("crashed") + " objects!", this::exit);
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

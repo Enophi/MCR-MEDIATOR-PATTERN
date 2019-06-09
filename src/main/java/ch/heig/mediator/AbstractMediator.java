@@ -17,9 +17,9 @@ import java.util.List;
  */
 public abstract class AbstractMediator {
 
-    private List<Entity> flyingObjects;
     protected List<Runway> runways;
     protected List<Animal> animals;
+    private List<Entity> flyingObjects;
 
     public AbstractMediator() {
         flyingObjects = new LinkedList<>();

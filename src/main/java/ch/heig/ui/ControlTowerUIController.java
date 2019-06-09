@@ -83,7 +83,9 @@ public class ControlTowerUIController implements UIController, StateListener {
         return labelWaiting;
     }
 
-    public Label getNbInAirstripOne() { return nbInAirstripOne; }
+    public Label getNbInAirstripOne() {
+        return nbInAirstripOne;
+    }
 
     public Label getNbInAirstripTwo() {
         return nbInAirstripTwo;

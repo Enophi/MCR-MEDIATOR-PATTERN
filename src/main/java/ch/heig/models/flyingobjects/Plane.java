@@ -1,4 +1,3 @@
-
 package ch.heig.models.flyingobjects;
 
 import com.almasb.fxgl.entity.component.Component;
