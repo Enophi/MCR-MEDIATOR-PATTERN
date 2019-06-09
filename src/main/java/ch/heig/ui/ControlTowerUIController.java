@@ -8,12 +8,25 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 public class ControlTowerUIController implements UIController, StateListener {
 
     @FXML
     private Pane root;
+
+    @FXML
+    private Circle timeIconBackground;
+
+    @FXML
+    private Circle timeIconForeground;
+
+    @FXML
+    private Circle weatherIconBackground;
+
+    @FXML
+    private Circle weatherIconForeground;
 
     @FXML
     private VBox playerBox;
@@ -73,6 +86,22 @@ public class ControlTowerUIController implements UIController, StateListener {
 
     @Override
     public void onUpdate(double tpf) {
+    }
+
+    public Circle getTimeIconBackground() {
+        return timeIconBackground;
+    }
+
+    public Circle getTimeIconForeground() {
+        return timeIconForeground;
+    }
+
+    public Circle getWeatherIconBackground() {
+        return weatherIconBackground;
+    }
+
+    public Circle getWeatherIconForeground() {
+        return weatherIconForeground;
     }
 
     public Label getLabelCrashed() {

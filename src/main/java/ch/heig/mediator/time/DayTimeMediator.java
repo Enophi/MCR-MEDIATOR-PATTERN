@@ -1,8 +1,11 @@
-package ch.heig.mediator;
+package ch.heig.mediator.time;
 
+import ch.heig.ui.ControlTowerUIController;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Aleksandar Milenkovic
@@ -10,16 +13,19 @@ import javafx.scene.paint.Color;
  * 15:47
  */
 
-public class DayMediator extends AbstractMediator {
+public class DayTimeMediator extends AbstractTimeMediator {
 
     private final int MAX_ON_ONE = 5;
     private final int MAX_ON_TWO = 15;
     private final int MAX_ON_FOUR = 3;
 
-    public DayMediator() {
+    private final Image dayIcon = new Image("assets/icons/sun.png");
+
+    public DayTimeMediator(ControlTowerUIController uiController) {
+        super(uiController);
     }
 
-    public DayMediator(AbstractMediator other) {
+    public DayTimeMediator(AbstractTimeMediator other) {
         super(other);
     }
 
@@ -62,5 +68,10 @@ public class DayMediator extends AbstractMediator {
                 FXGL.getGameState().setValue("playerNotif", String.format("%d close!", piste));
                 break;
         }
+    }
+
+    @Override
+    protected Image getTimeIconImage() {
+        return dayIcon;
     }
 }

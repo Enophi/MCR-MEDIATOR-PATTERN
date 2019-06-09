@@ -1,7 +1,8 @@
-package ch.heig.mediator;
+package ch.heig.mediator.time;
 
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 /**
@@ -9,9 +10,11 @@ import javafx.scene.paint.Color;
  * 08.05.2019
  * 15:48
  */
-public class NightMediator extends AbstractMediator {
+public class NightTimeMediator extends AbstractTimeMediator {
 
-    public NightMediator(AbstractMediator other) {
+    private final Image nightIcon = new Image("assets/icons/moon.png");
+
+    public NightTimeMediator(AbstractTimeMediator other) {
         super(other);
     }
 
@@ -35,5 +38,10 @@ public class NightMediator extends AbstractMediator {
                 FXGL.getGameState().setValue("playerNotif", String.format("%d close!", piste));
                 break;
         }
+    }
+
+    @Override
+    protected Image getTimeIconImage() {
+        return nightIcon;
     }
 }

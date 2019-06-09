@@ -1,6 +1,6 @@
 package ch.heig.models.flyingobjects.shared;
 
-import ch.heig.mediator.AbstractMediator;
+import ch.heig.mediator.time.AbstractTimeMediator;
 import com.almasb.fxgl.entity.component.Component;
 
 /**
@@ -12,13 +12,13 @@ import com.almasb.fxgl.entity.component.Component;
  * mouvement de la souris directement dans UI
  */
 public class FlyingObject extends Component implements FlyingObjectMediator {
-    private AbstractMediator _mediator;
+    private AbstractTimeMediator _mediator;
 
     /**
      * Constructer
      * @param mediator médiateur
      */
-    public FlyingObject(AbstractMediator mediator) {
+    public FlyingObject(AbstractTimeMediator mediator) {
         _mediator = mediator;
     }
 
@@ -44,7 +44,7 @@ public class FlyingObject extends Component implements FlyingObjectMediator {
      * @param mediator médiateur
      */
     @Override
-    public void setMediator(AbstractMediator mediator) {
+    public void setMediator(AbstractTimeMediator mediator) {
         _mediator = mediator;
     }
 

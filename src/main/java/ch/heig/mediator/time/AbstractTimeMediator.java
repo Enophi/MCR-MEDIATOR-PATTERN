@@ -1,9 +1,13 @@
-package ch.heig.mediator;
+package ch.heig.mediator.time;
 
+import ch.heig.ControlTowerGame;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.AbstractRunway;
+import ch.heig.ui.ControlTowerUIController;
 import com.almasb.fxgl.entity.Entity;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,19 +17,22 @@ import java.util.List;
  * 08.05.2019
  * 15:46
  */
-public abstract class AbstractMediator {
+public abstract class AbstractTimeMediator {
 
     private List<Entity> flyingObjects;
     private List<AbstractRunway> landingRunways;
+    protected ControlTowerUIController uiController;
 
-    public AbstractMediator() {
-        flyingObjects = new LinkedList<>();
-        landingRunways = new LinkedList<>();
+    public AbstractTimeMediator(ControlTowerUIController uiController) {
+        this.flyingObjects = new LinkedList<>();
+        this.landingRunways = new LinkedList<>();
+        this.uiController = uiController;
     }
 
-    AbstractMediator(AbstractMediator other) {
+    AbstractTimeMediator(AbstractTimeMediator other) {
         this.flyingObjects = new LinkedList<>(other.flyingObjects);
         this.landingRunways = new LinkedList<>(other.landingRunways);
+        this.uiController = other.getUiController();
     }
 
     /**
@@ -56,4 +63,14 @@ public abstract class AbstractMediator {
     public abstract Color getBackgroundColor();
 
     public abstract void askToLand(Entity e, int piste);
+
+    public ControlTowerUIController getUiController() {
+        return uiController;
+    }
+
+    public void setTimeIcon() {
+        uiController.getTimeIconForeground().setFill(new ImagePattern(getTimeIconImage()));
+    }
+
+    protected abstract Image getTimeIconImage();
 }

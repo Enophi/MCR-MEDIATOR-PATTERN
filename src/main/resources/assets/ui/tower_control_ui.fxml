@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
-
 <Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
+        <Circle fx:id="timeIconBackground" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fx:id="timeIconForeground" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fx:id="weatherIconBackground" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fx:id="weatherIconForeground" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
         <Label fx:id="nbInAirstripOne" layoutX="30.0" layoutY="551.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #95a5a6;" text="#N" textFill="WHITE">
             <font>
                 <Font size="24.0" />
