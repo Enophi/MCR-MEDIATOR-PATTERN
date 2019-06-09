@@ -1,6 +1,5 @@
 package ch.heig.mediator;
 
-import ch.heig.models.runways.Runway;
 import javafx.scene.paint.Color;
 
 /**
@@ -21,12 +20,6 @@ public class DayMediator extends AbstractMediator {
     @Override
     public Color getBackgroundColor() {
         return Color.rgb(38, 195, 219);
-    }
-
-    @Override
-    public void setOpenedRunways() {
-        for (Runway runway : runways)
-            runway.setOpen(true);
     }
 
 }

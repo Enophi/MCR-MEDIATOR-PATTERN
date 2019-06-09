@@ -10,6 +10,8 @@ import ch.heig.models.runways.PlaneRunway;
 import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
+import ch.heig.ui.TowerControlType;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.Entity;
@@ -26,22 +28,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static ch.heig.utils.Rand.getRandomBool;
+import static ch.heig.utils.Rand.getRandomInt;
 import static com.almasb.fxgl.app.DSLKt.*;
 
 public class ControlTowerGame extends GameApplication {
 
+    private static final int MIN = 3;
+    private static final int MAX = 10;
+
     private AbstractMediator mediator;
-    private List<Runway> runways = new ArrayList<>();
+    private List<Runway> runways = new ArrayList<>(5);
 
     public ControlTowerGame() {
         // Init the game with the DayMediator
         mediator = new DayMediator();
 
-        for (int i = 0; i < 3; i++)
-            runways.add(new PlaneRunway(0, true, mediator));
+        runways.add(0, new PlaneRunway("runway_1", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
+        runways.add(1, new PlaneRunway("runway_2", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
+        runways.add(2, new PlaneRunway("runway_3", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
+        runways.add(3, new ChopperRunway("runway_4", getRandomInt(MIN, MAX), TowerControlType.CHOPPER, getRandomBool(), mediator));
+        runways.add(4, new ChopperRunway("runway_5", getRandomInt(MIN, MAX), TowerControlType.CHOPPER, getRandomBool(), mediator));
 
-        for (int i = 0; i < 2; i++)
-            runways.add(new ChopperRunway(0, true, mediator));
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
     public AbstractMediator getmediator() {
@@ -64,8 +76,11 @@ public class ControlTowerGame extends GameApplication {
         vars.put("waiting", 0);
         vars.put("crashed", 0);
 
-        for (Runway runway : runways)
-            vars.put("runway_" + runway.getID(), runway.getSpaces());
+        for (Runway runway : runways) {
+            vars.put(runway.toString(), runway.getSpaces());
+            vars.put(runway.toString() + "_open", mediator.isOpenRunway(runway));
+            vars.put(runway.toString() + "_places", 0);
+        }
 
         vars.put("playerNotif", "Alert:");
 
@@ -84,25 +99,29 @@ public class ControlTowerGame extends GameApplication {
         uiController.getLabelWaiting().textProperty().bind(getip("waiting").asString("Score: [%d]"));
         uiController.getLabelCrashed().textProperty().bind(getip("crashed").asString("Crashed: [%d]"));
 
-        for (Runway runway : runways)
-            uiController.getNbInAirstripOne().textProperty().bind(getip("runway_" + runway.getID()).asString("Strip #" + runway.getID() + ": [%d]"));
+        uiController.getNbInAirstripOne().textProperty().bind(getip("runway_1_places").asString("Strip #1 : [%d]"));
+        uiController.getNbInAirstripTwo().textProperty().bind(getip("runway_2_places").asString("Strip #2 : [%d]"));
+        uiController.getNbInAirstripThree().textProperty().bind(getip("runway_3_places").asString("Strip #3 : [%d]"));
+        uiController.getNbInAirstripFour().textProperty().bind(getip("runway_4_places").asString("Strip #4 : [%d]"));
+        uiController.getNbInAirstripFive().textProperty().bind(getip("runway_5_places").asString("Strip #5 : [%d]"));
 
         uiController.getPlayerNotif().textProperty().bind(getsp("playerNotif"));
 
         // Bind visible property day
-        uiController.getNbInAirstripOne().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getNbInAirstripTwo().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getNbInAirstripFive().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getChopper2().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getNbInAirstripOne().visibleProperty().bind(getGameState().booleanProperty("runway_1_open"));
+        uiController.getNbInAirstripTwo().visibleProperty().bind(getGameState().booleanProperty("runway_2_open"));
+        uiController.getNbInAirstripThree().visibleProperty().bind(getGameState().booleanProperty("runway_3_open"));
 
-        // Bind visible property night
-        uiController.getNbInAirstripThree().visibleProperty().bind(getGameState().booleanProperty("day").not());
-        uiController.getNbInAirstripFour().visibleProperty().bind(getGameState().booleanProperty("day").not());
-        uiController.getChopper1().visibleProperty().bind(getGameState().booleanProperty("day").not());
+        // Chopper 1
+        uiController.getNbInAirstripFour().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));
+        uiController.getChopper1().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));
+
+        // Chopper 2
+        uiController.getChopper2().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));
+        uiController.getNbInAirstripFive().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));
 
         getGameScene().addUI(ui);
         getGameScene().setBackgroundColor(mediator.getBackgroundColor());
-        mediator.setOpenedRunways();
 
         // Compteur durée de la partie
         Text timerText = getUIFactory().newText("", Color.WHITE, 28);
@@ -163,11 +182,25 @@ public class ControlTowerGame extends GameApplication {
                 getGameState().setValue("day", true);
             }
 
+
             // Notify all colleagues of the mediator change
             mediator.updateAllCollegues();
 
             getGameScene().setBackgroundColor(mediator.getBackgroundColor());
-        }, Duration.seconds(20));
+        }, Duration.seconds(30));
+
+        // Update opened runways
+        run(() -> {
+            for (int i = 0; i < runways.size(); i++)
+                getGameState().setValue("runway_" + (i + 1) + "_open", runways.get(i).setOpen(getRandomBool()));
+        }, Duration.seconds(getRandomInt(10, 30)));
+
+        // Remove planes on runways
+        run(() -> {
+            for (int i = 0; i < runways.size(); i++)
+                if (FXGL.getGameState().getInt("runway_" + (i + 1) + "_places") > 0)
+                    FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -getRandomInt(0, 1));
+        }, Duration.seconds(getRandomInt(1, 10)));
 
         // Timer jeu
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));
@@ -183,9 +216,5 @@ public class ControlTowerGame extends GameApplication {
         if (geti("time") == 0) {
             getDisplay().showMessageBox("Demo Over. You crashed total: " + getGameState().getInt("crashed") + " objects!", this::exit);
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

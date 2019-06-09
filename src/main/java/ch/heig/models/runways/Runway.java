@@ -8,43 +8,42 @@
 package ch.heig.models.runways;
 
 import ch.heig.mediator.AbstractMediator;
+import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.entity.component.Component;
+
+import static ch.heig.utils.Rand.getRandomBool;
 
 public abstract class Runway extends Component {
 
-    private static int nextID = 1;
-
+    private final String identifier;
+    private final int spaces;
+    private final TowerControlType type;
     private AbstractMediator mediator;
-    private final int ID;
-    private int spaces;
-    private boolean isOpen;
 
-    public Runway(int spaces, boolean isOpen, AbstractMediator mediator) {
-        this.ID = nextID++;
+    public Runway(String identifier, int spaces, TowerControlType type, AbstractMediator mediator) {
+        this.identifier = identifier;
         this.spaces = spaces;
-        this.isOpen = isOpen;
+        this.type = type;
         this.mediator = mediator;
-        mediator.selfAnnounce(this);
-    }
-
-    public int getID() {
-        return ID;
+        this.setOpen(getRandomBool());
     }
 
     public int getSpaces() {
         return spaces;
     }
 
-    public void setSpaces(int spaces) {
-        this.spaces = spaces;
+    public TowerControlType getType() {
+        return type;
     }
 
-    public boolean isOpen() {
-        return isOpen;
-    }
-
-    public void setOpen(boolean open) {
-        isOpen = open;
+    public boolean setOpen(boolean open) {
+        if (open) {
+            mediator.selfAnnounce(this);
+            return true;
+        } else {
+            mediator.selfDestroy(this);
+            return false;
+        }
     }
 
     public AbstractMediator getMediator() {
@@ -53,5 +52,10 @@ public abstract class Runway extends Component {
 
     public void setMediator(AbstractMediator mediator) {
         this.mediator = mediator;
+    }
+
+    @Override
+    public String toString() {
+        return identifier;
     }
 }

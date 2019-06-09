@@ -99,12 +99,12 @@ public class ControlTowerUIController implements UIController, StateListener {
         return nbInAirstripFour;
     }
 
-    public Polygon getChopper1() {
-        return chopper1;
-    }
-
     public Label getNbInAirstripFive() {
         return nbInAirstripFive;
+    }
+
+    public Polygon getChopper1() {
+        return chopper1;
     }
 
     public Polygon getChopper2() {

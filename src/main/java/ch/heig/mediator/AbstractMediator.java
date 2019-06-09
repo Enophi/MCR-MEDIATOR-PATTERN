@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * created by Aleksandar Milenkovic
@@ -18,13 +17,11 @@ import java.util.Random;
  */
 public abstract class AbstractMediator {
 
-    private List<Entity> flyingObjects;
     protected List<Runway> runways;
     protected List<Animal> animals;
-    private Random random;
+    private List<Entity> flyingObjects;
 
     public AbstractMediator() {
-        random = new Random();
         flyingObjects = new LinkedList<>();
         runways = new LinkedList<>();
         animals = new LinkedList<>();
@@ -36,9 +33,6 @@ public abstract class AbstractMediator {
         this.animals = new LinkedList<>(other.animals);
     }
 
-    public boolean getRandomBoolean() {
-        return random.nextBoolean();
-    }
 
     /**
      * Announce to the mediator
@@ -105,20 +99,28 @@ public abstract class AbstractMediator {
 
     public void askToLand(Entity e, Runway runway) {
 
-        if (runway.isOpen()) {
-            String property = "runway_" + runway.getID();
-            if (FXGL.getGameState().getInt(property) < runway.getSpaces()) {
-                FXGL.getGameState().increment(property, 1);
-                e.removeFromWorld();
-            } else {
-                FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d is full !", runway));
-            }
+        if (!runways.contains(runway)) {
+            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s closed", runway.toString().split("_")[1]));
+            return;
+        }
+
+        if (runway.getType() != e.getComponent(FlyingObject.class).getEntity().getType()) {
+            FXGL.getGameState().setValue("playerNotif", "Landing Strip incompatible");
+            return;
+        }
+
+        if (FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
+            FXGL.getGameState().increment(runway.toString() + "_places", 1);
+            e.removeFromWorld();
         } else {
-            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%d closed", runway));
+            FXGL.getGameState().setValue("playerNotif", String.format("Wait! Landing Strip #%s is full", runway.toString().split("_")[1]));
         }
 
     }
 
+    public Object isOpenRunway(Runway runway) {
+        return runways.contains(runway);
+    }
+
     public abstract Color getBackgroundColor();
-    public abstract void setOpenedRunways();
 }
