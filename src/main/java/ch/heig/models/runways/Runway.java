@@ -8,18 +8,21 @@
 package ch.heig.models.runways;
 
 import ch.heig.mediator.AbstractMediator;
+import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.entity.component.Component;
 
 public abstract class Runway extends Component {
 
     private final String identifier;
-    private int spaces;
+    private final int spaces;
+    private final TowerControlType type;
     private boolean isOpen;
     private AbstractMediator mediator;
 
-    public Runway(String identifier, int spaces, boolean isOpen, AbstractMediator mediator) {
+    public Runway(String identifier, int spaces, TowerControlType type, boolean isOpen, AbstractMediator mediator) {
         this.identifier = identifier;
         this.spaces = spaces;
+        this.type = type;
         this.isOpen = isOpen;
         this.mediator = mediator;
         mediator.selfAnnounce(this);
@@ -29,8 +32,8 @@ public abstract class Runway extends Component {
         return spaces;
     }
 
-    public void setSpaces(int spaces) {
-        this.spaces = spaces;
+    public TowerControlType getType() {
+        return type;
     }
 
     public boolean isOpen() {

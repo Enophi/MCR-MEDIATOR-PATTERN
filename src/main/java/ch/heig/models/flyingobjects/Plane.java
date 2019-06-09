@@ -1,5 +1,6 @@
 package ch.heig.models.flyingobjects;
 
+import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.entity.component.Component;
 
 /**
@@ -11,12 +12,18 @@ import com.almasb.fxgl.entity.component.Component;
  */
 public class Plane extends Component {
 
-    @Override
-    public void onUpdate(double tpf) {
-        super.onUpdate(tpf);
+    private final static TowerControlType TYPE = TowerControlType.PLANE;
+
+    public static TowerControlType getTYPE() {
+        return TYPE;
     }
 
     public String identifier() {
         return "Plane #123";
+    }
+
+    @Override
+    public void onUpdate(double tpf) {
+        super.onUpdate(tpf);
     }
 }

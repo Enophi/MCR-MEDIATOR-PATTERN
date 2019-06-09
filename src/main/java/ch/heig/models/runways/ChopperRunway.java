@@ -8,10 +8,11 @@
 package ch.heig.models.runways;
 
 import ch.heig.mediator.AbstractMediator;
+import ch.heig.ui.TowerControlType;
 
 public class ChopperRunway extends Runway {
 
-    public ChopperRunway(String identifier, int spaces, boolean isOpen, AbstractMediator mediator) {
-        super(identifier, spaces, isOpen, mediator);
+    public ChopperRunway(String identifier, int spaces, TowerControlType type, boolean isOpen, AbstractMediator mediator) {
+        super(identifier, spaces, type, isOpen, mediator);
     }
 }

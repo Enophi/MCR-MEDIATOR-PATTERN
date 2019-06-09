@@ -10,6 +10,8 @@ import ch.heig.models.runways.PlaneRunway;
 import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
+import ch.heig.ui.TowerControlType;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.Entity;
@@ -42,11 +44,11 @@ public class ControlTowerGame extends GameApplication {
         // Init the game with the DayMediator
         mediator = new DayMediator();
 
-        runways.add(0, new PlaneRunway("runway_1", getRandomInt(MIN, MAX), getRandomBool(), mediator));
-        runways.add(1, new PlaneRunway("runway_2", getRandomInt(MIN, MAX), getRandomBool(), mediator));
-        runways.add(2, new PlaneRunway("runway_3", getRandomInt(MIN, MAX), getRandomBool(), mediator));
-        runways.add(3, new ChopperRunway("runway_4", getRandomInt(MIN, MAX), getRandomBool(), mediator));
-        runways.add(4, new ChopperRunway("runway_5", getRandomInt(MIN, MAX), getRandomBool(), mediator));
+        runways.add(0, new PlaneRunway("runway_1", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
+        runways.add(1, new PlaneRunway("runway_2", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
+        runways.add(2, new PlaneRunway("runway_3", getRandomInt(MIN, MAX), TowerControlType.PLANE, getRandomBool(), mediator));
+        runways.add(3, new ChopperRunway("runway_4", getRandomInt(MIN, MAX), TowerControlType.CHOPPER, getRandomBool(), mediator));
+        runways.add(4, new ChopperRunway("runway_5", getRandomInt(MIN, MAX), TowerControlType.CHOPPER, getRandomBool(), mediator));
 
     }
 
@@ -185,13 +187,20 @@ public class ControlTowerGame extends GameApplication {
             mediator.updateAllCollegues();
 
             getGameScene().setBackgroundColor(mediator.getBackgroundColor());
-        }, Duration.seconds(20));
+        }, Duration.seconds(30));
 
+        // Update opened runways
         run(() -> {
             for (int i = 0; i < runways.size(); i++)
                 getGameState().setValue("runway_" + (i + 1) + "_open", runways.get(i).setOpen(getRandomBool()));
-        }, Duration.seconds(30));
+        }, Duration.seconds(getRandomInt(10, 30)));
 
+        // Remove planes on runways
+        run(() -> {
+            for (int i = 0; i < runways.size(); i++)
+                if (FXGL.getGameState().getInt("runway_" + (i + 1) + "_places") > 0)
+                    FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -getRandomInt(0, 1));
+        }, Duration.seconds(getRandomInt(1, 10)));
 
         // Timer jeu
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));

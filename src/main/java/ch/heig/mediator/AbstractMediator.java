@@ -3,6 +3,7 @@ package ch.heig.mediator;
 import ch.heig.models.animals.Animal;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.Runway;
+import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
@@ -99,15 +100,21 @@ public abstract class AbstractMediator {
 
     public void askToLand(Entity e, Runway runway) {
 
-        if (runway.isOpen()) {
-            if (FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
-                FXGL.getGameState().increment(runway.toString() + "_places", 1);
-                e.removeFromWorld();
-            } else {
-                FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s is full !", runway.toString().split("_")[1]));
-            }
-        } else {
+        if (!runway.isOpen()) {
             FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s closed", runway.toString().split("_")[1]));
+            return;
+        }
+
+        if (runway.getType() != e.getComponent(FlyingObject.class).getEntity().getType()) {
+            FXGL.getGameState().setValue("playerNotif", "Landing Strip incompatible");
+            return;
+        }
+
+        if (FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
+            FXGL.getGameState().increment(runway.toString() + "_places", 1);
+            e.removeFromWorld();
+        } else {
+            FXGL.getGameState().setValue("playerNotif", String.format("Wait! Landing Strip #%s is full", runway.toString().split("_")[1]));
         }
 
     }
