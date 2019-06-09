@@ -78,7 +78,7 @@ public class ControlTowerGame extends GameApplication {
 
         for (Runway runway : runways) {
             vars.put(runway.toString(), runway.getSpaces());
-            vars.put(runway.toString() + "_open", runway.isOpen());
+            vars.put(runway.toString() + "_open", mediator.isOpenRunway(runway));
             vars.put(runway.toString() + "_places", 0);
         }
 

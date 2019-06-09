@@ -3,7 +3,6 @@ package ch.heig.mediator;
 import ch.heig.models.animals.Animal;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.Runway;
-import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
@@ -100,7 +99,7 @@ public abstract class AbstractMediator {
 
     public void askToLand(Entity e, Runway runway) {
 
-        if (!runway.isOpen()) {
+        if (!runways.contains(runway)) {
             FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s closed", runway.toString().split("_")[1]));
             return;
         }
@@ -117,6 +116,10 @@ public abstract class AbstractMediator {
             FXGL.getGameState().setValue("playerNotif", String.format("Wait! Landing Strip #%s is full", runway.toString().split("_")[1]));
         }
 
+    }
+
+    public Object isOpenRunway(Runway runway) {
+        return runways.contains(runway);
     }
 
     public abstract Color getBackgroundColor();

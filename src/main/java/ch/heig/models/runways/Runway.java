@@ -11,21 +11,21 @@ import ch.heig.mediator.AbstractMediator;
 import ch.heig.ui.TowerControlType;
 import com.almasb.fxgl.entity.component.Component;
 
+import static ch.heig.utils.Rand.getRandomBool;
+
 public abstract class Runway extends Component {
 
     private final String identifier;
     private final int spaces;
     private final TowerControlType type;
-    private boolean isOpen;
     private AbstractMediator mediator;
 
-    public Runway(String identifier, int spaces, TowerControlType type, boolean isOpen, AbstractMediator mediator) {
+    public Runway(String identifier, int spaces, TowerControlType type, AbstractMediator mediator) {
         this.identifier = identifier;
         this.spaces = spaces;
         this.type = type;
-        this.isOpen = isOpen;
         this.mediator = mediator;
-        mediator.selfAnnounce(this);
+        this.setOpen(getRandomBool());
     }
 
     public int getSpaces() {
@@ -36,13 +36,14 @@ public abstract class Runway extends Component {
         return type;
     }
 
-    public boolean isOpen() {
-        return isOpen;
-    }
-
     public boolean setOpen(boolean open) {
-        this.isOpen = open;
-        return isOpen;
+        if (open) {
+            mediator.selfAnnounce(this);
+            return true;
+        } else {
+            mediator.selfDestroy(this);
+            return false;
+        }
     }
 
     public AbstractMediator getMediator() {
