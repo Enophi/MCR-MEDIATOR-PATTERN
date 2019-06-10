@@ -1,7 +1,9 @@
 package ch.heig.mediator;
 
+import ch.heig.models.animals.Animal;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
-import ch.heig.models.runways.AbstractRunway;
+import ch.heig.models.runways.Runway;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
 
@@ -15,18 +17,22 @@ import java.util.List;
  */
 public abstract class AbstractMediator {
 
+    protected List<Runway> runways;
+    protected List<Animal> animals;
     private List<Entity> flyingObjects;
-    private List<AbstractRunway> landingRunways;
 
     public AbstractMediator() {
         flyingObjects = new LinkedList<>();
-        landingRunways = new LinkedList<>();
+        runways = new LinkedList<>();
+        animals = new LinkedList<>();
     }
 
     AbstractMediator(AbstractMediator other) {
         this.flyingObjects = new LinkedList<>(other.flyingObjects);
-        this.landingRunways = new LinkedList<>(other.landingRunways);
+        this.runways = new LinkedList<>(other.runways);
+        this.animals = new LinkedList<>(other.animals);
     }
+
 
     /**
      * Announce to the mediator
@@ -47,13 +53,74 @@ public abstract class AbstractMediator {
     }
 
     /**
+     * Announce to the mediator
+     *
+     * @param r The runway which announce
+     */
+    public void selfAnnounce(Runway r) {
+        this.runways.add(r);
+    }
+
+    /**
+     * Remove the game runway of the list
+     *
+     * @param r The runway to remove
+     */
+    public void selfDestroy(Runway r) {
+        this.runways.remove(r);
+    }
+
+    /**
+     * Announce to the mediator
+     *
+     * @param a The animal which announce
+     */
+    public void selfAnnounce(Animal a) {
+        this.animals.add(a);
+    }
+
+    /**
+     * Remove the game entity of the list
+     *
+     * @param a The animal to remove
+     */
+    public void selfDestroy(Animal a) {
+        this.animals.remove(a);
+    }
+
+    /**
      * Update all colleagues of the mediator change
      */
     public void updateAllCollegues() {
         this.flyingObjects.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
+        this.runways.forEach((Runway r) -> r.setMediator(this));
+        // this.runways.forEach((Animal a) -> a.setMediator(this));
+    }
+
+    public void askToLand(Entity e, Runway runway) {
+
+        if (!runways.contains(runway)) {
+            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s closed", runway.toString().split("_")[1]));
+            return;
+        }
+
+        if (runway.getType() != e.getComponent(FlyingObject.class).getEntity().getType()) {
+            FXGL.getGameState().setValue("playerNotif", "Landing Strip incompatible");
+            return;
+        }
+
+        if (FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
+            FXGL.getGameState().increment(runway.toString() + "_places", 1);
+            e.removeFromWorld();
+        } else {
+            FXGL.getGameState().setValue("playerNotif", String.format("Wait! Landing Strip #%s is full", runway.toString().split("_")[1]));
+        }
+
+    }
+
+    public Object isOpenRunway(Runway runway) {
+        return runways.contains(runway);
     }
 
     public abstract Color getBackgroundColor();
-
-    public abstract void askToLand(Entity e, int piste);
 }

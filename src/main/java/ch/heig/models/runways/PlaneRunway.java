@@ -1,17 +1,19 @@
 /**
- * created by Aleksandar Milenkovic
- * 08.05.2019
- * 16:21
+ * A runway dedicated to planes
+ *
+ * @author Thibaud ALT
+ * @version 1.0
  */
 
 package ch.heig.models.runways;
 
-public class PlaneRunway extends AbstractRunway {
-    public PlaneRunway() {
+import ch.heig.mediator.AbstractMediator;
+import ch.heig.ui.TowerControlType;
+
+public class PlaneRunway extends Runway {
+
+    public PlaneRunway(String identifier, int spaces, AbstractMediator mediator) {
+        super(identifier, spaces, TowerControlType.PLANE, mediator);
     }
 
-    @Override
-    public void clean() {
-
-    }
 }

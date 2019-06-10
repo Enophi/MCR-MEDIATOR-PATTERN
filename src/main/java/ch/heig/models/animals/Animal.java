@@ -6,6 +6,9 @@
 
 package ch.heig.models.animals;
 
+import ch.heig.mediator.AbstractMediator;
+
 public abstract class Animal {
 
+    public abstract Object setMediator(AbstractMediator mediator);
 }
