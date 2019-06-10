@@ -13,9 +13,9 @@ import javafx.scene.paint.ImagePattern;
 
 public class CloudyWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image cloudyIcon = new Image("assets/icons/cloud.png");
-    private final Image cloudyBackground = new Image("assets/textures/cloudy.png");
-    private final ImagePattern cloudyImagePattern = new ImagePattern(cloudyBackground);
+    private static final Image cloudyIcon = new Image("assets/icons/cloud.png");
+    private static final Image cloudyBackground = new Image("assets/textures/cloudy.png");
+    private static final ImagePattern cloudyImagePattern = new ImagePattern(cloudyBackground);
 
     public CloudyWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -29,6 +29,11 @@ public class CloudyWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected Image getWeatherBackgroundImage() {
         return cloudyBackground;
+    }
+
+    @Override
+    protected ImagePattern getWeatherImagePattern() {
+        return cloudyImagePattern;
     }
 
     @Override

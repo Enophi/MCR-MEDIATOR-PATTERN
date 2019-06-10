@@ -32,10 +32,12 @@ public abstract class AbstractWeatherMediator {
     protected abstract Image getWeatherIconImage();
 
     public void setWeatherBackground() {
-        game.setWeatherBackground(getWeatherBackgroundImage());
+        game.setWeatherBackground(getWeatherImagePattern());
     }
 
     protected abstract Image getWeatherBackgroundImage();
+
+    protected abstract ImagePattern getWeatherImagePattern();
 
     protected abstract int getMinDuration();
     protected abstract int getMaxDuration();

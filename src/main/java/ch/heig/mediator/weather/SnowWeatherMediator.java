@@ -13,9 +13,9 @@ import javafx.scene.paint.ImagePattern;
 
 public class SnowWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image snowIcon = new Image("assets/icons/snow.png");
-    private final Image snowBackground = new Image("assets/textures/snow.gif");
-    private final ImagePattern snowImagePattern = new ImagePattern(snowBackground);
+    private static final Image snowIcon = new Image("assets/icons/snow.png");
+    private static final Image snowBackground = new Image("assets/textures/snow.gif");
+    private static final ImagePattern snowImagePattern = new ImagePattern(snowBackground);
 
     public SnowWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -29,6 +29,11 @@ public class SnowWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected Image getWeatherBackgroundImage() {
         return snowBackground;
+    }
+
+    @Override
+    protected ImagePattern getWeatherImagePattern() {
+        return snowImagePattern;
     }
 
     @Override

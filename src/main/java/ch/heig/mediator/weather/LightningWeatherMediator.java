@@ -13,9 +13,9 @@ import javafx.scene.paint.ImagePattern;
 
 public class LightningWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image lightningIcon = new Image("assets/icons/flash.png");
-    private final Image lightningBackground = new Image("assets/textures/lightning.gif");
-    private final ImagePattern lightningImagePattern = new ImagePattern(lightningBackground);
+    private static final Image lightningIcon = new Image("assets/icons/flash.png");
+    private static final Image lightningBackground = new Image("assets/textures/lightning.gif");
+    private static final ImagePattern lightningImagePattern = new ImagePattern(lightningBackground);
 
     public LightningWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -29,6 +29,11 @@ public class LightningWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected Image getWeatherBackgroundImage() {
         return lightningBackground;
+    }
+
+    @Override
+    protected ImagePattern getWeatherImagePattern() {
+        return lightningImagePattern;
     }
 
     @Override

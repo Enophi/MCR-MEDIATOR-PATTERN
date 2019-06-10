@@ -13,9 +13,9 @@ import javafx.scene.paint.ImagePattern;
 
 public class HurricaneWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image hurricaneIcon = new Image("assets/icons/hurricane.png");
-    private final Image hurricaneBackground = new Image("assets/textures/hurricane.gif");
-    private final ImagePattern hurricaneImagePattern = new ImagePattern(hurricaneBackground);
+    private static final Image hurricaneIcon = new Image("assets/icons/hurricane.png");
+    private static final Image hurricaneBackground = new Image("assets/textures/hurricane.gif");
+    private static final ImagePattern hurricaneImagePattern = new ImagePattern(hurricaneBackground);
 
     public HurricaneWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -29,6 +29,11 @@ public class HurricaneWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected Image getWeatherBackgroundImage() {
         return hurricaneBackground;
+    }
+
+    @Override
+    protected ImagePattern getWeatherImagePattern() {
+        return hurricaneImagePattern;
     }
 
     @Override

@@ -13,9 +13,9 @@ import javafx.scene.paint.ImagePattern;
 
 public class RainWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image rainIcon = new Image("assets/icons/rain.png");
-    private final Image rainBackground = new Image("assets/textures/rain.gif");
-    private final ImagePattern rainImagePattern = new ImagePattern(rainBackground);
+    private static final Image rainIcon = new Image("assets/icons/rain.png");
+    private static final Image rainBackground = new Image("assets/textures/rain.gif");
+    private static final ImagePattern rainImagePattern = new ImagePattern(rainBackground);
 
     public RainWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -29,6 +29,11 @@ public class RainWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected Image getWeatherBackgroundImage() {
         return rainBackground;
+    }
+
+    @Override
+    protected ImagePattern getWeatherImagePattern() {
+        return rainImagePattern;
     }
 
 

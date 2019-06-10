@@ -13,9 +13,9 @@ import javafx.scene.paint.ImagePattern;
 
 public class FogWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image fogIcon = new Image("assets/icons/fog.png");
-    private final Image fogBackground = new Image("assets/textures/fog.png");
-    private final ImagePattern fogImagePattern = new ImagePattern(fogBackground);
+    private static final Image fogIcon = new Image("assets/icons/fog.png");
+    private static final Image fogBackground = new Image("assets/textures/fog.png");
+    private static final ImagePattern fogImagePattern = new ImagePattern(fogBackground);
 
     public FogWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -29,6 +29,11 @@ public class FogWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected Image getWeatherBackgroundImage() {
         return fogBackground;
+    }
+
+    @Override
+    protected ImagePattern getWeatherImagePattern() {
+        return fogImagePattern;
     }
 
     @Override

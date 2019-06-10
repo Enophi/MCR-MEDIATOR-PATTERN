@@ -13,9 +13,9 @@ import javafx.scene.paint.ImagePattern;
 
 public class NormalWeatherMediator extends AbstractWeatherMediator {
 
-    private final Image normalIcon = new Image("assets/icons/normal.png");
-    private final Image normalBackground = new Image("assets/textures/blank.png");
-    private final ImagePattern normalImagePattern = new ImagePattern(normalBackground);
+    private static final Image normalIcon = new Image("assets/icons/normal.png");
+    private static final Image normalBackground = new Image("assets/textures/blank.png");
+    private static final ImagePattern normalImagePattern = new ImagePattern(normalBackground);
 
     public NormalWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
@@ -29,6 +29,11 @@ public class NormalWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected Image getWeatherBackgroundImage() {
         return normalBackground;
+    }
+
+    @Override
+    protected ImagePattern getWeatherImagePattern() {
+        return normalImagePattern;
     }
 
     @Override

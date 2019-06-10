@@ -215,6 +215,7 @@ public class ControlTowerGame extends GameApplication {
                 .buildAndAttach(getGameWorld());
 
         run(() -> {
+            // Populate weather collection with different weights
             WeightedCollection<AbstractWeatherMediator> weatherCollection  = new WeightedCollection<>();
             weatherCollection.add(5, new NormalWeatherMediator(this, uiController));
             weatherCollection.add(5, new FogWeatherMediator(this, uiController));
@@ -235,8 +236,8 @@ public class ControlTowerGame extends GameApplication {
         }, Duration.seconds(weatherMediator.getDuration()));
     }
 
-    public void setWeatherBackground(Image weatherImage) {
-        weatherRectangle.setFill(new ImagePattern(weatherImage));
+    public void setWeatherBackground(ImagePattern weatherImagePattern) {
+        weatherRectangle.setFill(weatherImagePattern);
     }
 
     @Override
