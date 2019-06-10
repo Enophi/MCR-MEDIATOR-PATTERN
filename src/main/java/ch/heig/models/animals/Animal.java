@@ -10,7 +10,6 @@ package ch.heig.models.animals;
 import ch.heig.mediator.AbstractMediator;
 import com.almasb.fxgl.entity.component.Component;
 
-
 public abstract class Animal extends Component {
 
     private final String identifier;
@@ -34,4 +33,5 @@ public abstract class Animal extends Component {
     public String toString() {
         return identifier;
     }
+
 }
