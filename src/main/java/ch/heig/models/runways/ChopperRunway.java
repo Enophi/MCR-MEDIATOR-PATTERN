@@ -1,15 +1,18 @@
 /**
- * created by Aleksandar Milenkovic
- * 08.05.2019
- * 17:00
+ * A runway dedicated to choppers
+ *
+ * @author Thibaud ALT
+ * @version 1.0
  */
 
 package ch.heig.models.runways;
 
-public class ChopperRunway extends AbstractRunway {
+import ch.heig.mediator.time.AbstractTimeMediator;
+import ch.heig.ui.FlyingObjectType;
 
-    @Override
-    public void clean() {
+public class ChopperRunway extends Runway {
 
+    public ChopperRunway(String identifier, AbstractTimeMediator mediator) {
+        super(identifier, FlyingObjectType.CHOPPER, mediator);
     }
 }

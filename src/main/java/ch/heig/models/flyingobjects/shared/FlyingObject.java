@@ -1,6 +1,7 @@
 package ch.heig.models.flyingobjects.shared;
 
 import ch.heig.mediator.time.AbstractTimeMediator;
+import ch.heig.models.runways.Runway;
 import com.almasb.fxgl.entity.component.Component;
 
 /**
@@ -16,6 +17,7 @@ public class FlyingObject extends Component implements FlyingObjectMediator {
 
     /**
      * Constructer
+     *
      * @param mediator médiateur
      */
     public FlyingObject(AbstractTimeMediator mediator) {
@@ -24,10 +26,11 @@ public class FlyingObject extends Component implements FlyingObjectMediator {
 
     /**
      * Demande la permission d’atterrir à son médiateur
+     *
      * @param runway la piste d'atterrissage
      */
     @Override
-    public void askToLand(int runway) {
+    public void askToLand(Runway runway) {
         _mediator.askToLand(getEntity(), runway);
     }
 
@@ -41,6 +44,7 @@ public class FlyingObject extends Component implements FlyingObjectMediator {
 
     /**
      * Set le médiateur
+     *
      * @param mediator médiateur
      */
     @Override
@@ -50,6 +54,7 @@ public class FlyingObject extends Component implements FlyingObjectMediator {
 
     /**
      * Est appelé lorsqu’un objet est détruit
+     * On communique aussi au médiateur de supprimer l'objet
      */
     @Override
     public void onRemoved() {
