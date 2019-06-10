@@ -5,7 +5,6 @@ import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Aleksandar Milenkovic

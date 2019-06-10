@@ -1,6 +1,5 @@
 package ch.heig.mediator.time;
 
-import ch.heig.ControlTowerGame;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.AbstractRunway;
 import ch.heig.ui.ControlTowerUIController;
