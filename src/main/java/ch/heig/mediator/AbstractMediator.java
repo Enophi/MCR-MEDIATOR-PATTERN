@@ -1,18 +1,18 @@
 package ch.heig.mediator;
 
 import ch.heig.models.animals.Animal;
+import ch.heig.models.flyingobjects.Chopper;
+import ch.heig.models.flyingobjects.Ovni;
+import ch.heig.models.flyingobjects.Plane;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.Runway;
+import ch.heig.ui.FlyingObjectType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import static ch.heig.utils.Rand.getRandomInt;
-import static com.almasb.fxgl.app.DSLKt.run;
 
 /**
  * created by Aleksandar Milenkovic
@@ -20,6 +20,8 @@ import static com.almasb.fxgl.app.DSLKt.run;
  * 15:46
  */
 public abstract class AbstractMediator {
+    final double MAX_PROGRESS = 1.0;
+    final double PROGRESS_STEP = 0.1;
 
     protected List<Runway> runways;
     protected List<Animal> animals;
@@ -98,6 +100,24 @@ public abstract class AbstractMediator {
         this.flyingObjects.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
         this.runways.forEach((Runway r) -> r.setMediator(this));
         this.animals.forEach((Animal a) -> a.setMediator(this));
+    }
+
+    void autorhiseLanding(Entity e) {
+        FXGL.getGameState().setValue("playerNotif", String.format("Good game, authorized landing!!!"));
+        if (e.getType() == FlyingObjectType.PLANE) {
+            e.getComponent(Plane.class).onAllowLanding();
+        } else if (e.getType() == FlyingObjectType.CHOPPER) {
+            e.getComponent(Chopper.class).onAllowLanding();
+        } else {
+            e.getComponent(Ovni.class).onAllowLanding();
+        }
+    }
+
+    void setAlertRunvay(int piste, String msg) {
+        if (!msg.equals(""))
+            FXGL.getGameState().setValue("playerNotif", String.format("%s airstrip!!!", msg));
+        else
+            FXGL.getGameState().setValue("playerNotif", String.format("Airstrip %d full!!!", piste));
     }
 
     public void askToLand(Entity e, Runway runway) {
