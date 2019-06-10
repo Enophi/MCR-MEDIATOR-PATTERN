@@ -4,6 +4,9 @@ import ch.heig.factory.TowerControlFactory;
 import ch.heig.mediator.AbstractMediator;
 import ch.heig.mediator.DayMediator;
 import ch.heig.mediator.NightMediator;
+import ch.heig.models.animals.Bird;
+import ch.heig.models.animals.Duck;
+import ch.heig.models.animals.Pier;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.ChopperRunway;
 import ch.heig.models.runways.PlaneRunway;
@@ -27,27 +30,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static ch.heig.utils.Rand.getRandomBool;
 import static ch.heig.utils.Rand.getRandomInt;
 import static com.almasb.fxgl.app.DSLKt.*;
 
 public class ControlTowerGame extends GameApplication {
 
-    private static final int MIN = 3;
-    private static final int MAX = 10;
-
     private AbstractMediator mediator;
     private List<Runway> runways = new ArrayList<>(5);
+    private int index;
 
     public ControlTowerGame() {
         // Init the game with the DayMediator
         mediator = new DayMediator();
 
-        runways.add(0, new PlaneRunway("runway_1", getRandomInt(MIN, MAX), mediator));
-        runways.add(1, new PlaneRunway("runway_2", getRandomInt(MIN, MAX), mediator));
-        runways.add(2, new PlaneRunway("runway_3", getRandomInt(MIN, MAX), mediator));
-        runways.add(3, new ChopperRunway("runway_4", getRandomInt(MIN, MAX), mediator));
-        runways.add(4, new ChopperRunway("runway_5", getRandomInt(MIN, MAX), mediator));
+        runways.add(0, new ChopperRunway("runway_1", mediator));
+        runways.add(1, new PlaneRunway("runway_2", mediator));
+        runways.add(2, new PlaneRunway("runway_3", mediator));
+        runways.add(3, new PlaneRunway("runway_4", mediator));
+        runways.add(4, new ChopperRunway("runway_5", mediator));
 
     }
 
@@ -59,32 +59,33 @@ public class ControlTowerGame extends GameApplication {
         return mediator;
     }
 
+    public Runway getRunway() {
+        return runways.get(index);
+    }
+
     @Override
     protected void initSettings(GameSettings settings) {
         settings.setWidth(1280);
         settings.setHeight(720);
         settings.setTitle("FXGL Control Tower");
         settings.setVersion("1.0");
-        //settings.setProfilingEnabled(true); // statistique fps, etc...
     }
 
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("time", 120);
 
+        // Bounds for pop of animals
+        vars.put("start", 0);
+        vars.put("end", 2);
+
         vars.put("score", 0);
         vars.put("waiting", 0);
         vars.put("crashed", 0);
 
-        vars.put("nbInPOne", 0.0);
-        vars.put("nbInPTwo", 0.0);
-        vars.put("nbInPThree", 0.0);
-        vars.put("nbInCOne", 0.0);
-        vars.put("nbInCTwo", 0.0);
         for (Runway runway : runways) {
-            vars.put(runway.toString(), runway.getSpaces());
-            vars.put(runway.toString() + "_open", mediator.isOpenRunway(runway));
-            vars.put(runway.toString() + "_places", 0);
+            vars.put(runway.toString() + "_open", false);
+            vars.put(runway.toString() + "_places", 0.0);
         }
 
         vars.put("playerNotif", "Alert:");
@@ -104,37 +105,28 @@ public class ControlTowerGame extends GameApplication {
         uiController.getLabelWaiting().textProperty().bind(getip("waiting").asString("Waiting: [%d]"));
         uiController.getLabelCrashed().textProperty().bind(getip("crashed").asString("Crashed: [%d]"));
 
-        uiController.getNbInPlaneRunwayOne().progressProperty().bind(getdp("nbInPOne"));
-        uiController.getNbInPlaneRunwayTwo().progressProperty().bind(getdp("nbInPTwo"));
-        uiController.getNbInPlaneRunwayThree().progressProperty().bind(getdp("nbInPThree"));
-        uiController.getNbInChopperRunwayOne().progressProperty().bind(getdp("nbInCOne"));
-        uiController.getNbInChopperRunwayTwo().progressProperty().bind(getdp("nbInCTwo"));
+        uiController.getNbInPlaneRunwayOne().progressProperty().bind(getdp("runway_2_places"));
+        uiController.getNbInPlaneRunwayTwo().progressProperty().bind(getdp("runway_3_places"));
+        uiController.getNbInPlaneRunwayThree().progressProperty().bind(getdp("runway_4_places"));
+        uiController.getNbInChopperRunwayOne().progressProperty().bind(getdp("runway_1_places"));
+        uiController.getNbInChopperRunwayTwo().progressProperty().bind(getdp("runway_5_places"));
 
         uiController.getPlayerNotif().textProperty().bind(getsp("playerNotif"));
 
-        // Bind visible property day
-        uiController.getChopperRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getNbInChopperRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getChopperRunwayOne().visibleProperty().bind(getGameState().booleanProperty("runway_1_open"));
+        uiController.getNbInChopperRunwayOne().visibleProperty().bind(getGameState().booleanProperty("runway_1_open"));
 
-        uiController.getPlaneRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getNbInPlaneRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getPlaneRunwayOne().visibleProperty().bind(getGameState().booleanProperty("runway_2_open"));
+        uiController.getNbInPlaneRunwayOne().visibleProperty().bind(getGameState().booleanProperty("runway_2_open"));
 
-        uiController.getPlaneRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getNbInPlaneRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getPlaneRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("runway_3_open"));
+        uiController.getNbInPlaneRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("runway_3_open"));
 
-        // Bind visible property night
-        uiController.getPlaneRunwayThree().visibleProperty().bind(getGameState().booleanProperty("day").not());
-        uiController.getNbInPlaneRunwayThree().visibleProperty().bind(getGameState().booleanProperty("day").not());
-        uiController.getChopperRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day").not());
-        uiController.getNbInChopperRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day").not());
+        uiController.getPlaneRunwayThree().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));
+        uiController.getNbInPlaneRunwayThree().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));
 
-        // Chopper 1
-        /*uiController.getNbInAirstripFour().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));
-        uiController.getChopper1().visibleProperty().bind(getGameState().booleanProperty("runway_4_open"));*/
-
-        // Chopper 2
-        /*uiController.getChopper2().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));
-        uiController.getNbInAirstripFive().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));*/
+        uiController.getChopperRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));
+        uiController.getNbInChopperRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));
 
         getGameScene().addUI(ui);
         getGameScene().setBackgroundColor(mediator.getBackgroundColor());
@@ -157,6 +149,10 @@ public class ControlTowerGame extends GameApplication {
 
         getGameScene().addUINodes(timerText, timerCircle);
 
+        mediator.selfAnnounce(runways.get(0));
+        mediator.selfAnnounce(runways.get(1));
+        mediator.selfAnnounce(runways.get(2));
+
     }
 
     @Override
@@ -177,7 +173,7 @@ public class ControlTowerGame extends GameApplication {
         // Add the plane factory to the game world
         getGameWorld().addEntityFactory(new TowerControlFactory());
 
-        // Spawn plane every 1.5 seconds
+        // Spawn plane every 2.5 seconds
         run(() -> {
             int index = FXGLMath.random(1, 3);
             Entity e;
@@ -197,13 +193,23 @@ public class ControlTowerGame extends GameApplication {
             }
         }, Duration.seconds(2.5));
 
+        // Changing auto of mediator
         run(() -> {
             if (getGameState().getBoolean("day")) {
                 mediator = new NightMediator(mediator);
+                mediator.selfAnnounce(runways.get(3));
+                mediator.selfAnnounce(runways.get(4));
                 getGameState().setValue("day", false);
+                getGameState().setValue("start", 3);
+                getGameState().setValue("end", 4);
             } else {
                 mediator = new DayMediator(mediator);
+                mediator.selfAnnounce(runways.get(0));
+                mediator.selfAnnounce(runways.get(1));
+                mediator.selfAnnounce(runways.get(2));
                 getGameState().setValue("day", true);
+                getGameState().setValue("start", 0);
+                getGameState().setValue("end", 2);
             }
 
             // Notify all colleagues of the mediator change
@@ -212,25 +218,46 @@ public class ControlTowerGame extends GameApplication {
             getGameScene().setBackgroundColor(mediator.getBackgroundColor());
         }, Duration.seconds(15));
 
-        // Update opened runways
+        // Remove planes on runways auto
         run(() -> {
             for (int i = 0; i < runways.size(); i++)
-                getGameState().setValue("runway_" + (i + 1) + "_open", runways.get(i).setOpen(getRandomBool()));
-        }, Duration.seconds(getRandomInt(10, 30)));
-
-        // Remove planes on runways
-        run(() -> {
-            for (int i = 0; i < runways.size(); i++)
-                if (FXGL.getGameState().getInt("runway_" + (i + 1) + "_places") > 0)
-                    FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -getRandomInt(0, 1));
-        }, Duration.seconds(getRandomInt(1, 10)));
+                if (FXGL.getGameState().getDouble("runway_" + (i + 1) + "_places") > 0.0)
+                    FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -0.1);
+        }, Duration.seconds(5));
 
         // Add animals on runways
-        run(() -> getGameWorld().spawn("bird", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(getRandomInt(1, 15)));
-        run(() -> getGameWorld().spawn("duck", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(getRandomInt(1, 15)));
-        run(() -> getGameWorld().spawn("pier", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(30));
+        int pos[] = new int[]{130, 290, 440, 600, 740};
+        run(() -> {
+            Entity e;
+            int start = getGameState().getInt("start");
+            int end = getGameState().getInt("end");
+            index = FXGLMath.random(start, end);
 
-        // Timer jeu
+            e = getGameWorld().spawn("bird", pos[index], FXGLMath.random(420, 470));
+            e.getComponent(Bird.class).selfAnnounce();
+        }, Duration.seconds(getRandomInt(1, 15)));
+
+        run(() -> {
+            Entity e;
+            int start = getGameState().getInt("start");
+            int end = getGameState().getInt("end");
+            index = FXGLMath.random(start, end);
+
+            e = getGameWorld().spawn("duck", pos[index], FXGLMath.random(420, 470));
+            e.getComponent(Duck.class).selfAnnounce();
+        }, Duration.seconds(getRandomInt(1, 15)));
+
+        run(() -> {
+            Entity e;
+            int start = getGameState().getInt("start");
+            int end = getGameState().getInt("end");
+            index = FXGLMath.random(start, end);
+
+            e = getGameWorld().spawn("pier", pos[index], FXGLMath.random(420, 470));
+            e.getComponent(Pier.class).selfAnnounce();
+        }, Duration.seconds(30));
+
+        // Game timer
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));
     }
 

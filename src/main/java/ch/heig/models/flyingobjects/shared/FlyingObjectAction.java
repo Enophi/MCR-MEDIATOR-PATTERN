@@ -31,7 +31,7 @@ public class FlyingObjectAction extends Component {
         getEntity().removeFromWorld();
 
         if (FXGL.getGameState().getInt("score") > 10)
-            FXGL.getGameState().increment("score", -10);//TODO: ??? un crash avec score 100 ???
+            FXGL.getGameState().increment("score", -10);
 
         spawn("explosion", getEntity().getCenter());
     }

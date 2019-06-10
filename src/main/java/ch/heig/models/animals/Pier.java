@@ -7,12 +7,20 @@
 
 package ch.heig.models.animals;
 
-import ch.heig.mediator.AbstractMediator;
+import ch.heig.models.runways.Runway;
 
 public class Pier extends Animal {
 
-    public Pier(AbstractMediator mediator) {
-        super("Pier", mediator);
+    public Pier(Runway runway) {
+        super("Pier", runway);
+    }
+
+    /**
+     * The boss is coming to the strip
+     */
+    @Override
+    public void selfAnnounce() {
+        super.selfAnnounce();
     }
 
 }

@@ -2,7 +2,6 @@ package ch.heig.models.flyingobjects.shared;
 
 import ch.heig.mediator.AbstractMediator;
 import ch.heig.models.runways.Runway;
-import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 
 /**

@@ -1,6 +1,5 @@
 package ch.heig.mediator;
 
-import ch.heig.models.animals.Animal;
 import ch.heig.models.flyingobjects.Chopper;
 import ch.heig.models.flyingobjects.Ovni;
 import ch.heig.models.flyingobjects.Plane;
@@ -20,23 +19,21 @@ import java.util.List;
  * 15:46
  */
 public abstract class AbstractMediator {
-    final double MAX_PROGRESS = 1.0;
     final double PROGRESS_STEP = 0.1;
 
     protected List<Runway> runways;
-    protected List<Animal> animals;
     private List<Entity> flyingObjects;
 
     public AbstractMediator() {
         flyingObjects = new LinkedList<>();
         runways = new LinkedList<>();
-        animals = new LinkedList<>();
     }
 
     AbstractMediator(AbstractMediator other) {
         this.flyingObjects = new LinkedList<>(other.flyingObjects);
-        this.runways = new LinkedList<>(other.runways);
-        this.animals = new LinkedList<>(other.animals);
+        this.runways = new LinkedList<>();
+        for (Runway r : other.runways)
+            selfDestroy(r);
     }
 
     /**
@@ -58,83 +55,90 @@ public abstract class AbstractMediator {
     }
 
     /**
-     * Announce to the mediator
+     * Announce to the mediator and enabled the runway on UI
      *
      * @param r The runway which announce
      */
     public void selfAnnounce(Runway r) {
         this.runways.add(r);
+        String name = r.toString() + "_open";
+        FXGL.getGameState().setValue(name, true);
     }
 
     /**
-     * Remove the game runway of the list
+     * Signale that runway must be disabled on UI
+     * and remove all animals on runway
      *
-     * @param r The runway to remove
+     * @param r The runway to disabled
      */
     public void selfDestroy(Runway r) {
-        this.runways.remove(r);
+        String name = r.toString() + "_open";
+        FXGL.getGameState().setValue(name, false);
+        r.destroyAll();
     }
 
-    /**
-     * Announce to the mediator
-     *
-     * @param a The animal which announce
-     */
-    public void selfAnnounce(Animal a) {
-        this.animals.add(a);
-    }
-
-    /**
-     * Remove the game entity of the list
-     *
-     * @param a The animal to remove
-     */
-    public void selfDestroy(Animal a) {
-        this.animals.remove(a);
-    }
 
     /**
      * Update all colleagues of the mediator change
      */
     public void updateAllCollegues() {
         this.flyingObjects.forEach(e -> e.getComponent(FlyingObject.class).setMediator(this));
-        this.runways.forEach((Runway r) -> r.setMediator(this));
-        this.animals.forEach((Animal a) -> a.setMediator(this));
     }
 
+    /**
+     * Authorize the landing without the penalty
+     *
+     * @param e entity who ask to landing
+     */
     void autorhiseLanding(Entity e) {
+        autorhiseLandingWithPenalties(e, 0);
+    }
+
+    /**
+     * Authorize the landing with the penalty
+     *
+     * @param e          entity who ask to landing
+     * @param penalities numbers of animals kiled
+     */
+    void autorhiseLandingWithPenalties(Entity e, int penalities) {
         FXGL.getGameState().setValue("playerNotif", String.format("Good game, authorized landing!!!"));
         if (e.getType() == FlyingObjectType.PLANE) {
-            e.getComponent(Plane.class).onAllowLanding();
+            e.getComponent(Plane.class).onAllowLanding(penalities);
         } else if (e.getType() == FlyingObjectType.CHOPPER) {
-            e.getComponent(Chopper.class).onAllowLanding();
+            e.getComponent(Chopper.class).onAllowLanding(penalities);
         } else {
-            e.getComponent(Ovni.class).onAllowLanding();
+            e.getComponent(Ovni.class).onAllowLanding(penalities);
         }
     }
 
-    void setAlertRunvay(int piste, String msg) {
-        if (!msg.equals(""))
-            FXGL.getGameState().setValue("playerNotif", String.format("%s airstrip!!!", msg));
-        else
-            FXGL.getGameState().setValue("playerNotif", String.format("Airstrip %d full!!!", piste));
-    }
-
+    /**
+     * Landing application
+     *
+     * @param e      entity who asked to landing
+     * @param runway runway to landing
+     */
     public void askToLand(Entity e, Runway runway) {
 
         if (!runways.contains(runway)) {
-            FXGL.getGameState().setValue("playerNotif", String.format("Landing Strip #%s closed", runway.toString().split("_")[1]));
+            FXGL.getGameState().setValue("playerNotif", String.format("Landing strip #%s closed", runway.toString().split("_")[1]));
             return;
         }
 
-        if (runway.getType() != e.getComponent(FlyingObject.class).getEntity().getType()) {
-            FXGL.getGameState().setValue("playerNotif", "Landing Strip incompatible");
-            return;
+        if(e.getComponent(FlyingObject.class).getEntity().getType() != FlyingObjectType.OVNI) {
+            if (runway.getType() != e.getComponent(FlyingObject.class).getEntity().getType()) {
+                FXGL.getGameState().setValue("playerNotif", "Wrong landing strip!!!");
+                return;
+            }
         }
 
-        if (!runway.isBlocked() && FXGL.getGameState().getInt(runway.toString() + "_places") < runway.getSpaces()) {
-            FXGL.getGameState().increment(runway.toString() + "_places", 1);
+        if (FXGL.getGameState().getDouble(runway.toString() + "_places") < runway.getSpaces()) {
+            FXGL.getGameState().increment(runway.toString() + "_places", PROGRESS_STEP);
             FXGL.getGameState().setValue("playerNotif", "");
+            if (runway.isBlocked()) {
+                autorhiseLandingWithPenalties(e, runway.getNumberOfAnimals());
+                runway.destroyAll();
+            } else
+                autorhiseLanding(e);
             e.removeFromWorld();
         } else {
             FXGL.getGameState().setValue("playerNotif", String.format("Wait! Landing Strip #%s is full", runway.toString().split("_")[1]));
@@ -142,9 +146,10 @@ public abstract class AbstractMediator {
 
     }
 
-    public Object isOpenRunway(Runway runway) {
-        return runways.contains(runway);
-    }
-
+    /**
+     * The mediator's background
+     *
+     * @return his color
+     */
     public abstract Color getBackgroundColor();
 }
