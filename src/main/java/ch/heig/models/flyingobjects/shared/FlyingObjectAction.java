@@ -26,9 +26,12 @@ public class FlyingObjectAction extends Component {
         play("roger.wav");
     }
 
-    public void crash() {
+    private void crash() {
         FXGL.getGameState().increment("crashed", 1);
         getEntity().removeFromWorld();
+
+        if (FXGL.getGameState().getInt("score") > 10)
+            FXGL.getGameState().increment("score", -10);//TODO: ??? un crash avec score 100 ???
 
         spawn("explosion", getEntity().getCenter());
     }

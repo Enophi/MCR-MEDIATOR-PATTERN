@@ -1,6 +1,7 @@
 
 package ch.heig.models.flyingobjects;
 
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 
 /**
@@ -11,10 +12,15 @@ import com.almasb.fxgl.entity.component.Component;
  * A gérer dans la méthode onUpdate laquelle est appelé automatiquement par le Framework
  */
 public class Plane extends Component {
+    private final int landingScore = 10;
 
     @Override
     public void onUpdate(double tpf) {
         super.onUpdate(tpf);
+    }
+
+    public void onAllowLanding() {
+        FXGL.getGameState().increment("score", landingScore);
     }
 
     public String identifier() {

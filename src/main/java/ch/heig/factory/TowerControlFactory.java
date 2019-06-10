@@ -2,11 +2,12 @@ package ch.heig.factory;
 
 import ch.heig.ControlTowerGame;
 import ch.heig.models.flyingobjects.Chopper;
+import ch.heig.models.flyingobjects.Ovni;
 import ch.heig.models.flyingobjects.Plane;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.flyingobjects.shared.FlyingObjectAction;
 import ch.heig.models.flyingobjects.shared.FlyingObjectMovement;
-import ch.heig.ui.TowerControlType;
+import ch.heig.ui.FlyingObjectType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.*;
@@ -18,15 +19,15 @@ import static com.almasb.fxgl.app.DSLKt.texture;
 
 public class TowerControlFactory implements EntityFactory {
 
-    @Spawns("slow-plane")
+    @Spawns("plane")
     public Entity newSlowPlane(SpawnData data) {
-        final int SLOW_PLANE_MIN = 50;
-        final int SLOW_PLANE_MAX = 150;
+        final int SLOW_PLANE_MIN = 40;
+        final int SLOW_PLANE_MAX = 130;
 
         return Entities
                 .builder()
                 .from(data)
-                .type(TowerControlType.PLANE)
+                .type(FlyingObjectType.PLANE)
                 .viewFromNodeWithBBox(texture("plane.png", 60, 60))
                 .with(new FlyingObject(((ControlTowerGame) FXGL.getApp()).getmediator()))
                 .with(new Plane())
@@ -44,11 +45,29 @@ public class TowerControlFactory implements EntityFactory {
         return Entities
                 .builder()
                 .from(data)
-                .type(TowerControlType.CHOPPER)
+                .type(FlyingObjectType.CHOPPER)
                 .viewFromNodeWithBBox(texture("chopper.png", 80, 40))
                 .with(new FlyingObject(((ControlTowerGame) FXGL.getApp()).getmediator()))
                 .with(new Chopper())
                 .with(new FlyingObjectMovement(FXGLMath.random(CHOPPER_MIN, CHOPPER_MAX)))
+                .with(new FlyingObjectAction())
+                .with(new CollidableComponent(true))
+                .build();
+    }
+
+    @Spawns("ovni")
+    public Entity newOvni(SpawnData data) {
+        final int OVNI_MIN = 150;
+        final int OVNI_MAX = 250;
+
+        return Entities
+                .builder()
+                .from(data)
+                .type(FlyingObjectType.OVNI)
+                .viewFromNodeWithBBox(texture("ovni.png", 50, 50))
+                .with(new FlyingObject(((ControlTowerGame) FXGL.getApp()).getmediator()))
+                .with(new Ovni())
+                .with(new FlyingObjectMovement(FXGLMath.random(OVNI_MIN, OVNI_MAX)))
                 .with(new FlyingObjectAction())
                 .with(new CollidableComponent(true))
                 .build();

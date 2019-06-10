@@ -1,35 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Polygon?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Label fx:id="nbInAirstripOne" layoutX="30.0" layoutY="551.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #95a5a6;" text="#N" textFill="WHITE">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
-        <Label fx:id="nbInAirstripTwo" layoutX="251.0" layoutY="551.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #95a5a6;" text="#N" textFill="WHITE">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
-        <Label fx:id="nbInAirstripThree" layoutX="477.0" layoutY="551.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #95a5a6;" text="#N" textFill="WHITE">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
         <Line endX="1280.0" layoutY="500.0" stroke="#ae5454" strokeWidth="3.0" />
         <VBox fx:id="playerBox" layoutX="1060.0" layoutY="506.0" opacity="0.34" prefHeight="200.0" prefWidth="200.0">
             <children>
+            <Label fx:id="labelScore" prefHeight="17.0" prefWidth="190.0" text="#N">
+               <font>
+                  <Font name="Consolas" size="36.0" />
+               </font>
+            </Label>
                 <Label fx:id="labelWaiting" prefHeight="17.0" prefWidth="190.0" text="#N">
                     <font>
                         <Font name="Consolas" size="36.0" />
@@ -42,45 +33,21 @@
                 </Label>
             </children>
         </VBox>
-        <Polygon fx:id="chopper1" fill="#95a5a6" layoutX="754.0" layoutY="626.0" stroke="BLACK" strokeType="INSIDE">
-            <points>
-                <Double fx:value="-50.0" />
-                <Double fx:value="30.0" />
-
-                <Double fx:value="0.0" />
-                <Double fx:value="60.0" />
-
-                <Double fx:value="50.0" />
-                <Double fx:value="30.0" />
-
-                <Double fx:value="50.0" />
-                <Double fx:value="-30.0" />
-
-                <Double fx:value="0.0" />
-                <Double fx:value="-60.0" />
-
-                <Double fx:value="-50.0" />
-                <Double fx:value="-30.0" />
-            </points>
-        </Polygon>
-        <Polygon fx:id="chopper2" fill="#95a5a6" layoutX="881.0" layoutY="626.0" stroke="BLACK" strokeType="INSIDE">
-            <points>
-                <Double fx:value="-50.0" />
-                <Double fx:value="30.0" />
-                <Double fx:value="0.0" />
-                <Double fx:value="60.0" />
-                <Double fx:value="50.0" />
-                <Double fx:value="30.0" />
-                <Double fx:value="50.0" />
-                <Double fx:value="-30.0" />
-                <Double fx:value="0.0" />
-                <Double fx:value="-60.0" />
-                <Double fx:value="-50.0" />
-                <Double fx:value="-30.0" />
-            </points>
-        </Polygon>
-        <Label fx:id="playerNotif" layoutX="30.0" layoutY="438.0" text="#N" />
-        <Label fx:id="nbInAirstripFour" layoutX="738.0" layoutY="524.0" text="#N" />
-        <Label fx:id="nbInAirstripFive" layoutX="865.0" layoutY="524.0" text="#N" />
+        <Label fx:id="playerNotif" layoutX="748.0" layoutY="20.0" text="#N" />
+        <ImageView fx:id="planeRunwayOne" fitHeight="181.0" fitWidth="92.0" layoutX="259.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
+        </ImageView>
+        <ImageView fx:id="planeRunwayTwo" fitHeight="181.0" fitWidth="92.0" layoutX="410.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
+        </ImageView>
+        <ImageView fx:id="planeRunwayThree" fitHeight="181.0" fitWidth="92.0" layoutX="555.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
+        </ImageView>
+        <ImageView fx:id="chopperRunwayOne" fitHeight="130.0" fitWidth="136.0" layoutX="62.0" layoutY="536.0" pickOnBounds="true" preserveRatio="true">
+        </ImageView>
+        <ImageView fx:id="chopperRunwayTwo" fitHeight="130.0" fitWidth="136.0" layoutX="696.0" layoutY="536.0" pickOnBounds="true" preserveRatio="true">
+        </ImageView>
+        <ProgressBar fx:id="nbInPlaneRunwayOne" layoutX="255.0" layoutY="681.0" prefHeight="36.0" prefWidth="92.0" progress="0.0" />
+        <ProgressBar fx:id="nbInPlaneRunwayTwo" layoutX="406.0" layoutY="681.0" prefHeight="36.0" prefWidth="92.0" progress="0.0" />
+        <ProgressBar fx:id="nbInPlaneRunwayThree" layoutX="551.0" layoutY="681.0" prefHeight="36.0" prefWidth="92.0" progress="0.0" />
+      <ProgressIndicator fx:id="nbInChopperRunwayOne" layoutX="87.0" layoutY="643.0" prefHeight="76.0" prefWidth="86.0" progress="0.0" />
+      <ProgressIndicator fx:id="nbInChopperRunwayTwo" layoutX="721.0" layoutY="643.0" prefHeight="76.0" prefWidth="86.0" progress="0.0" />
     </children>
 </Pane>

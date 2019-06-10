@@ -1,5 +1,7 @@
 package ch.heig.mediator;
 
+import ch.heig.models.flyingobjects.shared.FlyingObject;
+import ch.heig.ui.FlyingObjectType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
@@ -11,10 +13,6 @@ import javafx.scene.paint.Color;
  */
 
 public class DayMediator extends AbstractMediator {
-
-    private final int MAX_ON_ONE = 5;
-    private final int MAX_ON_TWO = 15;
-    private final int MAX_ON_FOUR = 3;
 
     public DayMediator() {
     }
@@ -32,30 +30,45 @@ public class DayMediator extends AbstractMediator {
     public void askToLand(Entity e, int piste) {
         switch (piste) {
             case 1:
-                if (FXGL.getGameState().getInt("nbInOne") < MAX_ON_ONE) {
-                    // Increase the number of plane on the first airstrip
-                    FXGL.getGameState().increment("nbInOne", 1);
-                    e.removeFromWorld();
+                if (e.getType() == FlyingObjectType.CHOPPER || e.getType() == FlyingObjectType.OVNI) {
+                    if (FXGL.getGameState().getDouble("nbInCOne") < MAX_PROGRESS) {
+                        // Increase the number of plane on the first airstrip
+                        FXGL.getGameState().increment("nbInCOne", PROGRESS_STEP);
+                        autorhiseLanding(e);
+                        e.removeFromWorld();
+                    } else {
+                        setAlertRunvay(piste, "");
+                    }
                 } else {
-                    FXGL.getGameState().setValue("playerNotif", String.format("Airstrip %d full!!", piste));
+                    setAlertRunvay(piste, "Wrong");
                 }
                 break;
             case 2:
-                if (FXGL.getGameState().getInt("nbInTwo") < MAX_ON_TWO) {
-                    // Increase the number of plane on the second airstrip
-                    FXGL.getGameState().increment("nbInTwo", 1);
-                    e.removeFromWorld();
+                if (e.getType() == FlyingObjectType.PLANE || e.getType() == FlyingObjectType.OVNI) {
+                    if (FXGL.getGameState().getDouble("nbInPOne") < MAX_PROGRESS) {
+                        // Increase the number of plane on the second airstrip
+                        FXGL.getGameState().increment("nbInPOne", PROGRESS_STEP);
+                        autorhiseLanding(e);
+                        e.removeFromWorld();
+                    } else {
+                        setAlertRunvay(piste, "");
+                    }
                 } else {
-                    FXGL.getGameState().setValue("playerNotif", String.format("Airstrip %d full!!", piste));
+                    setAlertRunvay(piste, "Wrong");
                 }
                 break;
-            case 4:
-                if (FXGL.getGameState().getInt("nbInFour") < MAX_ON_FOUR) {
-                    // Increase the number of plane on the second airstrip
-                    FXGL.getGameState().increment("nbInFour", 1);
-                    e.removeFromWorld();
+            case 3:
+                if (e.getType() == FlyingObjectType.PLANE || e.getType() == FlyingObjectType.OVNI) {
+                    if (FXGL.getGameState().getDouble("nbInPTwo") < MAX_PROGRESS) {
+                        // Increase the number of plane on the second airstrip
+                        FXGL.getGameState().increment("nbInPTwo", PROGRESS_STEP);
+                        autorhiseLanding(e);
+                        e.removeFromWorld();
+                    } else {
+                        setAlertRunvay(piste, "");
+                    }
                 } else {
-                    FXGL.getGameState().setValue("playerNotif", String.format("Airstrip %d full!!", piste));
+                    setAlertRunvay(piste, "Wrong");
                 }
                 break;
             default:

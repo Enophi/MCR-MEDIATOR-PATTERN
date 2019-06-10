@@ -49,14 +49,15 @@ public class ControlTowerGame extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("time", 120);
 
+        vars.put("score", 0);
         vars.put("waiting", 0);
         vars.put("crashed", 0);
 
-        vars.put("nbInOne", 0);
-        vars.put("nbInTwo", 0);
-        vars.put("nbInThree", 0);
-        vars.put("nbInFour", 0);
-        vars.put("nbInFive", 0);
+        vars.put("nbInPOne", 0.0);
+        vars.put("nbInPTwo", 0.0);
+        vars.put("nbInPThree", 0.0);
+        vars.put("nbInCOne", 0.0);
+        vars.put("nbInCTwo", 0.0);
 
         vars.put("playerNotif", "Alert:");
 
@@ -65,34 +66,39 @@ public class ControlTowerGame extends GameApplication {
 
     @Override
     protected void initUI() {
-
         ControlTowerUIController uiController = new ControlTowerUIController();
         getStateMachine().getPlayState().addStateListener(uiController);
 
         UI ui = getAssetLoader().loadUI("tower_control_ui.fxml", uiController);
 
         // Bind label
-        uiController.getLabelWaiting().textProperty().bind(getip("waiting").asString("Score: [%d]"));
+        uiController.getLabelScore().textProperty().bind(getip("score").asString("Score: [%d]"));
+        uiController.getLabelWaiting().textProperty().bind(getip("waiting").asString("Waiting: [%d]"));
         uiController.getLabelCrashed().textProperty().bind(getip("crashed").asString("Crashed: [%d]"));
 
-        uiController.getNbInAirstripOne().textProperty().bind(getip("nbInOne").asString("Strip One: [%d]"));
-        uiController.getNbInAirstripTwo().textProperty().bind(getip("nbInTwo").asString("Strip Two: [%d]"));
-        uiController.getNbInAirstripThree().textProperty().bind(getip("nbInThree").asString("Strip Three: [%d]"));
-        uiController.getNbInAirstripFour().textProperty().bind(getip("nbInFour").asString("Strip Four: [%d]"));
-        uiController.getNbInAirstripFive().textProperty().bind(getip("nbInFive").asString("Strip Five: [%d]"));
+        uiController.getNbInPlaneRunwayOne().progressProperty().bind(getdp("nbInPOne"));
+        uiController.getNbInPlaneRunwayTwo().progressProperty().bind(getdp("nbInPTwo"));
+        uiController.getNbInPlaneRunwayThree().progressProperty().bind(getdp("nbInPThree"));
+        uiController.getNbInChopperRunwayOne().progressProperty().bind(getdp("nbInCOne"));
+        uiController.getNbInChopperRunwayTwo().progressProperty().bind(getdp("nbInCTwo"));
 
         uiController.getPlayerNotif().textProperty().bind(getsp("playerNotif"));
 
         // Bind visible property day
-        uiController.getNbInAirstripOne().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getNbInAirstripTwo().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getNbInAirstripFive().visibleProperty().bind(getGameState().booleanProperty("day"));
-        uiController.getChopper2().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getChopperRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getNbInChopperRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
+
+        uiController.getPlaneRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getNbInPlaneRunwayOne().visibleProperty().bind(getGameState().booleanProperty("day"));
+
+        uiController.getPlaneRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day"));
+        uiController.getNbInPlaneRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day"));
 
         // Bind visible property night
-        uiController.getNbInAirstripThree().visibleProperty().bind(getGameState().booleanProperty("day").not());
-        uiController.getNbInAirstripFour().visibleProperty().bind(getGameState().booleanProperty("day").not());
-        uiController.getChopper1().visibleProperty().bind(getGameState().booleanProperty("day").not());
+        uiController.getPlaneRunwayThree().visibleProperty().bind(getGameState().booleanProperty("day").not());
+        uiController.getNbInPlaneRunwayThree().visibleProperty().bind(getGameState().booleanProperty("day").not());
+        uiController.getChopperRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day").not());
+        uiController.getNbInChopperRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("day").not());
 
         getGameScene().addUI(ui);
         getGameScene().setBackgroundColor(mediator.getBackgroundColor());
@@ -137,15 +143,23 @@ public class ControlTowerGame extends GameApplication {
 
         // Spawn plane every 1.5 seconds
         run(() -> {
-            if (FXGLMath.randomBoolean()) {
-                Entity e = getGameWorld().spawn("slow-plane", FXGLMath.random(1220) + 20, 0);
-                e.getComponent(FlyingObject.class).selfAnnounce();
-            } else {
-                Entity e = getGameWorld().spawn("chopper", FXGLMath.random(1180) + 20, 0);
-                e.getComponent(FlyingObject.class).selfAnnounce();
+            int index = FXGLMath.random(1, 3);
+            Entity e;
+            switch (index) {
+                case 1:
+                    e = getGameWorld().spawn("plane", FXGLMath.random(1220) + 20, 0);
+                    e.getComponent(FlyingObject.class).selfAnnounce();
+                    break;
+                case 2:
+                    e = getGameWorld().spawn("chopper", FXGLMath.random(1180) + 20, 0);
+                    e.getComponent(FlyingObject.class).selfAnnounce();
+                    break;
+                case 3:
+                    e = getGameWorld().spawn("ovni", FXGLMath.random(1225) + 20, 0);
+                    e.getComponent(FlyingObject.class).selfAnnounce();
+                    break;
             }
-
-        }, Duration.seconds(1.5));
+        }, Duration.seconds(2.5));
 
         run(() -> {
             if (getGameState().getBoolean("day")) {
@@ -160,7 +174,7 @@ public class ControlTowerGame extends GameApplication {
             mediator.updateAllCollegues();
 
             getGameScene().setBackgroundColor(mediator.getBackgroundColor());
-        }, Duration.seconds(8));
+        }, Duration.seconds(15));
 
         // Timer jeu
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));

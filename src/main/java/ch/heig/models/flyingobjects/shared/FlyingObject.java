@@ -1,6 +1,7 @@
 package ch.heig.models.flyingobjects.shared;
 
 import ch.heig.mediator.AbstractMediator;
+import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 
 /**
@@ -50,6 +51,7 @@ public class FlyingObject extends Component implements FlyingObjectMediator {
 
     /**
      * Est appelé lorsqu’un objet est détruit
+     * On communique aussi au médiateur de supprimer l'objet
      */
     @Override
     public void onRemoved() {

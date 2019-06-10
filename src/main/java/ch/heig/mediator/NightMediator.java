@@ -1,5 +1,6 @@
 package ch.heig.mediator;
 
+import ch.heig.ui.FlyingObjectType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
@@ -23,13 +24,33 @@ public class NightMediator extends AbstractMediator {
     @Override
     public void askToLand(Entity e, int piste) {
         switch (piste) {
-            case 3:
-                FXGL.getGameState().increment("nbInThree", 1);
-                e.removeFromWorld();
+            case 4:
+                if (e.getType() == FlyingObjectType.PLANE || e.getType() == FlyingObjectType.OVNI) {
+                    if (FXGL.getGameState().getDouble("nbInPThree") < MAX_PROGRESS) {
+                        // Increase the number of plane on the second airstrip
+                        FXGL.getGameState().increment("nbInPThree", PROGRESS_STEP);
+                        autorhiseLanding(e);
+                        e.removeFromWorld();
+                    } else {
+                        setAlertRunvay(piste, "");
+                    }
+                } else {
+                    setAlertRunvay(piste, "Wrong");
+                }
                 break;
             case 5:
-                FXGL.getGameState().increment("nbInFive", 1);
-                e.removeFromWorld();
+                if (e.getType() == FlyingObjectType.CHOPPER || e.getType() == FlyingObjectType.OVNI) {
+                    if (FXGL.getGameState().getDouble("nbInCTwo") < MAX_PROGRESS) {
+                        // Increase the number of plane on the second airstrip
+                        FXGL.getGameState().increment("nbInCTwo", PROGRESS_STEP);
+                        autorhiseLanding(e);
+                        e.removeFromWorld();
+                    } else {
+                        setAlertRunvay(piste, "");
+                    }
+                } else {
+                    setAlertRunvay(piste, "Wrong");
+                }
                 break;
             default:
                 FXGL.getGameState().setValue("playerNotif", String.format("%d close!", piste));
