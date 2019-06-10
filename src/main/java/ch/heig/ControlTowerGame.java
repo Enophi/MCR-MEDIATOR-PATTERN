@@ -309,6 +309,7 @@ public class ControlTowerGame extends GameApplication {
         EntityView weatherView = new EntityView();
         weatherView.addNode(weatherRectangle);
 
+        // Initiate once to make background image loading faster
         new NormalWeatherMediator(this, uiController);
         new FogWeatherMediator(this, uiController);
         new RainWeatherMediator(this, uiController);
