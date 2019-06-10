@@ -18,11 +18,8 @@ public class Ovni extends Component {
         super.onUpdate(tpf);
     }
 
-    public void onAllowLanding() {
-        FXGL.getGameState().increment("score", landingScore);
+    public void onAllowLanding(int penalities) {
+        FXGL.getGameState().increment("score", landingScore - penalities);
     }
 
-    public String identifier() {
-        return "Ovni 456546";
-    }
 }

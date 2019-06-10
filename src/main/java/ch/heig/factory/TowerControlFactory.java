@@ -93,8 +93,8 @@ public class TowerControlFactory implements EntityFactory {
         return Entities
                 .builder()
                 .from(data)
-                .viewFromNodeWithBBox(texture("bird.png", 80, 50))
-                .with(new Bird(((ControlTowerGame) FXGL.getApp()).getMediator()))
+                .viewFromNodeWithBBox(texture("bird.png", 40, 40))
+                .with(new Bird(((ControlTowerGame) FXGL.getApp()).getRunway()))
                 .build();
     }
 
@@ -104,8 +104,8 @@ public class TowerControlFactory implements EntityFactory {
         return Entities
                 .builder()
                 .from(data)
-                .viewFromNodeWithBBox(texture("duck.png", 100, 90))
-                .with(new Duck(((ControlTowerGame) FXGL.getApp()).getMediator()))
+                .viewFromNodeWithBBox(texture("duck.png", 40, 40))
+                .with(new Duck(((ControlTowerGame) FXGL.getApp()).getRunway()))
                 .build();
     }
 
@@ -116,8 +116,7 @@ public class TowerControlFactory implements EntityFactory {
                 .builder()
                 .from(data)
                 .viewFromNodeWithBBox(texture("pier.png", 100, 100))
-                .with(new Pier(((ControlTowerGame) FXGL.getApp()).getMediator()))
+                .with(new Pier(((ControlTowerGame) FXGL.getApp()).getRunway()))
                 .build();
     }
-
 }

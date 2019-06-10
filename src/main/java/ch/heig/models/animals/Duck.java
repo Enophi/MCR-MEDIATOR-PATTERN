@@ -7,11 +7,19 @@
 
 package ch.heig.models.animals;
 
-import ch.heig.mediator.AbstractMediator;
+import ch.heig.models.runways.Runway;
 
 public class Duck extends Animal {
 
-    public Duck(AbstractMediator mediator) {
-        super("DuckDuckGo", mediator);
+    public Duck(Runway runway) {
+        super("DuckDuckGo", runway);
+    }
+
+    /**
+     * Animal is coming to the strip
+     */
+    @Override
+    public void selfAnnounce() {
+        super.selfAnnounce();
     }
 }
