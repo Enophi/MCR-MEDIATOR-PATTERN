@@ -37,10 +37,25 @@ public class ControlTowerUIController implements UIController, StateListener {
     private Label nbInAirstripFour;
 
     @FXML
-    private Polygon chopper1;
+    private Label nbInAirstripFive;
 
     @FXML
-    private Label nbInAirstripFive;
+    private Label animalOnAirstripOne;
+
+    @FXML
+    private Label animalOnAirstripTwo;
+
+    @FXML
+    private Label animalOnAirstripThree;
+
+    @FXML
+    private Label animalOnAirstripFour;
+
+    @FXML
+    private Label animalOnAirstripFive;
+
+    @FXML
+    private Polygon chopper1;
 
     @FXML
     private Polygon chopper2;
@@ -101,6 +116,26 @@ public class ControlTowerUIController implements UIController, StateListener {
 
     public Label getNbInAirstripFive() {
         return nbInAirstripFive;
+    }
+
+    public Label getAnimalOnAirstripOne() {
+        return animalOnAirstripOne;
+    }
+
+    public Label getAnimalOnAirstripTwo() {
+        return animalOnAirstripTwo;
+    }
+
+    public Label getAnimalOnAirstripThree() {
+        return animalOnAirstripThree;
+    }
+
+    public Label getAnimalOnAirstripFour() {
+        return animalOnAirstripFour;
+    }
+
+    public Label getAnimalOnAirstripFive() {
+        return animalOnAirstripFive;
     }
 
     public Polygon getChopper1() {

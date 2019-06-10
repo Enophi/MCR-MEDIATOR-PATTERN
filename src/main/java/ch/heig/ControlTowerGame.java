@@ -181,7 +181,6 @@ public class ControlTowerGame extends GameApplication {
                 getGameState().setValue("day", true);
             }
 
-
             // Notify all colleagues of the mediator change
             mediator.updateAllCollegues();
 
@@ -200,6 +199,11 @@ public class ControlTowerGame extends GameApplication {
                 if (FXGL.getGameState().getInt("runway_" + (i + 1) + "_places") > 0)
                     FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -getRandomInt(0, 1));
         }, Duration.seconds(getRandomInt(1, 10)));
+
+        // Add animals on runways
+        run(() -> getGameWorld().spawn("bird", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(getRandomInt(1, 15)));
+        run(() -> getGameWorld().spawn("duck", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(getRandomInt(1, 15)));
+        run(() -> getGameWorld().spawn("pier", FXGLMath.random(1200) + 20, FXGLMath.random(500)), Duration.seconds(30));
 
         // Timer jeu
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));
