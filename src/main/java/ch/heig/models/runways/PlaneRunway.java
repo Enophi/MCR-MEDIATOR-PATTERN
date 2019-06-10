@@ -7,12 +7,12 @@
 
 package ch.heig.models.runways;
 
-import ch.heig.mediator.AbstractMediator;
+import ch.heig.mediator.time.AbstractTimeMediator;
 import ch.heig.ui.FlyingObjectType;
 
 public class PlaneRunway extends Runway {
 
-    public PlaneRunway(String identifier, AbstractMediator mediator) {
+    public PlaneRunway(String identifier, AbstractTimeMediator mediator) {
         super(identifier, FlyingObjectType.PLANE, mediator);
     }
 

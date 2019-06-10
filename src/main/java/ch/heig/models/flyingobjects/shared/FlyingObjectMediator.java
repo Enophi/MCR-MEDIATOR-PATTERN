@@ -1,6 +1,6 @@
 package ch.heig.models.flyingobjects.shared;
 
-import ch.heig.mediator.AbstractMediator;
+import ch.heig.mediator.time.AbstractTimeMediator;
 import ch.heig.models.runways.Runway;
 
 public interface FlyingObjectMediator {
@@ -9,5 +9,5 @@ public interface FlyingObjectMediator {
 
     void selfAnnounce();
 
-    void setMediator(AbstractMediator mediator);
+    void setMediator(AbstractTimeMediator mediator);
 }

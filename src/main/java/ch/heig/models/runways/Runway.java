@@ -7,7 +7,7 @@
 
 package ch.heig.models.runways;
 
-import ch.heig.mediator.AbstractMediator;
+import ch.heig.mediator.time.AbstractTimeMediator;
 import ch.heig.ui.FlyingObjectType;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -21,11 +21,11 @@ public abstract class Runway extends Component {
     protected List<Entity> animals;
 
     private final FlyingObjectType type;
-    private AbstractMediator mediator;
+    private AbstractTimeMediator mediator;
 
     private final String identifier;
 
-    public Runway(String identifier, FlyingObjectType type, AbstractMediator mediator) {
+    public Runway(String identifier, FlyingObjectType type, AbstractTimeMediator mediator) {
         this.identifier = identifier;
         this.type = type;
         this.mediator = mediator;
@@ -34,6 +34,7 @@ public abstract class Runway extends Component {
 
     /**
      * Getter of strip capacity
+     *
      * @return number of place
      */
     public double getSpaces() {
@@ -42,6 +43,7 @@ public abstract class Runway extends Component {
 
     /**
      * Getter of type d'objects
+     *
      * @return type of objects accepted
      */
     public FlyingObjectType getType() {
@@ -50,6 +52,7 @@ public abstract class Runway extends Component {
 
     /**
      * Tell us if the strip is obstructing by the animals
+     *
      * @return the result
      */
     public boolean isBlocked() {
@@ -58,6 +61,7 @@ public abstract class Runway extends Component {
 
     /**
      * Tell us how many animals are on the strip
+     *
      * @return numbers of animals
      */
     public int getNumberOfAnimals() {

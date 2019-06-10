@@ -1,9 +1,10 @@
 package ch.heig;
 
 import ch.heig.factory.TowerControlFactory;
-import ch.heig.mediator.AbstractMediator;
-import ch.heig.mediator.DayMediator;
-import ch.heig.mediator.NightMediator;
+import ch.heig.mediator.time.AbstractTimeMediator;
+import ch.heig.mediator.time.DayTimeMediator;
+import ch.heig.mediator.time.NightTimeMediator;
+import ch.heig.mediator.weather.*;
 import ch.heig.models.animals.Bird;
 import ch.heig.models.animals.Duck;
 import ch.heig.models.animals.Pier;
@@ -13,16 +14,22 @@ import ch.heig.models.runways.PlaneRunway;
 import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
+import ch.heig.utils.WeightedCollection;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
+import com.almasb.fxgl.entity.view.EntityView;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.ui.UI;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -35,28 +42,33 @@ import static com.almasb.fxgl.app.DSLKt.*;
 
 public class ControlTowerGame extends GameApplication {
 
-    private AbstractMediator mediator;
+    private AbstractTimeMediator timeMediator;
+    private AbstractWeatherMediator weatherMediator;
+    private ControlTowerUIController uiController = new ControlTowerUIController();
+    private Rectangle weatherRectangle = new Rectangle();
+
     private List<Runway> runways = new ArrayList<>(5);
     private int index;
 
     public ControlTowerGame() {
-        // Init the game with the DayMediator
-        mediator = new DayMediator();
+        // Init the game with the DayTimeMediator
+        timeMediator = new DayTimeMediator(uiController);
+        // Init the game with normal weather mediatior
+        weatherMediator = new NormalWeatherMediator(this, uiController);
 
-        runways.add(0, new ChopperRunway("runway_1", mediator));
-        runways.add(1, new PlaneRunway("runway_2", mediator));
-        runways.add(2, new PlaneRunway("runway_3", mediator));
-        runways.add(3, new PlaneRunway("runway_4", mediator));
-        runways.add(4, new ChopperRunway("runway_5", mediator));
-
+        runways.add(0, new ChopperRunway("runway_1", timeMediator));
+        runways.add(1, new PlaneRunway("runway_2", timeMediator));
+        runways.add(2, new PlaneRunway("runway_3", timeMediator));
+        runways.add(3, new PlaneRunway("runway_4", timeMediator));
+        runways.add(4, new ChopperRunway("runway_5", timeMediator));
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public AbstractMediator getMediator() {
-        return mediator;
+    public AbstractTimeMediator getMediator() {
+        return timeMediator;
     }
 
     public Runway getRunway() {
@@ -95,7 +107,6 @@ public class ControlTowerGame extends GameApplication {
 
     @Override
     protected void initUI() {
-        ControlTowerUIController uiController = new ControlTowerUIController();
         getStateMachine().getPlayState().addStateListener(uiController);
 
         UI ui = getAssetLoader().loadUI("tower_control_ui.fxml", uiController);
@@ -129,7 +140,7 @@ public class ControlTowerGame extends GameApplication {
         uiController.getNbInChopperRunwayTwo().visibleProperty().bind(getGameState().booleanProperty("runway_5_open"));
 
         getGameScene().addUI(ui);
-        getGameScene().setBackgroundColor(mediator.getBackgroundColor());
+        getGameScene().setBackgroundColor(timeMediator.getBackgroundColor());
 
         // Compteur durée de la partie
         Text timerText = getUIFactory().newText("", Color.WHITE, 28);
@@ -149,15 +160,41 @@ public class ControlTowerGame extends GameApplication {
 
         getGameScene().addUINodes(timerText, timerCircle);
 
-        mediator.selfAnnounce(runways.get(0));
-        mediator.selfAnnounce(runways.get(1));
-        mediator.selfAnnounce(runways.get(2));
+        // Time Icon
+        Circle timeIconBackground = uiController.getTimeIconBackground();
+        Circle timeIconForeground = uiController.getTimeIconForeground();
+        double timeIconX = getWidth() / 2 - 40 * 2;
+        double timeIconY = 35.0;
+
+        timeIconBackground.setCenterX(timeIconX);
+        timeIconBackground.setCenterY(timeIconY);
+        timeIconBackground.setFill(Color.AQUAMARINE);
+        timeIconForeground.setCenterX(timeIconX);
+        timeIconForeground.setCenterY(timeIconY);
+        timeMediator.setTimeIcon();
+
+        // Weather Icon
+        Circle weatherIconBackground = uiController.getWeatherIconBackground();
+        Circle WeatherIconForeground = uiController.getWeatherIconForeground();
+        double weatherIconX = getWidth() / 2 + 40 * 2;
+        double weatherIconY = timeIconY;
+
+        weatherIconBackground.setCenterX(weatherIconX);
+        weatherIconBackground.setCenterY(weatherIconY);
+        weatherIconBackground.setFill(Color.AQUAMARINE);
+        WeatherIconForeground.setCenterX(weatherIconX);
+        WeatherIconForeground.setCenterY(weatherIconY);
+        weatherMediator.setWeatherIcon();
+        weatherMediator.setWeatherBackground();
+
+        timeMediator.selfAnnounce(runways.get(0));
+        timeMediator.selfAnnounce(runways.get(1));
+        timeMediator.selfAnnounce(runways.get(2));
 
     }
 
     @Override
     protected void initInput() {
-
         Input input = getInput();
 
         // Define the different user inputs
@@ -196,26 +233,29 @@ public class ControlTowerGame extends GameApplication {
         // Changing auto of mediator
         run(() -> {
             if (getGameState().getBoolean("day")) {
-                mediator = new NightMediator(mediator);
-                mediator.selfAnnounce(runways.get(3));
-                mediator.selfAnnounce(runways.get(4));
+                timeMediator = new NightTimeMediator(timeMediator);
+                timeMediator.selfAnnounce(runways.get(3));
+                timeMediator.selfAnnounce(runways.get(4));
+
                 getGameState().setValue("day", false);
                 getGameState().setValue("start", 3);
                 getGameState().setValue("end", 4);
             } else {
-                mediator = new DayMediator(mediator);
-                mediator.selfAnnounce(runways.get(0));
-                mediator.selfAnnounce(runways.get(1));
-                mediator.selfAnnounce(runways.get(2));
+                timeMediator = new DayTimeMediator(timeMediator);
+                timeMediator.selfAnnounce(runways.get(0));
+                timeMediator.selfAnnounce(runways.get(1));
+                timeMediator.selfAnnounce(runways.get(2));
+
                 getGameState().setValue("day", true);
                 getGameState().setValue("start", 0);
                 getGameState().setValue("end", 2);
             }
 
-            // Notify all colleagues of the mediator change
-            mediator.updateAllCollegues();
+            // Notify all colleagues of the timeMediator change
+            timeMediator.updateAllCollegues();
+            timeMediator.setTimeIcon();
 
-            getGameScene().setBackgroundColor(mediator.getBackgroundColor());
+            getGameScene().setBackgroundColor(timeMediator.getBackgroundColor());
         }, Duration.seconds(15));
 
         // Remove planes on runways auto
@@ -259,6 +299,58 @@ public class ControlTowerGame extends GameApplication {
 
         // Game timer
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));
+
+        initWeather();
+    }
+
+    private void initWeather() {
+        weatherRectangle.setWidth(getWidth());
+        weatherRectangle.setHeight(getHeight());
+        EntityView weatherView = new EntityView();
+        weatherView.addNode(weatherRectangle);
+
+        // Initiate once to make background image loading faster
+        new NormalWeatherMediator(this, uiController);
+        new FogWeatherMediator(this, uiController);
+        new RainWeatherMediator(this, uiController);
+        new CloudyWeatherMediator(this, uiController);
+        new BrightWeatherMediator(this, uiController);
+        new SnowWeatherMediator(this, uiController);
+        new LightningWeatherMediator(this, uiController);
+        new RainbowWeatherMediator(this, uiController);
+        new HeavyRainWeatherMediator(this, uiController);
+        new BigFogWeatherMediator(this, uiController);
+        new HurricaneWeatherMediator(this, uiController);
+
+        Entities.builder()
+                .viewFromNode(weatherView)
+                .with(new IrremovableComponent())
+                .buildAndAttach(getGameWorld());
+
+        run(() -> {
+            // Populate weather collection with different weights
+            WeightedCollection<AbstractWeatherMediator> weatherCollection = new WeightedCollection<>();
+            weatherCollection.add(5, new NormalWeatherMediator(this, uiController));
+            weatherCollection.add(5, new FogWeatherMediator(this, uiController));
+            weatherCollection.add(5, new RainWeatherMediator(this, uiController));
+            weatherCollection.add(4, new CloudyWeatherMediator(this, uiController));
+            weatherCollection.add(4, new BrightWeatherMediator(this, uiController));
+            weatherCollection.add(3, new SnowWeatherMediator(this, uiController));
+            weatherCollection.add(3, new LightningWeatherMediator(this, uiController));
+            weatherCollection.add(3, new RainbowWeatherMediator(this, uiController));
+            weatherCollection.add(2, new HeavyRainWeatherMediator(this, uiController));
+            weatherCollection.add(2, new BigFogWeatherMediator(this, uiController));
+            weatherCollection.add(1, new HurricaneWeatherMediator(this, uiController));
+
+            weatherMediator = weatherCollection.next();
+            weatherMediator.setWeatherIcon();
+            weatherMediator.setWeatherBackground();
+
+        }, Duration.seconds(weatherMediator.getDuration()));
+    }
+
+    public void setWeatherBackground(ImagePattern weatherImagePattern) {
+        weatherRectangle.setFill(weatherImagePattern);
     }
 
     @Override

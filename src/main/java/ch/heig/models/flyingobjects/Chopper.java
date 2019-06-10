@@ -3,7 +3,6 @@ package ch.heig.models.flyingobjects;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 
-
 /**
  * created by Aleksandar Milenkovic
  * 08.05.2019

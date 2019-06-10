@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,6 +26,18 @@ public class ControlTowerUIController implements UIController, StateListener, In
 
     @FXML
     private Pane root;
+
+    @FXML
+    private Circle timeIconBackground;
+
+    @FXML
+    private Circle timeIconForeground;
+
+    @FXML
+    private Circle weatherIconBackground;
+
+    @FXML
+    private Circle weatherIconForeground;
 
     @FXML
     private VBox playerBox;
@@ -85,12 +98,12 @@ public class ControlTowerUIController implements UIController, StateListener, In
         labelScore.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
-                if (t.length() > 7){
+                if (t.length() > 7) {
                     int oldValue = Integer.valueOf(t.substring(8, t.length() - 1));
                     int newValue = Integer.valueOf(t1.substring(8, t1.length() - 1));
-                    if(newValue > oldValue)
+                    if (newValue > oldValue)
                         labelScore.setStyle("-fx-text-fill: GREEN; -fx-font-weight: BOLD");
-                    else{
+                    else {
                         labelScore.setStyle("-fx-text-fill: RED; -fx-font-weight: BOLD");
                     }
                 }
@@ -107,6 +120,22 @@ public class ControlTowerUIController implements UIController, StateListener, In
 
     @Override
     public void onUpdate(double tpf) {
+    }
+
+    public Circle getTimeIconBackground() {
+        return timeIconBackground;
+    }
+
+    public Circle getTimeIconForeground() {
+        return timeIconForeground;
+    }
+
+    public Circle getWeatherIconBackground() {
+        return weatherIconBackground;
+    }
+
+    public Circle getWeatherIconForeground() {
+        return weatherIconForeground;
     }
 
     public Label getLabelScore() {

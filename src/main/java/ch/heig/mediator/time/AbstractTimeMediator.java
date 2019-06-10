@@ -1,14 +1,17 @@
-package ch.heig.mediator;
+package ch.heig.mediator.time;
 
 import ch.heig.models.flyingobjects.Chopper;
 import ch.heig.models.flyingobjects.Ovni;
 import ch.heig.models.flyingobjects.Plane;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.Runway;
+import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.FlyingObjectType;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,19 +21,23 @@ import java.util.List;
  * 08.05.2019
  * 15:46
  */
-public abstract class AbstractMediator {
-    final double PROGRESS_STEP = 0.1;
 
+public abstract class AbstractTimeMediator {
+    final double PROGRESS_STEP = 0.1;
     protected List<Runway> runways;
     private List<Entity> flyingObjects;
+    protected ControlTowerUIController uiController;
 
-    public AbstractMediator() {
-        flyingObjects = new LinkedList<>();
-        runways = new LinkedList<>();
+    public AbstractTimeMediator(ControlTowerUIController uiController) {
+        this.flyingObjects = new LinkedList<>();
+        this.runways = new LinkedList<>();
+        this.uiController = uiController;
     }
 
-    AbstractMediator(AbstractMediator other) {
+    AbstractTimeMediator(AbstractTimeMediator other) {
         this.flyingObjects = new LinkedList<>(other.flyingObjects);
+        this.uiController = other.getUiController();
+
         this.runways = new LinkedList<>();
         for (Runway r : other.runways)
             selfDestroy(r);
@@ -77,7 +84,6 @@ public abstract class AbstractMediator {
         r.destroyAll();
     }
 
-
     /**
      * Update all colleagues of the mediator change
      */
@@ -118,13 +124,7 @@ public abstract class AbstractMediator {
      * @param runway runway to landing
      */
     public void askToLand(Entity e, Runway runway) {
-
-        if (!runways.contains(runway)) {
-            FXGL.getGameState().setValue("playerNotif", String.format("Landing strip #%s closed", runway.toString().split("_")[1]));
-            return;
-        }
-
-        if(e.getComponent(FlyingObject.class).getEntity().getType() != FlyingObjectType.OVNI) {
+        if (e.getComponent(FlyingObject.class).getEntity().getType() != FlyingObjectType.OVNI) {
             if (runway.getType() != e.getComponent(FlyingObject.class).getEntity().getType()) {
                 FXGL.getGameState().setValue("playerNotif", "Wrong landing strip!!!");
                 return;
@@ -145,6 +145,16 @@ public abstract class AbstractMediator {
         }
 
     }
+
+    public ControlTowerUIController getUiController() {
+        return uiController;
+    }
+
+    public void setTimeIcon() {
+        uiController.getTimeIconForeground().setFill(new ImagePattern(getTimeIconImage()));
+    }
+
+    protected abstract Image getTimeIconImage();
 
     /**
      * The mediator's background
