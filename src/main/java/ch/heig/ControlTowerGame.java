@@ -190,7 +190,6 @@ public class ControlTowerGame extends GameApplication {
         timeMediator.selfAnnounce(runways.get(0));
         timeMediator.selfAnnounce(runways.get(1));
         timeMediator.selfAnnounce(runways.get(2));
-
     }
 
     @Override
