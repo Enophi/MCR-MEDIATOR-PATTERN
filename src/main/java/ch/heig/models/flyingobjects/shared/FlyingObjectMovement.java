@@ -18,14 +18,29 @@ public class FlyingObjectMovement extends Component {
 
     private double deviationX;
 
+    /**
+     * Instantiates a new Flying object movement.
+     *
+     * @param speed the speed
+     */
     public FlyingObjectMovement(int speed) {
         this.speed = speed;
     }
 
+    /**
+     * Gets speed.
+     *
+     * @return the speed
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Sets deviation x.
+     *
+     * @param deviationX the deviation x
+     */
     public void setDeviationX(double deviationX) {
         this.deviationX = deviationX;
     }
@@ -45,6 +60,11 @@ public class FlyingObjectMovement extends Component {
         }
     }
 
+    /**
+     * Sets speed multiplier.
+     *
+     * @param speedMultiplier the speed multiplier
+     */
     public void setSpeedMultiplier(double speedMultiplier) {
         this.speedMultiplier = speedMultiplier;
     }

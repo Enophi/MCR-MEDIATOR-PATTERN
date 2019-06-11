@@ -20,8 +20,17 @@ import javafx.util.Duration;
 import static com.almasb.fxgl.app.DSLKt.play;
 import static com.almasb.fxgl.app.DSLKt.texture;
 
+/**
+ * The type Tower control factory.
+ */
 public class TowerControlFactory implements EntityFactory {
 
+    /**
+     * New slow plane entity.
+     *
+     * @param data the data
+     * @return the entity
+     */
     @Spawns("plane")
     public Entity newSlowPlane(SpawnData data) {
         final int SLOW_PLANE_MIN = 40;
@@ -40,6 +49,12 @@ public class TowerControlFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * New chopper entity.
+     *
+     * @param data the data
+     * @return the entity
+     */
     @Spawns("chopper")
     public Entity newChopper(SpawnData data) {
         final int CHOPPER_MIN = 50;
@@ -58,6 +73,12 @@ public class TowerControlFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * New ovni entity.
+     *
+     * @param data the data
+     * @return the entity
+     */
     @Spawns("ovni")
     public Entity newOvni(SpawnData data) {
         final int OVNI_MIN = 150;
@@ -76,6 +97,12 @@ public class TowerControlFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * New explosion entity.
+     *
+     * @param data the data
+     * @return the entity
+     */
     @Spawns("explosion")
     public Entity newExplosion(SpawnData data) {
         play("explosion.wav");
@@ -87,6 +114,12 @@ public class TowerControlFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * New bird entity.
+     *
+     * @param data the data
+     * @return the entity
+     */
     @Spawns("bird")
     public Entity newBird(SpawnData data) {
 
@@ -98,6 +131,12 @@ public class TowerControlFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * New duck entity.
+     *
+     * @param data the data
+     * @return the entity
+     */
     @Spawns("duck")
     public Entity newDuck(SpawnData data) {
 
@@ -109,6 +148,12 @@ public class TowerControlFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * New pier entity.
+     *
+     * @param data the data
+     * @return the entity
+     */
     @Spawns("pier")
     public Entity newPier(SpawnData data) {
 

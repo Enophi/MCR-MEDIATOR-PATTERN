@@ -39,6 +39,9 @@ import java.util.Map;
 import static ch.heig.utils.Rand.getRandomInt;
 import static com.almasb.fxgl.app.DSLKt.*;
 
+/**
+ * The type Control tower game.
+ */
 public class ControlTowerGame extends GameApplication {
 
     private AbstractTimeMediator timeMediator;
@@ -49,6 +52,9 @@ public class ControlTowerGame extends GameApplication {
     private List<Runway> runways = new ArrayList<>(5);
     private int index;
 
+    /**
+     * Instantiates a new Control tower game.
+     */
     public ControlTowerGame() {
         // Init the game with the DayTimeMediator
         timeMediator = new DayTimeMediator(uiController);
@@ -62,14 +68,29 @@ public class ControlTowerGame extends GameApplication {
         runways.add(4, new ChopperRunway("runway_5", timeMediator));
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Gets mediator.
+     *
+     * @return the mediator
+     */
     public AbstractTimeMediator getMediator() {
         return timeMediator;
     }
 
+    /**
+     * Gets runway.
+     *
+     * @return the runway
+     */
     public Runway getRunway() {
         return runways.get(index);
     }
@@ -267,7 +288,7 @@ public class ControlTowerGame extends GameApplication {
         }, Duration.seconds(5));
 
         // Add animals on runways
-        int pos[] = new int[]{130, 290, 440, 600, 740};
+        int[] pos = new int[]{130, 290, 440, 600, 740};
         run(() -> {
             Entity e;
             int start = getGameState().getInt("start");
@@ -331,18 +352,38 @@ public class ControlTowerGame extends GameApplication {
         run(() -> weatherMediator.checkWeatherChange(), Duration.seconds(0.1));
     }
 
+    /**
+     * Init incoming weather icon.
+     *
+     * @param weatherIcon the weather icon
+     */
     public void initIncomingWeatherIcon(Circle weatherIcon) {
         getGameScene().addUINodes(weatherIcon);
     }
 
+    /**
+     * Remove incoming weather icon.
+     *
+     * @param weatherIcon the weather icon
+     */
     public void removeIncomingWeatherIcon(Circle weatherIcon) {
         getGameScene().removeUINodes(weatherIcon);
     }
 
+    /**
+     * Sets weather mediator.
+     *
+     * @param weatherMediator the weather mediator
+     */
     public void setWeatherMediator(AbstractWeatherMediator weatherMediator) {
         this.weatherMediator = weatherMediator;
     }
 
+    /**
+     * Sets weather background.
+     *
+     * @param weatherImagePattern the weather image pattern
+     */
     public void setWeatherBackground(ImagePattern weatherImagePattern) {
         weatherRectangle.setFill(weatherImagePattern);
     }

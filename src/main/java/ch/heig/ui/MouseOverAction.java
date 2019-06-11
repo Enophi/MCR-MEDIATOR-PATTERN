@@ -9,6 +9,9 @@ import javafx.geometry.Rectangle2D;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * The type Mouse over action.
+ */
 public class MouseOverAction extends UserAction {
 
     private Input _input;
@@ -19,6 +22,7 @@ public class MouseOverAction extends UserAction {
      *
      * @param name  The name of the action
      * @param input The game input
+     * @param c     the c
      */
     public MouseOverAction(String name, Input input, Consumer<Entity> c) {
         super(name);

@@ -10,10 +10,19 @@ package ch.heig.models.animals;
 import ch.heig.models.runways.Runway;
 import com.almasb.fxgl.entity.component.Component;
 
+/**
+ * The type Animal.
+ */
 public abstract class Animal extends Component {
     private final String identifier;
     private Runway runway;
 
+    /**
+     * Instantiates a new Animal.
+     *
+     * @param identifier the identifier
+     * @param runway     the runway
+     */
     public Animal(String identifier, Runway runway) {
         this.identifier = identifier;
         this.runway = runway;

@@ -63,9 +63,11 @@ public class NormalWeatherMediator extends AbstractWeatherMediator {
     }
 
     @Override
-    public void addFlyingModifiers(Entity e) { }
+    public void addFlyingModifiers(Entity e) {
+    }
 
     @Override
-    public void addRunwayModifiers(Runway r) { }
+    public void addRunwayModifiers(Runway r) {
+    }
 }
 

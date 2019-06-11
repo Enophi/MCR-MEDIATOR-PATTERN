@@ -11,8 +11,8 @@ import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Alain Gobet
- * 09.06.2019
- * 19:42
+ * 11.06.2019
+ * 20:35
  */
 public class WindyWeatherMediator extends AbstractWeatherMediator {
 
@@ -21,7 +21,7 @@ public class WindyWeatherMediator extends AbstractWeatherMediator {
     private static final ImagePattern hurricaneImagePattern = new ImagePattern(hurricaneBackground);
 
     /**
-     * Instantiates a new Hurricane weather mediator.
+     * Instantiates a new Windy weather mediator.
      *
      * @param game         the game
      * @param uiController the ui controller
@@ -31,7 +31,7 @@ public class WindyWeatherMediator extends AbstractWeatherMediator {
     }
 
     /**
-     * Instantiates a new Hurricane weather mediator.
+     * Instantiates a new Windy weather mediator.
      *
      * @param awm the awm
      */
@@ -72,6 +72,7 @@ public class WindyWeatherMediator extends AbstractWeatherMediator {
     }
 
     @Override
-    public void addRunwayModifiers(Runway r) { }
+    public void addRunwayModifiers(Runway r) {
+    }
 }
 

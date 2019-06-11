@@ -69,6 +69,7 @@ public class CloudyWeatherMediator extends AbstractWeatherMediator {
     }
 
     @Override
-    public void addRunwayModifiers(Runway r) { }
+    public void addRunwayModifiers(Runway r) {
+    }
 }
 

@@ -13,6 +13,9 @@ import static com.almasb.fxgl.app.DSLKt.spawn;
  * A gérer dans la méthode onUpdate laquelle est appelé automatiquement par le Framework
  */
 public class FlyingObjectAction extends Component {
+    /**
+     * The Random crash.
+     */
     int randomCrash = 0;
 
     @Override
@@ -24,6 +27,9 @@ public class FlyingObjectAction extends Component {
             crash();
     }
 
+    /**
+     * Enter waiting zone.
+     */
     public void enterWaitingZone() {
         getEntity().removeFromWorld();
         FXGL.getGameState().increment("waiting", 1);
@@ -41,6 +47,11 @@ public class FlyingObjectAction extends Component {
         spawn("explosion", getEntity().getCenter());
     }
 
+    /**
+     * Sets random crash.
+     *
+     * @param randomCrash the random crash
+     */
     public void setRandomCrash(int randomCrash) {
         this.randomCrash = randomCrash;
     }

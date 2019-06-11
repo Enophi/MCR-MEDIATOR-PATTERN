@@ -1,6 +1,7 @@
 package ch.heig.controller;
 
-import ch.heig.mediator.weather.*;
+import ch.heig.mediator.weather.AbstractWeatherMediator;
+import ch.heig.mediator.weather.WindyWeatherMediator;
 import ch.heig.utils.WeightedCollection;
 
 import java.util.ArrayList;

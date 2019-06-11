@@ -2,7 +2,6 @@ package ch.heig.mediator.weather;
 
 import ch.heig.ControlTowerGame;
 import ch.heig.models.flyingobjects.shared.FlyingObjectAction;
-import ch.heig.models.flyingobjects.shared.FlyingObjectMovement;
 import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
 import com.almasb.fxgl.entity.Entity;

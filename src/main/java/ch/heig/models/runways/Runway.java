@@ -15,9 +15,15 @@ import com.almasb.fxgl.entity.component.Component;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The type Runway.
+ */
 public abstract class Runway extends Component {
     private double maxPlaces = 1.0;
 
+    /**
+     * The Animals.
+     */
     protected List<Entity> animals;
 
     private final FlyingObjectType type;
@@ -25,6 +31,13 @@ public abstract class Runway extends Component {
 
     private final String identifier;
 
+    /**
+     * Instantiates a new Runway.
+     *
+     * @param identifier the identifier
+     * @param type       the type
+     * @param mediator   the mediator
+     */
     public Runway(String identifier, FlyingObjectType type, AbstractTimeMediator mediator) {
         this.identifier = identifier;
         this.type = type;
@@ -41,6 +54,11 @@ public abstract class Runway extends Component {
         return maxPlaces;
     }
 
+    /**
+     * Sets max places.
+     *
+     * @param maxPlaces the max places
+     */
     public void setMaxPlaces(double maxPlaces) {
         this.maxPlaces = maxPlaces;
     }
@@ -73,7 +91,9 @@ public abstract class Runway extends Component {
     }
 
     /**
-     * @param animal
+     * Self announce.
+     *
+     * @param animal the animal
      */
     public void selfAnnounce(Entity animal) {
         animals.add(animal);
