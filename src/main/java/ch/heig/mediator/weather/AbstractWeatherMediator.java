@@ -94,23 +94,25 @@ public abstract class AbstractWeatherMediator {
     }
 
     public void initIncomingWeatherIcon(int position) {
+        incomingWeatherCircleBackground = initCircle(position);
+        incomingWeatherCircle = initCircle(position);
+        incomingWeatherCircle.setFill(new ImagePattern(getWeatherIconImage()));
+
+        game.initIncomingWeatherIcon(incomingWeatherCircleBackground);
+        game.initIncomingWeatherIcon(incomingWeatherCircle);
+    }
+
+    private Circle initCircle(int position) {
         Circle weatherIcon = uiController.getWeatherIconForeground();
         double centerX = weatherIcon.getCenterX() + weatherIcon.getRadius() / 2 + 5;
         double centerY = weatherIcon.getCenterY() + 2;
 
-        incomingWeatherCircleBackground = new Circle(centerX, centerY, WEATHER_ICON_RADIUS, Color.AQUAMARINE);
-        incomingWeatherCircleBackground.setStrokeWidth(2);
-        incomingWeatherCircleBackground.setStroke(Color.BLACK);
-        incomingWeatherCircleBackground.setTranslateX(WEATHER_ICON_RADIUS * 2 * position + 5 * position);
+        Circle circle = new Circle(centerX, centerY, WEATHER_ICON_RADIUS, Color.AQUAMARINE);
+        circle.setStrokeWidth(2);
+        circle.setStroke(Color.BLACK);
+        circle.setTranslateX(WEATHER_ICON_RADIUS * 2 * position + 5 * position);
 
-        incomingWeatherCircle = new Circle(centerX, centerY, WEATHER_ICON_RADIUS, Color.AQUAMARINE);
-        incomingWeatherCircle.setStrokeWidth(2);
-        incomingWeatherCircle.setStroke(Color.BLACK);
-        incomingWeatherCircle.setFill(new ImagePattern(getWeatherIconImage()));
-        incomingWeatherCircle.setTranslateX(WEATHER_ICON_RADIUS * 2 * position + 5 * position);
-
-        game.initIncomingWeatherIcon(incomingWeatherCircleBackground);
-        game.initIncomingWeatherIcon(incomingWeatherCircle);
+        return circle;
     }
 
     public void updateIncomingWeatherIcon(int position) {
