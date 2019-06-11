@@ -294,7 +294,7 @@ public class ControlTowerGame extends GameApplication {
 
             e = getGameWorld().spawn("pier", pos[index], FXGLMath.random(420, 470));
             e.getComponent(Pier.class).selfAnnounce();
-        }, Duration.seconds(30));
+        }, Duration.seconds(getRandomInt(10, 20)));
 
         // Game timer
         getMasterTimer().runAtInterval(() -> inc("time", -1), Duration.seconds(1));
