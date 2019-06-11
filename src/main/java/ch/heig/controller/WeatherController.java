@@ -36,17 +36,18 @@ public class WeatherController {
         if (lastWeatherEnding <= showingTime) {
             // Populate weather collection with different weights
             WeightedCollection<AbstractWeatherMediator> weatherCollection = new WeightedCollection<>();
-            weatherCollection.add(5, new NormalWeatherMediator(lastWeather));
-            weatherCollection.add(5, new FogWeatherMediator(lastWeather));
-            weatherCollection.add(5, new RainWeatherMediator(lastWeather));
-            weatherCollection.add(4, new CloudyWeatherMediator(lastWeather));
-            weatherCollection.add(4, new BrightWeatherMediator(lastWeather));
-            weatherCollection.add(3, new SnowWeatherMediator(lastWeather));
-            weatherCollection.add(3, new LightningWeatherMediator(lastWeather));
-            weatherCollection.add(3, new RainbowWeatherMediator(lastWeather));
-            weatherCollection.add(2, new HeavyRainWeatherMediator(lastWeather));
-            weatherCollection.add(2, new BigFogWeatherMediator(lastWeather));
-            weatherCollection.add(1, new HurricaneWeatherMediator(lastWeather));
+            //weatherCollection.add(5, new NormalWeatherMediator(lastWeather));
+            //weatherCollection.add(5, new FogWeatherMediator(lastWeather));
+            //weatherCollection.add(5, new RainWeatherMediator(lastWeather));
+            //weatherCollection.add(4, new CloudyWeatherMediator(lastWeather));
+            //weatherCollection.add(4, new BrightWeatherMediator(lastWeather));
+            weatherCollection.add(4, new WindyWeatherMediator(lastWeather));
+            //weatherCollection.add(3, new SnowWeatherMediator(lastWeather));
+            //weatherCollection.add(3, new LightningWeatherMediator(lastWeather));
+            //weatherCollection.add(3, new RainbowWeatherMediator(lastWeather));
+            //weatherCollection.add(2, new HeavyRainWeatherMediator(lastWeather));
+            //weatherCollection.add(2, new BigFogWeatherMediator(lastWeather));
+            //weatherCollection.add(1, new HurricaneWeatherMediator(lastWeather));
 
             AbstractWeatherMediator weatherMediator = weatherCollection.next();
             weatherMediator.initIncomingWeatherIcon(weatherList.size());

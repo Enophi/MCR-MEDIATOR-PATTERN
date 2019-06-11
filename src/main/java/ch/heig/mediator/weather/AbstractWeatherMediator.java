@@ -2,7 +2,11 @@ package ch.heig.mediator.weather;
 
 import ch.heig.ControlTowerGame;
 import ch.heig.controller.WeatherController;
+import ch.heig.models.flyingobjects.shared.FlyingObjectAction;
+import ch.heig.models.flyingobjects.shared.FlyingObjectMovement;
+import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
+import com.almasb.fxgl.entity.Entity;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -182,6 +186,7 @@ public abstract class AbstractWeatherMediator {
         game.setWeatherMediator(this);
         setWeatherIcon();
         setWeatherBackground();
+        addModifiers();
     }
 
     /**
@@ -228,4 +233,31 @@ public abstract class AbstractWeatherMediator {
         game.removeIncomingWeatherIcon(incomingWeatherCircleBackground);
         game.removeIncomingWeatherIcon(incomingWeatherCircle);
     }
+
+    public void addModifiers() {
+        for (Entity e : game.getMediator().getFlyingObjects()) {
+            resetFlyingModifiers(e);
+            addFlyingModifiers(e);
+        }
+
+        for (Runway r : game.getMediator().getRunways()) {
+            resetRunwayModifiers(r);
+            addRunwayModifiers(r);
+        }
+    }
+
+    public abstract void addFlyingModifiers(Entity e);
+
+    public void resetFlyingModifiers(Entity e) {
+        e.getComponent(FlyingObjectMovement.class).setSpeedMultiplier(0);
+        e.getComponent(FlyingObjectMovement.class).setDeviationX(0);
+        e.getComponent(FlyingObjectAction.class).setRandomCrash(0);
+    }
+
+    public abstract void addRunwayModifiers(Runway r);
+
+    public void resetRunwayModifiers(Runway r) {
+        r.setMaxPlaces(1.0);
+    }
+
 }

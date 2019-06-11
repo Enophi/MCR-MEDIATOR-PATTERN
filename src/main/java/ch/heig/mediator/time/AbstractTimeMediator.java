@@ -136,8 +136,8 @@ public abstract class AbstractTimeMediator {
             }
         }
 
-        if (FXGL.getGameState().getDouble(runway.toString() + "_places") < runway.getSpaces()) {
-            FXGL.getGameState().increment(runway.toString() + "_places", PROGRESS_STEP);
+        if (FXGL.getGameState().getDouble(runway.toString() + "_places") < runway.getMaxPlaces()) {
+            FXGL.getGameState().increment(runway.toString() + "_places", PROGRESS_STEP / runway.getMaxPlaces());
             FXGL.getGameState().setValue("playerNotif", "");
             if (runway.isBlocked()) {
                 autorhiseLandingWithPenalties(e, runway.getNumberOfAnimals());
@@ -167,4 +167,12 @@ public abstract class AbstractTimeMediator {
      * @return his color
      */
     public abstract Color getBackgroundColor();
+
+    public List<Entity> getFlyingObjects() {
+        return flyingObjects;
+    }
+
+    public List<Runway> getRunways() {
+        return runways;
+    }
 }

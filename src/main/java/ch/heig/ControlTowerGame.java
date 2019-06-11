@@ -14,7 +14,6 @@ import ch.heig.models.runways.PlaneRunway;
 import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
 import ch.heig.ui.MouseOverAction;
-import ch.heig.utils.WeightedCollection;
 import com.almasb.fxgl.app.FXGL;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.core.math.FXGLMath;
@@ -216,14 +215,17 @@ public class ControlTowerGame extends GameApplication {
             switch (index) {
                 case 1:
                     e = getGameWorld().spawn("plane", FXGLMath.random(1220) + 20, 0);
+                    weatherMediator.addFlyingModifiers(e);
                     e.getComponent(FlyingObject.class).selfAnnounce();
                     break;
                 case 2:
                     e = getGameWorld().spawn("chopper", FXGLMath.random(1180) + 20, 0);
+                    weatherMediator.addFlyingModifiers(e);
                     e.getComponent(FlyingObject.class).selfAnnounce();
                     break;
                 case 3:
                     e = getGameWorld().spawn("ovni", FXGLMath.random(1225) + 20, 0);
+                    weatherMediator.addFlyingModifiers(e);
                     e.getComponent(FlyingObject.class).selfAnnounce();
                     break;
             }
@@ -274,7 +276,7 @@ public class ControlTowerGame extends GameApplication {
 
             e = getGameWorld().spawn("bird", pos[index], FXGLMath.random(420, 470));
             e.getComponent(Bird.class).selfAnnounce();
-        }, Duration.seconds(getRandomInt(1, 15)));
+        }, Duration.seconds(getRandomInt(5, 15)));
 
         run(() -> {
             Entity e;
@@ -284,7 +286,7 @@ public class ControlTowerGame extends GameApplication {
 
             e = getGameWorld().spawn("duck", pos[index], FXGLMath.random(420, 470));
             e.getComponent(Duck.class).selfAnnounce();
-        }, Duration.seconds(getRandomInt(1, 15)));
+        }, Duration.seconds(getRandomInt(3, 15)));
 
         run(() -> {
             Entity e;

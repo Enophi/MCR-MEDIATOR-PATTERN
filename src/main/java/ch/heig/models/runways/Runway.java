@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Runway extends Component {
-    final double MAX_PLACES = 1.0;
+    private double maxPlaces = 1.0;
 
     protected List<Entity> animals;
 
@@ -37,8 +37,12 @@ public abstract class Runway extends Component {
      *
      * @return number of place
      */
-    public double getSpaces() {
-        return MAX_PLACES;
+    public double getMaxPlaces() {
+        return maxPlaces;
+    }
+
+    public void setMaxPlaces(double maxPlaces) {
+        this.maxPlaces = maxPlaces;
     }
 
     /**
