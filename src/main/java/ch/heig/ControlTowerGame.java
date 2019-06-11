@@ -326,7 +326,23 @@ public class ControlTowerGame extends GameApplication {
                 .with(new IrremovableComponent())
                 .buildAndAttach(getGameWorld());
 
-        run(() -> weatherMediator.checkWeatherChange(), Duration.seconds(1));
+        run(() -> weatherMediator.checkWeatherChange(), Duration.seconds(0.1));
+    }
+
+    public void initIncomingWeatherIcon(Circle weatherIcon) {
+        System.out.println("INIT");
+        System.out.println(weatherIcon);
+        System.out.println(weatherIcon.getCenterX());
+        System.out.println(weatherIcon.getTranslateX());
+        getGameScene().addUINodes(weatherIcon);
+    }
+
+    public void removeIncomingWeatherIcon(Circle weatherIcon) {
+        System.out.println("REMOVE");
+        System.out.println(weatherIcon);
+        System.out.println(weatherIcon.getCenterX());
+        System.out.println(weatherIcon.getTranslateX());
+        getGameScene().removeUINodes(weatherIcon);
     }
 
     public void setWeatherMediator(AbstractWeatherMediator weatherMediator) {

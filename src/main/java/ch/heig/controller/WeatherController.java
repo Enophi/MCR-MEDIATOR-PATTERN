@@ -8,18 +8,20 @@ import java.util.ArrayList;
 public class WeatherController {
 
     private ArrayList<AbstractWeatherMediator> weatherList = new ArrayList<>();
-    private int lastWeatherEnding;
+    private double showingTime;
+    private double lastWeatherEnding;
 
-    public WeatherController(AbstractWeatherMediator awm) {
+    public WeatherController(AbstractWeatherMediator awm, double showingTime) {
         add(awm);
-        lastWeatherEnding = awm.getDuration();
+        this.lastWeatherEnding = awm.getDuration();
+        this.showingTime = showingTime;
     }
 
     public void checkWeather() {
         AbstractWeatherMediator firstWeather = weatherList.get(0);
         AbstractWeatherMediator lastWeather = weatherList.get(weatherList.size() - 1);
 
-        if (lastWeatherEnding <= 15) {
+        if (lastWeatherEnding <= showingTime) {
             // Populate weather collection with different weights
             WeightedCollection<AbstractWeatherMediator> weatherCollection = new WeightedCollection<>();
             weatherCollection.add(5, new NormalWeatherMediator(lastWeather));
@@ -35,19 +37,23 @@ public class WeatherController {
             weatherCollection.add(1, new HurricaneWeatherMediator(lastWeather));
 
             AbstractWeatherMediator weatherMediator = weatherCollection.next();
-
+            weatherMediator.initIncomingWeatherIcon(weatherList.size());
             weatherList.add(weatherMediator);
             lastWeatherEnding += weatherMediator.getDuration();
         }
 
         if (firstWeather.getDuration() <= 0) {
-            weatherList.remove(0);
+            weatherList.remove(firstWeather);
+            weatherList.get(0).removeIncomingWeatherIcon();
             weatherList.get(0).updateMediator();
+
+            for (int i = 1; i <= weatherList.size() - 1; i++) {
+                weatherList.get(i).updateIncomingWeatherIcon(i);
+            }
         }
 
-        firstWeather.setDuration(firstWeather.getDuration() - 1);
-
-        lastWeatherEnding--;
+        firstWeather.setDuration(firstWeather.getDuration() - 0.1);
+        lastWeatherEnding -= 0.1;
     }
 
     public void add(AbstractWeatherMediator awm) {
