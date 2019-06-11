@@ -10,17 +10,27 @@ import javafx.scene.paint.ImagePattern;
  * 09.06.2019
  * 16:35
  */
-
 public class NormalWeatherMediator extends AbstractWeatherMediator {
 
     private static final Image normalIcon = new Image("assets/icons/normal.png");
     private static final Image normalBackground = new Image("assets/textures/blank.png");
     private static final ImagePattern normalImagePattern = new ImagePattern(normalBackground);
 
+    /**
+     * Instantiates a new Normal weather mediator.
+     *
+     * @param game         the game
+     * @param uiController the ui controller
+     */
     public NormalWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
     }
 
+    /**
+     * Instantiates a new Normal weather mediator.
+     *
+     * @param awm the awm
+     */
     public NormalWeatherMediator(AbstractWeatherMediator awm) {
         super(awm);
     }

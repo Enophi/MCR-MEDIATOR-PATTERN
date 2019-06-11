@@ -10,17 +10,27 @@ import javafx.scene.paint.ImagePattern;
  * 09.06.2019
  * 19:42
  */
-
 public class HurricaneWeatherMediator extends AbstractWeatherMediator {
 
     private static final Image hurricaneIcon = new Image("assets/icons/hurricane.png");
     private static final Image hurricaneBackground = new Image("assets/textures/hurricane.gif");
     private static final ImagePattern hurricaneImagePattern = new ImagePattern(hurricaneBackground);
 
+    /**
+     * Instantiates a new Hurricane weather mediator.
+     *
+     * @param game         the game
+     * @param uiController the ui controller
+     */
     public HurricaneWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
     }
 
+    /**
+     * Instantiates a new Hurricane weather mediator.
+     *
+     * @param awm the awm
+     */
     public HurricaneWeatherMediator(AbstractWeatherMediator awm) {
         super(awm);
     }

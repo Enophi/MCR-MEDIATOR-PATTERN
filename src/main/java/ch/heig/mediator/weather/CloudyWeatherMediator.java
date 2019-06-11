@@ -10,17 +10,27 @@ import javafx.scene.paint.ImagePattern;
  * 09.06.2019
  * 16:35
  */
-
 public class CloudyWeatherMediator extends AbstractWeatherMediator {
 
     private static final Image cloudyIcon = new Image("assets/icons/cloud.png");
     private static final Image cloudyBackground = new Image("assets/textures/cloudy.png");
     private static final ImagePattern cloudyImagePattern = new ImagePattern(cloudyBackground);
 
+    /**
+     * Instantiates a new Cloudy weather mediator.
+     *
+     * @param game         the game
+     * @param uiController the ui controller
+     */
     public CloudyWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
     }
 
+    /**
+     * Instantiates a new Cloudy weather mediator.
+     *
+     * @param awm the awm
+     */
     public CloudyWeatherMediator(AbstractWeatherMediator awm) {
         super(awm);
     }

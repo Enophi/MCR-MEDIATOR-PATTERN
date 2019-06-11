@@ -10,17 +10,27 @@ import javafx.scene.paint.ImagePattern;
  * 09.06.2019
  * 19:38
  */
-
 public class SnowWeatherMediator extends AbstractWeatherMediator {
 
     private static final Image snowIcon = new Image("assets/icons/snow.png");
     private static final Image snowBackground = new Image("assets/textures/snow.gif");
     private static final ImagePattern snowImagePattern = new ImagePattern(snowBackground);
 
+    /**
+     * Instantiates a new Snow weather mediator.
+     *
+     * @param game         the game
+     * @param uiController the ui controller
+     */
     public SnowWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
     }
 
+    /**
+     * Instantiates a new Snow weather mediator.
+     *
+     * @param awm the awm
+     */
     public SnowWeatherMediator(AbstractWeatherMediator awm) {
         super(awm);
     }
