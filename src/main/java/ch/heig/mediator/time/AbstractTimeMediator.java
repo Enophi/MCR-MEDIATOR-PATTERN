@@ -124,6 +124,11 @@ public abstract class AbstractTimeMediator {
      * @param runway runway to landing
      */
     public void askToLand(Entity e, Runway runway) {
+
+        if(!runways.contains(runway)){
+            return;
+        }
+
         if (e.getComponent(FlyingObject.class).getEntity().getType() != FlyingObjectType.OVNI) {
             if (runway.getType() != e.getComponent(FlyingObject.class).getEntity().getType()) {
                 FXGL.getGameState().setValue("playerNotif", "Wrong landing strip!!!");
