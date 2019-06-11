@@ -10,15 +10,29 @@ import javafx.scene.paint.ImagePattern;
  * 09.06.2019
  * 19:55
  */
-
 public class BigFogWeatherMediator extends AbstractWeatherMediator {
 
     private static final Image bigFogIcon = new Image("assets/icons/fog.png");
     private static final Image bigFogBackground = new Image("assets/textures/fog.gif");
     private static final ImagePattern bigFogImagePattern = new ImagePattern(bigFogBackground);
 
+    /**
+     * Instantiates a new Big fog weather mediator.
+     *
+     * @param game         the game
+     * @param uiController the ui controller
+     */
     public BigFogWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
+    }
+
+    /**
+     * Instantiates a new Big fog weather mediator.
+     *
+     * @param awm the awm
+     */
+    public BigFogWeatherMediator(AbstractWeatherMediator awm) {
+        super(awm);
     }
 
     @Override
@@ -38,12 +52,12 @@ public class BigFogWeatherMediator extends AbstractWeatherMediator {
 
     @Override
     protected int getMinDuration() {
-        return 5;
+        return 3;
     }
 
     @Override
     protected int getMaxDuration() {
-        return 10;
+        return 7;
     }
 
 }

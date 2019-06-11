@@ -10,15 +10,29 @@ import javafx.scene.paint.ImagePattern;
  * 09.06.2019
  * 19:35
  */
-
 public class RainWeatherMediator extends AbstractWeatherMediator {
 
     private static final Image rainIcon = new Image("assets/icons/rain.png");
     private static final Image rainBackground = new Image("assets/textures/rain.gif");
     private static final ImagePattern rainImagePattern = new ImagePattern(rainBackground);
 
+    /**
+     * Instantiates a new Rain weather mediator.
+     *
+     * @param game         the game
+     * @param uiController the ui controller
+     */
     public RainWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
+    }
+
+    /**
+     * Instantiates a new Rain weather mediator.
+     *
+     * @param awm the awm
+     */
+    public RainWeatherMediator(AbstractWeatherMediator awm) {
+        super(awm);
     }
 
     @Override
@@ -44,7 +58,7 @@ public class RainWeatherMediator extends AbstractWeatherMediator {
 
     @Override
     protected int getMaxDuration() {
-        return 10;
+        return 13;
     }
 }
 

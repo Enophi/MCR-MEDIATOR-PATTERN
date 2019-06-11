@@ -10,15 +10,29 @@ import javafx.scene.paint.ImagePattern;
  * 09.06.2019
  * 20:00
  */
-
 public class RainbowWeatherMediator extends AbstractWeatherMediator {
 
     private static final Image rainbowIcon = new Image("assets/icons/rainbow.png");
     private static final Image rainbowBackground = new Image("assets/textures/rainbow.png");
     private static final ImagePattern rainbowImagePattern = new ImagePattern(rainbowBackground);
 
+    /**
+     * Instantiates a new Rainbow weather mediator.
+     *
+     * @param game         the game
+     * @param uiController the ui controller
+     */
     public RainbowWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
+    }
+
+    /**
+     * Instantiates a new Rainbow weather mediator.
+     *
+     * @param awm the awm
+     */
+    public RainbowWeatherMediator(AbstractWeatherMediator awm) {
+        super(awm);
     }
 
     @Override
