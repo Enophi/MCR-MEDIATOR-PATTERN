@@ -330,18 +330,10 @@ public class ControlTowerGame extends GameApplication {
     }
 
     public void initIncomingWeatherIcon(Circle weatherIcon) {
-        System.out.println("INIT");
-        System.out.println(weatherIcon);
-        System.out.println(weatherIcon.getCenterX());
-        System.out.println(weatherIcon.getTranslateX());
         getGameScene().addUINodes(weatherIcon);
     }
 
     public void removeIncomingWeatherIcon(Circle weatherIcon) {
-        System.out.println("REMOVE");
-        System.out.println(weatherIcon);
-        System.out.println(weatherIcon.getCenterX());
-        System.out.println(weatherIcon.getTranslateX());
         getGameScene().removeUINodes(weatherIcon);
     }
 
