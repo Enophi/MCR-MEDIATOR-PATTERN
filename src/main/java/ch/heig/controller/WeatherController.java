@@ -5,18 +5,30 @@ import ch.heig.utils.WeightedCollection;
 
 import java.util.ArrayList;
 
+/**
+ * The type Weather controller.
+ */
 public class WeatherController {
 
     private ArrayList<AbstractWeatherMediator> weatherList = new ArrayList<>();
     private double showingTime;
     private double lastWeatherEnding;
 
+    /**
+     * Instantiates a new Weather controller.
+     *
+     * @param awm         the awm
+     * @param showingTime the showing time
+     */
     public WeatherController(AbstractWeatherMediator awm, double showingTime) {
         add(awm);
         this.lastWeatherEnding = awm.getDuration();
         this.showingTime = showingTime;
     }
 
+    /**
+     * Check weather.
+     */
     public void checkWeather() {
         AbstractWeatherMediator firstWeather = weatherList.get(0);
         AbstractWeatherMediator lastWeather = weatherList.get(weatherList.size() - 1);
@@ -56,6 +68,11 @@ public class WeatherController {
         lastWeatherEnding -= 0.1;
     }
 
+    /**
+     * Add.
+     *
+     * @param awm the awm
+     */
     public void add(AbstractWeatherMediator awm) {
         weatherList.add(awm);
         lastWeatherEnding += awm.getDuration();
