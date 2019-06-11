@@ -21,6 +21,10 @@ public class RainWeatherMediator extends AbstractWeatherMediator {
         super(game, uiController);
     }
 
+    public RainWeatherMediator(AbstractWeatherMediator awm) {
+        super(awm);
+    }
+
     @Override
     protected Image getWeatherIconImage() {
         return rainIcon;
@@ -44,7 +48,7 @@ public class RainWeatherMediator extends AbstractWeatherMediator {
 
     @Override
     protected int getMaxDuration() {
-        return 10;
+        return 13;
     }
 }
 

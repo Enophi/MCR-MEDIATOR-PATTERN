@@ -21,6 +21,10 @@ public class RainbowWeatherMediator extends AbstractWeatherMediator {
         super(game, uiController);
     }
 
+    public RainbowWeatherMediator(AbstractWeatherMediator awm) {
+        super(awm);
+    }
+
     @Override
     protected Image getWeatherIconImage() {
         return rainbowIcon;

@@ -310,43 +310,28 @@ public class ControlTowerGame extends GameApplication {
         weatherView.addNode(weatherRectangle);
 
         // Initiate once to make background image loading faster
-        new NormalWeatherMediator(this, uiController);
-        new FogWeatherMediator(this, uiController);
-        new RainWeatherMediator(this, uiController);
-        new CloudyWeatherMediator(this, uiController);
-        new BrightWeatherMediator(this, uiController);
-        new SnowWeatherMediator(this, uiController);
-        new LightningWeatherMediator(this, uiController);
-        new RainbowWeatherMediator(this, uiController);
-        new HeavyRainWeatherMediator(this, uiController);
-        new BigFogWeatherMediator(this, uiController);
-        new HurricaneWeatherMediator(this, uiController);
+        new NormalWeatherMediator(weatherMediator);
+        new FogWeatherMediator(weatherMediator);
+        new RainWeatherMediator(weatherMediator);
+        new CloudyWeatherMediator(weatherMediator);
+        new BrightWeatherMediator(weatherMediator);
+        new SnowWeatherMediator(weatherMediator);
+        new LightningWeatherMediator(weatherMediator);
+        new RainbowWeatherMediator(weatherMediator);
+        new HeavyRainWeatherMediator(weatherMediator);
+        new BigFogWeatherMediator(weatherMediator);
+        new HurricaneWeatherMediator(weatherMediator);
 
         Entities.builder()
                 .viewFromNode(weatherView)
                 .with(new IrremovableComponent())
                 .buildAndAttach(getGameWorld());
 
-        run(() -> {
-            // Populate weather collection with different weights
-            WeightedCollection<AbstractWeatherMediator> weatherCollection = new WeightedCollection<>();
-            weatherCollection.add(5, new NormalWeatherMediator(this, uiController));
-            weatherCollection.add(5, new FogWeatherMediator(this, uiController));
-            weatherCollection.add(5, new RainWeatherMediator(this, uiController));
-            weatherCollection.add(4, new CloudyWeatherMediator(this, uiController));
-            weatherCollection.add(4, new BrightWeatherMediator(this, uiController));
-            weatherCollection.add(3, new SnowWeatherMediator(this, uiController));
-            weatherCollection.add(3, new LightningWeatherMediator(this, uiController));
-            weatherCollection.add(3, new RainbowWeatherMediator(this, uiController));
-            weatherCollection.add(2, new HeavyRainWeatherMediator(this, uiController));
-            weatherCollection.add(2, new BigFogWeatherMediator(this, uiController));
-            weatherCollection.add(1, new HurricaneWeatherMediator(this, uiController));
+        run(() -> weatherMediator.checkWeatherChange(), Duration.seconds(1));
+    }
 
-            weatherMediator = weatherCollection.next();
-            weatherMediator.setWeatherIcon();
-            weatherMediator.setWeatherBackground();
-
-        }, Duration.seconds(weatherMediator.getDuration()));
+    public void setWeatherMediator(AbstractWeatherMediator weatherMediator) {
+        this.weatherMediator = weatherMediator;
     }
 
     public void setWeatherBackground(ImagePattern weatherImagePattern) {

@@ -21,6 +21,10 @@ public class BigFogWeatherMediator extends AbstractWeatherMediator {
         super(game, uiController);
     }
 
+    public BigFogWeatherMediator(AbstractWeatherMediator awm) {
+        super(awm);
+    }
+
     @Override
     protected Image getWeatherIconImage() {
         return bigFogIcon;
@@ -38,12 +42,12 @@ public class BigFogWeatherMediator extends AbstractWeatherMediator {
 
     @Override
     protected int getMinDuration() {
-        return 5;
+        return 3;
     }
 
     @Override
     protected int getMaxDuration() {
-        return 10;
+        return 7;
     }
 
 }
