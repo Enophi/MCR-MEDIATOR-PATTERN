@@ -20,6 +20,9 @@ import javafx.scene.shape.Circle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The type Control tower ui controller.
+ */
 public class ControlTowerUIController implements UIController, StateListener, Initializable {
     private Image planeRunway;
     private Image chopperRunway;
@@ -122,74 +125,164 @@ public class ControlTowerUIController implements UIController, StateListener, In
     public void onUpdate(double tpf) {
     }
 
+    /**
+     * Gets time icon background.
+     *
+     * @return the time icon background
+     */
     public Circle getTimeIconBackground() {
         return timeIconBackground;
     }
 
+    /**
+     * Gets time icon foreground.
+     *
+     * @return the time icon foreground
+     */
     public Circle getTimeIconForeground() {
         return timeIconForeground;
     }
 
+    /**
+     * Gets weather icon background.
+     *
+     * @return the weather icon background
+     */
     public Circle getWeatherIconBackground() {
         return weatherIconBackground;
     }
 
+    /**
+     * Gets weather icon foreground.
+     *
+     * @return the weather icon foreground
+     */
     public Circle getWeatherIconForeground() {
         return weatherIconForeground;
     }
 
+    /**
+     * Gets label score.
+     *
+     * @return the label score
+     */
     public Label getLabelScore() {
         return labelScore;
     }
 
+    /**
+     * Gets label crashed.
+     *
+     * @return the label crashed
+     */
     public Label getLabelCrashed() {
         return labelCrashed;
     }
 
+    /**
+     * Gets label waiting.
+     *
+     * @return the label waiting
+     */
     public Label getLabelWaiting() {
         return labelWaiting;
     }
 
+    /**
+     * Gets player notif.
+     *
+     * @return the player notif
+     */
     public Label getPlayerNotif() {
         return playerNotif;
     }
 
+    /**
+     * Gets plane runway one.
+     *
+     * @return the plane runway one
+     */
     public ImageView getPlaneRunwayOne() {
         return planeRunwayOne;
     }
 
+    /**
+     * Gets plane runway two.
+     *
+     * @return the plane runway two
+     */
     public ImageView getPlaneRunwayTwo() {
         return planeRunwayTwo;
     }
 
+    /**
+     * Gets plane runway three.
+     *
+     * @return the plane runway three
+     */
     public ImageView getPlaneRunwayThree() {
         return planeRunwayThree;
     }
 
+    /**
+     * Gets chopper runway one.
+     *
+     * @return the chopper runway one
+     */
     public ImageView getChopperRunwayOne() {
         return chopperRunwayOne;
     }
 
+    /**
+     * Gets chopper runway two.
+     *
+     * @return the chopper runway two
+     */
     public ImageView getChopperRunwayTwo() {
         return chopperRunwayTwo;
     }
 
+    /**
+     * Gets nb in plane runway one.
+     *
+     * @return the nb in plane runway one
+     */
     public ProgressBar getNbInPlaneRunwayOne() {
         return nbInPlaneRunwayOne;
     }
 
+    /**
+     * Gets nb in plane runway two.
+     *
+     * @return the nb in plane runway two
+     */
     public ProgressBar getNbInPlaneRunwayTwo() {
         return nbInPlaneRunwayTwo;
     }
 
+    /**
+     * Gets nb in plane runway three.
+     *
+     * @return the nb in plane runway three
+     */
     public ProgressBar getNbInPlaneRunwayThree() {
         return nbInPlaneRunwayThree;
     }
 
+    /**
+     * Gets nb in chopper runway one.
+     *
+     * @return the nb in chopper runway one
+     */
     public ProgressIndicator getNbInChopperRunwayOne() {
         return nbInChopperRunwayOne;
     }
 
+    /**
+     * Gets nb in chopper runway two.
+     *
+     * @return the nb in chopper runway two
+     */
     public ProgressIndicator getNbInChopperRunwayTwo() {
         return nbInChopperRunwayTwo;
     }

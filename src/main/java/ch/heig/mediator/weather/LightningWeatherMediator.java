@@ -1,7 +1,10 @@
 package ch.heig.mediator.weather;
 
 import ch.heig.ControlTowerGame;
+import ch.heig.models.flyingobjects.shared.FlyingObjectAction;
+import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
+import com.almasb.fxgl.entity.Entity;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
@@ -58,6 +61,16 @@ public class LightningWeatherMediator extends AbstractWeatherMediator {
     @Override
     protected int getMaxDuration() {
         return 13;
+    }
+
+    @Override
+    public void addFlyingModifiers(Entity e) {
+        e.getComponent(FlyingObjectAction.class).setRandomCrash(15);
+    }
+
+    @Override
+    public void addRunwayModifiers(Runway r) {
+        r.setMaxPlaces(0.9);
     }
 }
 

@@ -12,6 +12,11 @@ public class NightTimeMediator extends AbstractTimeMediator {
 
     private static final Image nightIcon = new Image("assets/icons/moon.png");
 
+    /**
+     * Instantiates a new Night time mediator.
+     *
+     * @param other the other
+     */
     public NightTimeMediator(AbstractTimeMediator other) {
         super(other);
     }

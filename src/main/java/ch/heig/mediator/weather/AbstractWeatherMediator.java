@@ -2,7 +2,11 @@ package ch.heig.mediator.weather;
 
 import ch.heig.ControlTowerGame;
 import ch.heig.controller.WeatherController;
+import ch.heig.models.flyingobjects.shared.FlyingObjectAction;
+import ch.heig.models.flyingobjects.shared.FlyingObjectMovement;
+import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
+import com.almasb.fxgl.entity.Entity;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -17,11 +21,12 @@ import java.util.Random;
  */
 public abstract class AbstractWeatherMediator {
 
+    private static final double SHOWING_TIME = 15;
+    private static final double WEATHER_ICON_RADIUS = 15;
     /**
      * The Game.
      */
     protected ControlTowerGame game;
-    private ControlTowerUIController uiController;
     /**
      * The Duration.
      */
@@ -38,8 +43,7 @@ public abstract class AbstractWeatherMediator {
      * The Incoming weather circle background.
      */
     protected Circle incomingWeatherCircleBackground;
-    private static final double SHOWING_TIME = 15;
-    private static final double WEATHER_ICON_RADIUS = 15;
+    private ControlTowerUIController uiController;
 
     /**
      * Instantiates a new Abstract weather mediator.
@@ -143,21 +147,21 @@ public abstract class AbstractWeatherMediator {
     protected abstract int getMaxDuration();
 
     /**
-     * Sets duration.
-     *
-     * @param duration the duration
-     */
-    public void setDuration(double duration) {
-        this.duration = duration;
-    }
-
-    /**
      * Gets duration.
      *
      * @return the duration
      */
     public double getDuration() {
         return duration;
+    }
+
+    /**
+     * Sets duration.
+     *
+     * @param duration the duration
+     */
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 
     /**
@@ -182,6 +186,7 @@ public abstract class AbstractWeatherMediator {
         game.setWeatherMediator(this);
         setWeatherIcon();
         setWeatherBackground();
+        addModifiers();
     }
 
     /**
@@ -228,4 +233,54 @@ public abstract class AbstractWeatherMediator {
         game.removeIncomingWeatherIcon(incomingWeatherCircleBackground);
         game.removeIncomingWeatherIcon(incomingWeatherCircle);
     }
+
+    /**
+     * Add modifiers.
+     */
+    public void addModifiers() {
+        for (Entity e : game.getMediator().getFlyingObjects()) {
+            resetFlyingModifiers(e);
+            addFlyingModifiers(e);
+        }
+
+        for (Runway r : game.getMediator().getRunways()) {
+            resetRunwayModifiers(r);
+            addRunwayModifiers(r);
+        }
+    }
+
+    /**
+     * Add flying modifiers.
+     *
+     * @param e the e
+     */
+    public abstract void addFlyingModifiers(Entity e);
+
+    /**
+     * Reset flying modifiers.
+     *
+     * @param e the e
+     */
+    public void resetFlyingModifiers(Entity e) {
+        e.getComponent(FlyingObjectMovement.class).setSpeedMultiplier(0);
+        e.getComponent(FlyingObjectMovement.class).setDeviationX(0);
+        e.getComponent(FlyingObjectAction.class).setRandomCrash(0);
+    }
+
+    /**
+     * Add runway modifiers.
+     *
+     * @param r the r
+     */
+    public abstract void addRunwayModifiers(Runway r);
+
+    /**
+     * Reset runway modifiers.
+     *
+     * @param r the r
+     */
+    public void resetRunwayModifiers(Runway r) {
+        r.setMaxPlaces(1.0);
+    }
+
 }

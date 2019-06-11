@@ -1,6 +1,7 @@
 package ch.heig.mediator.weather;
 
 import ch.heig.ControlTowerGame;
+import ch.heig.models.flyingobjects.shared.FlyingObjectAction;
 import ch.heig.models.flyingobjects.shared.FlyingObjectMovement;
 import ch.heig.models.runways.Runway;
 import ch.heig.ui.ControlTowerUIController;
@@ -10,62 +11,64 @@ import javafx.scene.paint.ImagePattern;
 
 /**
  * created by Alain Gobet
- * 09.06.2019
- * 19:15
+ * 11.06.2019
+ * 20:35
  */
-public class BrightWeatherMediator extends AbstractWeatherMediator {
+public class WindyWeatherMediator extends AbstractWeatherMediator {
 
-    private static final Image brightIcon = new Image("assets/icons/bright.png");
-    private static final Image brightBackground = new Image("assets/textures/bright.png");
-    private static final ImagePattern brightImagePattern = new ImagePattern(brightBackground);
+    private static final Image hurricaneIcon = new Image("assets/icons/wind.png");
+    private static final Image hurricaneBackground = new Image("assets/textures/windy.gif");
+    private static final ImagePattern hurricaneImagePattern = new ImagePattern(hurricaneBackground);
 
     /**
-     * Instantiates a new Bright weather mediator.
+     * Instantiates a new Windy weather mediator.
      *
      * @param game         the game
      * @param uiController the ui controller
      */
-    public BrightWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
+    public WindyWeatherMediator(ControlTowerGame game, ControlTowerUIController uiController) {
         super(game, uiController);
     }
 
     /**
-     * Instantiates a new Bright weather mediator.
+     * Instantiates a new Windy weather mediator.
      *
      * @param awm the awm
      */
-    public BrightWeatherMediator(AbstractWeatherMediator awm) {
+    public WindyWeatherMediator(AbstractWeatherMediator awm) {
         super(awm);
     }
 
     @Override
     protected Image getWeatherIconImage() {
-        return brightIcon;
+        return hurricaneIcon;
     }
 
     @Override
     protected Image getWeatherBackgroundImage() {
-        return brightBackground;
+        return hurricaneBackground;
     }
 
     @Override
     protected ImagePattern getWeatherImagePattern() {
-        return brightImagePattern;
+        return hurricaneImagePattern;
     }
 
     @Override
     protected int getMinDuration() {
-        return 6;
+        return 3;
     }
 
     @Override
     protected int getMaxDuration() {
-        return 12;
+        return 7;
     }
 
     @Override
     public void addFlyingModifiers(Entity e) {
-        e.getComponent(FlyingObjectMovement.class).setSpeedMultiplier(1.5);
+        e.getComponent(FlyingObjectMovement.class).setSpeedMultiplier(0.75);
+        e.getComponent(FlyingObjectMovement.class).setDeviationX(3);
+        e.getComponent(FlyingObjectAction.class).setRandomCrash(3);
     }
 
     @Override

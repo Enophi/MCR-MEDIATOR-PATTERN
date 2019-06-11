@@ -9,8 +9,16 @@ package ch.heig.models.animals;
 
 import ch.heig.models.runways.Runway;
 
+/**
+ * The type Bird.
+ */
 public class Bird extends Animal {
 
+    /**
+     * Instantiates a new Bird.
+     *
+     * @param runway the runway
+     */
     public Bird(Runway runway) {
         super("Birdy", runway);
     }

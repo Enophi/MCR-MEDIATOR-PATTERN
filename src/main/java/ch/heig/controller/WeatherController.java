@@ -41,6 +41,7 @@ public class WeatherController {
             weatherCollection.add(5, new RainWeatherMediator(lastWeather));
             weatherCollection.add(4, new CloudyWeatherMediator(lastWeather));
             weatherCollection.add(4, new BrightWeatherMediator(lastWeather));
+            weatherCollection.add(4, new WindyWeatherMediator(lastWeather));
             weatherCollection.add(3, new SnowWeatherMediator(lastWeather));
             weatherCollection.add(3, new LightningWeatherMediator(lastWeather));
             weatherCollection.add(3, new RainbowWeatherMediator(lastWeather));

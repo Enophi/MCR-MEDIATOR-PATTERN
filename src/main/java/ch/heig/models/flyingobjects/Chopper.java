@@ -13,6 +13,11 @@ import com.almasb.fxgl.entity.component.Component;
 public class Chopper extends Component {
     private final int landingScore = 20;
 
+    /**
+     * On allow landing.
+     *
+     * @param penalities the penalities
+     */
     public void onAllowLanding(int penalities) {
         FXGL.getGameState().increment("score", landingScore - penalities);
     }

@@ -21,19 +21,37 @@ import java.util.List;
  * 08.05.2019
  * 15:46
  */
-
 public abstract class AbstractTimeMediator {
+    /**
+     * The Progress step.
+     */
     final double PROGRESS_STEP = 0.1;
+    /**
+     * The Runways.
+     */
     protected List<Runway> runways;
-    private List<Entity> flyingObjects;
+    /**
+     * The Ui controller.
+     */
     protected ControlTowerUIController uiController;
+    private List<Entity> flyingObjects;
 
+    /**
+     * Instantiates a new Abstract time mediator.
+     *
+     * @param uiController the ui controller
+     */
     public AbstractTimeMediator(ControlTowerUIController uiController) {
         this.flyingObjects = new LinkedList<>();
         this.runways = new LinkedList<>();
         this.uiController = uiController;
     }
 
+    /**
+     * Instantiates a new Abstract time mediator.
+     *
+     * @param other the other
+     */
     AbstractTimeMediator(AbstractTimeMediator other) {
         this.flyingObjects = new LinkedList<>(other.flyingObjects);
         this.uiController = other.getUiController();
@@ -125,7 +143,7 @@ public abstract class AbstractTimeMediator {
      */
     public void askToLand(Entity e, Runway runway) {
 
-        if(!runways.contains(runway)){
+        if (!runways.contains(runway)) {
             return;
         }
 
@@ -136,8 +154,8 @@ public abstract class AbstractTimeMediator {
             }
         }
 
-        if (FXGL.getGameState().getDouble(runway.toString() + "_places") < runway.getSpaces()) {
-            FXGL.getGameState().increment(runway.toString() + "_places", PROGRESS_STEP);
+        if (FXGL.getGameState().getDouble(runway.toString() + "_places") < runway.getMaxPlaces()) {
+            FXGL.getGameState().increment(runway.toString() + "_places", PROGRESS_STEP / runway.getMaxPlaces());
             FXGL.getGameState().setValue("playerNotif", "");
             if (runway.isBlocked()) {
                 autorhiseLandingWithPenalties(e, runway.getNumberOfAnimals());
@@ -151,14 +169,27 @@ public abstract class AbstractTimeMediator {
 
     }
 
+    /**
+     * Gets ui controller.
+     *
+     * @return the ui controller
+     */
     public ControlTowerUIController getUiController() {
         return uiController;
     }
 
+    /**
+     * Sets time icon.
+     */
     public void setTimeIcon() {
         uiController.getTimeIconForeground().setFill(new ImagePattern(getTimeIconImage()));
     }
 
+    /**
+     * Gets time icon image.
+     *
+     * @return the time icon image
+     */
     protected abstract Image getTimeIconImage();
 
     /**
@@ -167,4 +198,22 @@ public abstract class AbstractTimeMediator {
      * @return his color
      */
     public abstract Color getBackgroundColor();
+
+    /**
+     * Gets flying objects.
+     *
+     * @return the flying objects
+     */
+    public List<Entity> getFlyingObjects() {
+        return flyingObjects;
+    }
+
+    /**
+     * Gets runways.
+     *
+     * @return the runways
+     */
+    public List<Runway> getRunways() {
+        return runways;
+    }
 }
