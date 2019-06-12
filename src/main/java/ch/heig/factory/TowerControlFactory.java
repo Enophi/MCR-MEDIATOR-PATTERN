@@ -1,9 +1,9 @@
 package ch.heig.factory;
 
 import ch.heig.ControlTowerGame;
-import ch.heig.models.animals.Bird;
-import ch.heig.models.animals.Duck;
-import ch.heig.models.animals.Pier;
+import ch.heig.models.livingobjects.Bird;
+import ch.heig.models.livingobjects.Duck;
+import ch.heig.models.livingobjects.Pier;
 import ch.heig.models.flyingobjects.Chopper;
 import ch.heig.models.flyingobjects.Ovni;
 import ch.heig.models.flyingobjects.Plane;

@@ -92,7 +92,7 @@ public abstract class AbstractTimeMediator {
 
     /**
      * Signale that runway must be disabled on UI
-     * and remove all animals on runway
+     * and remove all livingObjects on runway
      *
      * @param r The runway to disabled
      */
@@ -122,7 +122,7 @@ public abstract class AbstractTimeMediator {
      * Authorize the landing with the penalty
      *
      * @param e          entity who ask to landing
-     * @param penalities numbers of animals kiled
+     * @param penalities numbers of livingObjects kiled
      */
     void autorhiseLandingWithPenalties(Entity e, int penalities) {
         FXGL.getGameState().setValue("playerNotif", String.format("Good game, authorized landing!!!"));
@@ -158,7 +158,7 @@ public abstract class AbstractTimeMediator {
             FXGL.getGameState().increment(runway.toString() + "_places", PROGRESS_STEP / runway.getMaxPlaces());
             FXGL.getGameState().setValue("playerNotif", "");
             if (runway.isBlocked()) {
-                autorhiseLandingWithPenalties(e, runway.getNumberOfAnimals());
+                autorhiseLandingWithPenalties(e, runway.getNumberOfLivingObjects());
                 runway.destroyAll();
             } else
                 autorhiseLanding(e);

@@ -5,25 +5,25 @@
  * @version 1.0
  */
 
-package ch.heig.models.animals;
+package ch.heig.models.livingobjects;
 
 import ch.heig.models.runways.Runway;
 import com.almasb.fxgl.entity.component.Component;
 
 /**
- * The type Animal.
+ * The type LivingObject.
  */
-public abstract class Animal extends Component {
+public abstract class LivingObject extends Component {
     private final String identifier;
     private Runway runway;
 
     /**
-     * Instantiates a new Animal.
+     * Instantiates a new LivingObject.
      *
      * @param identifier the identifier
      * @param runway     the runway
      */
-    public Animal(String identifier, Runway runway) {
+    public LivingObject(String identifier, Runway runway) {
         this.identifier = identifier;
         this.runway = runway;
     }
@@ -38,7 +38,7 @@ public abstract class Animal extends Component {
     }
 
     /**
-     * Animal is coming to the strip
+     * LivingObject is coming to the strip
      */
     protected void selfAnnounce() {
         runway.selfAnnounce(getEntity());
@@ -46,7 +46,7 @@ public abstract class Animal extends Component {
 
     /**
      * Is called when the object is destroyed
-     * The strip is told to delete the animal
+     * The strip is told to delete the livingObjects
      */
     @Override
     public void onRemoved() {
@@ -55,9 +55,9 @@ public abstract class Animal extends Component {
     }
 
     /**
-     * Identifier of the animal
+     * Identifier of the livingObjects
      *
-     * @return identifier of the animal
+     * @return identifier of the livingObjects
      */
     @Override
     public String toString() {
