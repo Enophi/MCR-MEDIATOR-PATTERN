@@ -5,14 +5,14 @@
  * @version 1.0
  */
 
-package ch.heig.models.animals;
+package ch.heig.models.livingobjects;
 
 import ch.heig.models.runways.Runway;
 
 /**
  * The type Duck.
  */
-public class Duck extends Animal {
+public class Duck extends LivingObject {
 
     /**
      * Instantiates a new Duck.
@@ -24,7 +24,7 @@ public class Duck extends Animal {
     }
 
     /**
-     * Animal is coming to the strip
+     * LivingObject is coming to the strip
      */
     @Override
     public void selfAnnounce() {

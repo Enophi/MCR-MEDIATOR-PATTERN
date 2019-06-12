@@ -5,9 +5,9 @@ import ch.heig.mediator.time.AbstractTimeMediator;
 import ch.heig.mediator.time.DayTimeMediator;
 import ch.heig.mediator.time.NightTimeMediator;
 import ch.heig.mediator.weather.*;
-import ch.heig.models.animals.Bird;
-import ch.heig.models.animals.Duck;
-import ch.heig.models.animals.Pier;
+import ch.heig.models.livingobjects.Bird;
+import ch.heig.models.livingobjects.Duck;
+import ch.heig.models.livingobjects.Pier;
 import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.ChopperRunway;
 import ch.heig.models.runways.PlaneRunway;
@@ -107,7 +107,7 @@ public class ControlTowerGame extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("time", 120);
 
-        // Bounds for pop of animals
+        // Bounds for pop of livingObjects
         vars.put("start", 0);
         vars.put("end", 2);
 
@@ -287,7 +287,7 @@ public class ControlTowerGame extends GameApplication {
                     FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -0.1);
         }, Duration.seconds(5));
 
-        // Add animals on runways
+        // Add livingObjects on runways
         int[] pos = new int[]{130, 290, 440, 600, 740};
         run(() -> {
             Entity e;

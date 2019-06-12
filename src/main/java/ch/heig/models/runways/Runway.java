@@ -22,9 +22,9 @@ public abstract class Runway extends Component {
     private double maxPlaces = 1.0;
 
     /**
-     * The Animals.
+     * The livingObjectss.
      */
-    protected List<Entity> animals;
+    protected List<Entity> livingObjects;
 
     private final FlyingObjectType type;
     private AbstractTimeMediator mediator;
@@ -42,7 +42,7 @@ public abstract class Runway extends Component {
         this.identifier = identifier;
         this.type = type;
         this.mediator = mediator;
-        animals = new LinkedList<>();
+        livingObjects = new LinkedList<>();
     }
 
     /**
@@ -73,30 +73,30 @@ public abstract class Runway extends Component {
     }
 
     /**
-     * Tell us if the strip is obstructing by the animals
+     * Tell us if the strip is obstructing by the livingObjects
      *
      * @return the result
      */
     public boolean isBlocked() {
-        return !animals.isEmpty();
+        return !livingObjects.isEmpty();
     }
 
     /**
-     * Tell us how many animals are on the strip
+     * Tell us how many livingObjects are on the strip
      *
-     * @return numbers of animals
+     * @return numbers of livingObjects
      */
-    public int getNumberOfAnimals() {
-        return animals.size();
+    public int getNumberOfLivingObjects() {
+        return livingObjects.size();
     }
 
     /**
      * Self announce.
      *
-     * @param animal the animal
+     * @param livingObject the livingObjects
      */
-    public void selfAnnounce(Entity animal) {
-        animals.add(animal);
+    public void selfAnnounce(Entity livingObject) {
+        livingObjects.add(livingObject);
     }
 
     /**
@@ -105,21 +105,21 @@ public abstract class Runway extends Component {
      * @param e The entity to remove
      */
     public void selfDestroy(Entity e) {
-        this.animals.remove(e);
+        this.livingObjects.remove(e);
     }
 
     /**
-     * delete all the animals
+     * delete all the livingObjects
      */
     public void destroyAll() {
-        for (Entity e : animals)
+        for (Entity e : livingObjects)
             e.removeFromWorld();
     }
 
     /**
-     * Identifier of the animal
+     * Identifier of the livingObjects
      *
-     * @return identifier of the animal
+     * @return identifier of the livingObjects
      */
     @Override
     public String toString() {
