@@ -5,10 +5,10 @@ import ch.heig.mediator.time.AbstractTimeMediator;
 import ch.heig.mediator.time.DayTimeMediator;
 import ch.heig.mediator.time.NightTimeMediator;
 import ch.heig.mediator.weather.*;
+import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.livingobjects.Bird;
 import ch.heig.models.livingobjects.Duck;
 import ch.heig.models.livingobjects.Pier;
-import ch.heig.models.flyingobjects.shared.FlyingObject;
 import ch.heig.models.runways.ChopperRunway;
 import ch.heig.models.runways.PlaneRunway;
 import ch.heig.models.runways.Runway;
@@ -58,7 +58,7 @@ public class ControlTowerGame extends GameApplication {
     public ControlTowerGame() {
         // Init the game with the DayTimeMediator
         timeMediator = new DayTimeMediator(uiController);
-        // Init the game with normal weather mediatior
+        // Init the game with normal weather mediator
         weatherMediator = new NormalWeatherMediator(this, uiController);
 
         runways.add(0, new ChopperRunway("runway_1", timeMediator));
@@ -212,16 +212,57 @@ public class ControlTowerGame extends GameApplication {
         timeMediator.selfAnnounce(runways.get(2));
     }
 
+    /**
+     * Define the different user inputs
+     */
     @Override
     protected void initInput() {
         Input input = getInput();
 
-        // Define the different user inputs
-        input.addAction(new MouseOverAction("Land to 1", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(0))), KeyCode.DIGIT1);
-        input.addAction(new MouseOverAction("Land to 2", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(1))), KeyCode.DIGIT2);
-        input.addAction(new MouseOverAction("Land to 3", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(2))), KeyCode.DIGIT3);
-        input.addAction(new MouseOverAction("Land to 4", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(3))), KeyCode.DIGIT4);
-        input.addAction(new MouseOverAction("Land to 5", input, e -> e.getComponent(FlyingObject.class).askToLand(runways.get(4))), KeyCode.DIGIT5);
+        input.addAction(new MouseOverAction("Land to 1", input, e -> {
+            try {
+                e.getComponentOptional(FlyingObject.class).orElseThrow(RuntimeException::new).askToLand(runways.get(0));
+            } catch (RuntimeException re) {
+                gameOver();
+            }
+        }), KeyCode.DIGIT1);
+
+        input.addAction(new MouseOverAction("Land to 2", input, e -> {
+            try {
+                e.getComponentOptional(FlyingObject.class).orElseThrow(RuntimeException::new).askToLand(runways.get(1));
+            } catch (RuntimeException re) {
+                gameOver();
+            }
+        }), KeyCode.DIGIT2);
+
+        input.addAction(new MouseOverAction("Land to 3", input, e -> {
+            try {
+                e.getComponentOptional(FlyingObject.class).orElseThrow(RuntimeException::new).askToLand(runways.get(2));
+            } catch (RuntimeException re) {
+                gameOver();
+            }
+        }), KeyCode.DIGIT3);
+
+        input.addAction(new MouseOverAction("Land to 4", input, e -> {
+            try {
+                e.getComponentOptional(FlyingObject.class).orElseThrow(RuntimeException::new).askToLand(runways.get(3));
+            } catch (RuntimeException re) {
+                gameOver();
+            }
+        }), KeyCode.DIGIT4);
+
+        input.addAction(new MouseOverAction("Land to 5", input, e -> {
+            try {
+                e.getComponentOptional(FlyingObject.class).orElseThrow(RuntimeException::new).askToLand(runways.get(4));
+            } catch (RuntimeException re) {
+                gameOver();
+            }
+        }), KeyCode.DIGIT5);
+
+    }
+
+    private void gameOver() {
+        getDisplay().showMessageBox("Game over! You crashed total: " + getGameState().getInt("crashed") + " objects!", this::exit);
     }
 
     @Override
@@ -285,17 +326,16 @@ public class ControlTowerGame extends GameApplication {
             for (int i = 0; i < runways.size(); i++)
                 if (FXGL.getGameState().getDouble("runway_" + (i + 1) + "_places") > 0.0)
                     FXGL.getGameState().increment("runway_" + (i + 1) + "_places", -0.1);
-        }, Duration.seconds(5));
+        }, Duration.seconds(getRandomInt(5, 15)));
 
         // Add livingObjects on runways
-        int[] pos = new int[]{130, 290, 440, 600, 740};
         run(() -> {
             Entity e;
             int start = getGameState().getInt("start");
             int end = getGameState().getInt("end");
             index = FXGLMath.random(start, end);
 
-            e = getGameWorld().spawn("bird", pos[index], FXGLMath.random(420, 470));
+            e = getGameWorld().spawn("bird", FXGLMath.random(40, 1100), FXGLMath.random(40, 500));
             e.getComponent(Bird.class).selfAnnounce();
         }, Duration.seconds(getRandomInt(5, 15)));
 
@@ -305,7 +345,7 @@ public class ControlTowerGame extends GameApplication {
             int end = getGameState().getInt("end");
             index = FXGLMath.random(start, end);
 
-            e = getGameWorld().spawn("duck", pos[index], FXGLMath.random(420, 470));
+            e = getGameWorld().spawn("duck", FXGLMath.random(40, 1100), FXGLMath.random(40, 500));
             e.getComponent(Duck.class).selfAnnounce();
         }, Duration.seconds(getRandomInt(3, 15)));
 
@@ -315,7 +355,7 @@ public class ControlTowerGame extends GameApplication {
             int end = getGameState().getInt("end");
             index = FXGLMath.random(start, end);
 
-            e = getGameWorld().spawn("pier", pos[index], FXGLMath.random(420, 470));
+            e = getGameWorld().spawn("pier", FXGLMath.random(40, 1100), FXGLMath.random(40, 500));
             e.getComponent(Pier.class).selfAnnounce();
         }, Duration.seconds(getRandomInt(10, 20)));
 
